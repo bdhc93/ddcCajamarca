@@ -1,0 +1,5 @@
+D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\bin\Release\ddcCajamarca.Models.dll
+D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\bin\Release\ddcCajamarca.Models.pdb
+D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.csproj.CoreCompileInputs.cache
+D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.dll
+D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.pdb

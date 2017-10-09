@@ -1,0 +1,371 @@
+﻿
+@{
+    ViewBag.Title = "Directorio";
+    @model ddcCajamarca.Models.Persona
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Nuevo Registro</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Directorio
+            </li>
+            <li class="active">
+                <strong>Modificar Registro</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h2>
+                    Formulario - Modificar Persona
+                </h2>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <form action="@Url.Action("Editar", "Directorio")" enctype="multipart/form-data" method="post">
+                        @{
+                            IEnumerable<SelectListItem> Organizacion = new SelectList(@ViewBag.Organizacion, "Id", "Nombre");
+                            IEnumerable<SelectListItem> Ocupacion = new SelectList(@ViewBag.Ocupacion, "Id", "Nombre");
+                            IEnumerable<SelectListItem> Profesion = new SelectList(@ViewBag.Profesion, "Id", "Nombre");
+                        }
+                        <div class="col-sm-8 b-r">
+                            <div class="form-group col-lg-6">
+                                <label>Nombre y Apellidos (*)</label>
+                                <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required value="@Model.NombreApellidos">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Nombre Artistico</label>
+                                <input name="NombreArtistico" placeholder="INGRESE NOMBRE ARTISTICO" class="form-control" style="text-transform:uppercase;" value="@Model.NombreArtistico">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Ocupación Cultural (*)</label>
+                                <div class="input-group" id="ocupacionnew">
+                                    @Html.DropDownList("IdOcupacionCultural", Ocupacion, "-- Seleccionar --", new { @class = "form-control" })
+                                    <span onclick="abrirmodalOcupacion()" class="input-group-addon btn btn-primary btn-xs"><a href="#"><i style="color:darkslategrey" class="fa fa-plus"></i></a></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Teléfono/Celular (*)</label>
+                                <input name="Telefono" placeholder="INGRESE TELÉFONO O CELULAR" class="form-control" style="text-transform:uppercase;" required value="@Model.Telefono">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Dirección</label>
+                                <input name="Direccion" placeholder="INGRESE DIRECCIÓN" class="form-control" style="text-transform:uppercase;" value="@Model.Direccion">
+                            </div>
+                            <div class="form-group col-lg-6" id="data_3">
+                                <label>Fecha Nacimiento</label>
+                                <div class="input-group date">
+                                    <input name="FechaNacimiento" type="text" class="form-control" value="@Model.FechaNacimiento" max="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Email</label>
+                                <input name="Email" placeholder="INGRESE CORREO ELECTRONICO" class="form-control" style="text-transform:uppercase;" type="email" value="@Model.Email">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Redes Sociales</label>
+                                <input name="RedesSociales" placeholder="INGRESE LA DIRECCION DE UNA RED SOCIAL" class="form-control" style="text-transform:uppercase;" value="@Model.RedesSociales">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Organizacion</label>
+                                <div class="input-group date" id="organizacionnew">
+                                    @Html.DropDownList("IdOrganizacion", Organizacion, "-- Seleccionar --", new { @class = "form-control" })
+                                    <span onclick="abrirmodalOrganizacion()" class="input-group-addon btn btn-primary btn-xs"><a href="#"><i style="color:darkslategrey" class="fa fa-plus"></i></a></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Profesión</label>
+                                <div class="input-group date" id="profesionnew">
+                                    @Html.DropDownList("IdProfesion", Profesion, "-- Seleccionar --", new { @class = "form-control" })
+                                    <span onclick="abrirmodalProfesion()" class="input-group-addon btn btn-primary btn-xs"><a href="#"><i style="color:darkslategrey" class="fa fa-plus"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group col-lg-12">
+                                <label>Fecha de Registro</label>
+                                <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Imagen</label>
+                                @*<input name="file" type="file" id="files" class="form-control" style="text-transform:uppercase;">*@
+                                <label title="Upload image file" for="inputImage" class="form-control">
+                                    <input type="file" accept="image/*" name="file" id="inputImage">
+                                </label>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Vista Previa</label>
+                                @*<output id="list">
+                                    <img name="imgbase" style="height:125px;width:125px" class="img-circle m-t-xs img-responsive" src="@Model.Imagen.ToString()" title="', escape(theFile.name), '" />
+                                </output>*@
+                                <div class="image-crop" style="width:125px">
+                                    <img src="@Model.Imagen.ToString()">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                *Los campos marcados con (*) son obligatorios.
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <input hidden type="text" name="cropweight" id="cropweight" value="" />
+                            <input hidden type="text" name="cropwidth" id="cropwidth" value="" />
+                            <input hidden type="text" name="cropx" id="cropx" value="" />
+                            <input hidden type="text" name="cropy" id="cropy" value="" />
+                            <div class="form-group col-lg-12 text-right">
+                                <button class="btn btn-sm btn-primary m-t-n-xs" type="submit"><strong>Guardar</strong></button>
+                            </div>
+                        </div>
+                        <input name="Id" value="@Model.Id" hidden>
+                        <input name="Imagen" value="@Model.Imagen" hidden>
+                        <input name="ImagenTemp" value="@Model.ImagenTemp" hidden>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal inmodal" id="modal_nuevo_ocupacion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Nueva Ocupación Cultural</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-lg-12">
+                    <label>Fecha de Registro</label>
+                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Nombre*</label>
+                    <input name="txtNombreocupacion" id="txtNombreocupacion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <p>*El campo nombre es obligatorio</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="GuardarOcupacion()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_nuevo_profesion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Nueva Profesión</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-lg-12">
+                    <label>Fecha de Registro</label>
+                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Nombre*</label>
+                    <input name="txtNombreoprofesion" id="txtNombreoprofesion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <p>*El campo nombre es obligatorio</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="GuardarProfesion()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_nuevo_organizacion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Nueva Organización</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-lg-12">
+                    <label>Fecha de Registro</label>
+                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Nombre*</label>
+                    <input name="txtNombreorganizacion" id="txtNombreorganizacion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Direccion</label>
+                    <input name="txtDireccionOrganizacion" id="txtDireccionOrganizacion" placeholder="INGRESE DIRECCION" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <br />
+                <p><div class="form-group">*El campo nombre es obligatorio</div> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="GuardarOrganizacion()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/imagecropperStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/typehead")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/toastr")
+    @Scripts.Render("~/plugins/imagecropper")
+
+    <script>
+
+        function abrirmodalOcupacion() {
+            $('#modal_nuevo_ocupacion').modal('show');
+        }
+
+        function GuardarOcupacion() {
+            var criterio = $('#txtNombreocupacion').val();
+            if (criterio != "" || criterio != " ") {
+                $('#modal_nuevo_ocupacion').modal('hide');
+                $.get("GuardarOcupacionPersona", { 'Nombre': criterio, 'idnuevoopc': 'Ocupación Cultural' })
+                    .done(function (response) {
+                        $('#ocupacionnew').html(response);
+                        toastr.success('Ocupación Cultural añadida.', 'Correcto.');
+                    });
+            }
+
+        }
+
+        function abrirmodalProfesion() {
+            $('#modal_nuevo_profesion').modal('show');
+        }
+
+        function GuardarProfesion() {
+            var criterio = $('#txtNombreoprofesion').val();
+            if (criterio != "" || criterio != " ") {
+                $('#modal_nuevo_profesion').modal('hide');
+                $.get("GuardarProfesionPersona", { 'Nombre': criterio, 'idnuevoopc': 'Profesión' })
+                    .done(function (response) {
+                        $('#profesionnew').html(response);
+                        toastr.success('Profesión añadida.', 'Correcto.');
+                    });
+            }
+
+        }
+
+        function abrirmodalOrganizacion() {
+            $('#modal_nuevo_organizacion').modal('show');
+        }
+
+        function GuardarOrganizacion() {
+            var criterio = $('#txtNombreorganizacion').val();
+            var dirnuev = $('#txtDireccionOrganizacion').val();
+            if (criterio != "" || criterio != " ") {
+                $('#modal_nuevo_organizacion').modal('hide');
+                $.get("GuardarOrganizacionPersona", { 'Nombre': criterio, 'idnuevoopc': 'Organizacion', 'direccion': dirnuev })
+                    .done(function (response) {
+                        $('#organizacionnew').html(response);
+                        toastr.success('Organización añadida.', 'Correcto.');
+                    });
+            }
+
+        }
+
+        function archivo(evt) {
+            var files = evt.target.files;
+            // Obtenemos la imagen del campo "file".
+            for (var i = 0, f; f = files[i]; i++) {
+                //Solo admitimos imágenes.
+                if (!f.type.match('image.*')) {
+                    continue;
+                }
+
+                var reader = new FileReader();
+
+                reader.onload = (function (theFile) {
+                    return function (e) {
+                        // Insertamos la imagen
+                        document.getElementById("list").innerHTML = ['<img style="height:125px;width:125px" class="img-circle m-t-xs img-responsive" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+                    };
+                })(f);
+
+                reader.readAsDataURL(f);
+            }
+        }
+
+        $('#data_3 .input-group.date').datepicker({
+            startView: 2,
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true,
+            format: 'dd/mm/yyyy',
+        });
+
+        var count = 0;
+
+        $(document).ready(function () {
+
+            //Imagen
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1,
+                preview: ".img-preview",
+                done: function (data) {
+                    $('#cropweight').val(data.height);
+                    $('#cropwidth').val(data.width);
+                    $('#cropx').val(data.x);
+                    $('#cropy').val(data.y);
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function () {
+                    var fileReader = new FileReader(),
+                        files = this.files,
+                        file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            if (count == 0) {
+                                $inputImage.val();
+                                count++;
+                            }
+
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Por favor seleccione una imagen.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+        });
+    </script>
+}
+

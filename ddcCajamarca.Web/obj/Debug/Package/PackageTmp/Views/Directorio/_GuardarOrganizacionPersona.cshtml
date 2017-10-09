@@ -1,0 +1,6 @@
+﻿@{
+    IEnumerable<SelectListItem> Organizacion = new SelectList(@ViewBag.Organizacion, "Id", "Nombre");
+}
+
+@Html.DropDownList("IdOrganizacion", Organizacion, "-- Seleccionar --", new { @class = "form-control" })
+<span onclick="abrirmodalOrganizacion()" class="input-group-addon btn btn-primary btn-xs"><a href="#"><i style="color:darkslategrey" class="fa fa-plus"></i></a></span>

@@ -1,0 +1,314 @@
+﻿
+@{
+    ViewBag.Title = "Directorio";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Directorio Cultural</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Directorio
+            </li>
+            <li class="active">
+                <strong>Directorio Cultural</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    @{
+        IEnumerable<SelectListItem> Organizacion = new SelectList(@ViewBag.Organizacion, "Id", "Nombre");
+        IEnumerable<SelectListItem> Ocupacion = new SelectList(@ViewBag.Ocupacion, "Id", "Nombre");
+        IEnumerable<SelectListItem> Profesion = new SelectList(@ViewBag.Profesion, "Id", "Nombre");
+    }
+
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-8 b-r">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Filtros de busqueda</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Nombre</label>
+                            <input type="text" id="txtBuscar" name="criterio" value="" placeholder="Ingresar nombre a buscar" style="text-transform:uppercase;" onkeyup="buscarCriterio()" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Organización</label>
+                            @Html.DropDownList("IdOrBS", Organizacion, "DESCONOCIDO", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Ocupación Cultural</label>
+                            @Html.DropDownList("IdOcBS", Ocupacion, "DESCONOCIDO", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Profesion</label>
+                            @Html.DropDownList("IdPrBS", Profesion, "DESCONOCIDO", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Exportar Data</h3></div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label class="control-label">Formato</label>
+                        <div class="form-group col-lg-12 text-right">
+                            <select class="form-control" id="IdFormato" name="StudentGender">
+                                <option>PDF</option>
+                                <option>Excel</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-12 text-right">
+                            <button type="button" class="btn btn-success btn-sm">Exportar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" id="list">
+                    <div class="col-sm-12 text-right">
+                        <p>@ViewBag.Coincidencias resultados encontrados.</p>
+                    </div>
+                    <table class="table table-stripped" data-show-toggle="false" data-filtering="true" data-page-size="15">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th data-hide="all">Nombre Artistico</th>
+                                <th data-hide="phone,tablet">Ocupación Cultural</th>
+                                <th data-hide="phone">Dirección</th>
+                                <th data-hide="phone">Telefono</th>
+                                <th data-hide="all">Fecha Nacimiento</th>
+                                <th data-hide="all">Email</th>
+                                <th data-hide="all">RedesSociales</th>
+                                <th data-hide="all">Profesión</th>
+                                <th data-hide="all">Organización</th>
+                                <th data-hide="all">Fecha Modificada</th>
+                                <th data-toggle="true" data-breakpoints="xs" class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="client-avatar"><img alt="image" src="@item.Imagen.ToString()"> </td>
+                                    <td>@item.NombreApellidos</td>
+                                    <td>@item.NombreArtistico</td>
+                                    <td>@item.OcupacionCultural.Nombre</td>
+                                    <td>@item.Direccion</td>
+                                    <td>@item.Telefono</td>
+                                    <td>@item.FechaNacimiento</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.RedesSociales</td>
+                                    <td>@item.Profesion.Nombre</td>
+                                    <td>@item.Organizacion.Nombre</td>
+                                    <td>@item.FechaRegistroMostrar</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-warning btn-xs" href="@Url.Action("Editar", "Directorio",new {idper = @item.Id})">Modificar</a>
+                                            <a href="#" class="btn btn-danger btn-xs" onclick="abrirmodalelim(@item.Id)">Eliminar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Detalle">
+
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/toastrStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/toastr")
+
+    
+    <script type="text/javascript">
+
+        
+
+        function buscarCriterio() {
+            var criterio = $('#txtBuscar').val();
+            var IdOrBS1 = $("#IdOrBS").val();
+            var IdOcBS1 = $("#IdOcBS").val();
+            var IdPrBS1 = $("#IdPrBS").val();
+
+            if (IdOrBS1 == "") {
+                IdOrBS1 = "1";
+            }
+            if (IdOcBS1 == "") {
+                IdOcBS1 = "1";
+            }
+            if (IdPrBS1 == "") {
+                IdPrBS1 = "1";
+            }
+
+            $.get("Buscar", { 'criterio': criterio, 'IdOrBS': IdOrBS1, 'IdOcBS': IdOcBS1, 'IdPrBS': IdPrBS1 })
+                .done(function (response) {
+                    $('#list').html(response);
+                    $('.table').footable();
+                });
+        }
+
+        $("#IdOrBS").change(function (e) {
+            var criterio = $('#txtBuscar').val();
+            var IdOrBS1 = $("#IdOrBS").val();
+            var IdOcBS1 = $("#IdOcBS").val();
+            var IdPrBS1 = $("#IdPrBS").val();
+
+            if (IdOrBS1 == "") {
+                IdOrBS1 = "1";
+            }
+            if (IdOcBS1 == "") {
+                IdOcBS1 = "1";
+            }
+            if (IdPrBS1 == "") {
+                IdPrBS1 = "1";
+            }
+
+            $.get("Buscar", { 'criterio': criterio, 'IdOrBS': IdOrBS1, 'IdOcBS': IdOcBS1, 'IdPrBS': IdPrBS1 })
+                .done(function (resultado) {
+                    $("#list").html(resultado);
+                    $('.table').footable(); })
+        });
+
+        $("#IdOcBS").change(function (e) {
+            var criterio = $('#txtBuscar').val();
+            var IdOrBS1 = $("#IdOrBS").val();
+            var IdOcBS1 = $("#IdOcBS").val();
+            var IdPrBS1 = $("#IdPrBS").val();
+
+            if (IdOrBS1 == "") {
+                IdOrBS1 = "1";
+            }
+            if (IdOcBS1 == "") {
+                IdOcBS1 = "1";
+            }
+            if (IdPrBS1 == "") {
+                IdPrBS1 = "1";
+            }
+
+            $.get("Buscar", { 'criterio': criterio, 'IdOrBS': IdOrBS1, 'IdOcBS': IdOcBS1, 'IdPrBS': IdPrBS1 })
+                .done(function (resultado) {
+                    $("#list").html(resultado);
+                    $('.table').footable(); })
+        });
+
+        $("#IdPrBS").change(function (e) {
+            var criterio = $('#txtBuscar').val();
+            var IdOrBS1 = $("#IdOrBS").val();
+            var IdOcBS1 = $("#IdOcBS").val();
+            var IdPrBS1 = $("#IdPrBS").val();
+
+            if (IdOrBS1 == "") {
+                IdOrBS1 = "1";
+            }
+            if (IdOcBS1 == "") {
+                IdOcBS1 = "1";
+            }
+            if (IdPrBS1 == "") {
+                IdPrBS1 = "1";
+            }
+
+            $.get("Buscar", { 'criterio': criterio, 'IdOrBS': IdOrBS1, 'IdOcBS': IdOcBS1, 'IdPrBS': IdPrBS1 })
+                .done(function (resultado) {
+                    $("#list").html(resultado);
+                    $('.table').footable(); })
+        });
+
+        $(document).ready(function () {
+
+            jQuery(function ($) {
+                $('.table').footable();
+            });
+
+            if ('@ViewBag.save' === "PS") {
+                toastr.success('@ViewBag.dato', 'Persona añadida al directorio.');
+            } else if ('@ViewBag.save' === "PE") {
+                toastr.success('@ViewBag.dato', 'Persona edidata correctamente.');
+            }
+        });
+
+        function abrirmodalelim(idper) {
+            swal({
+                title: "Estas seguro?",
+                text: "No se podrá recuperar la información",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, Eliminarlo!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function () {
+
+                    $.get("Eliminar", { idper: idper }).done(function (data) {
+                        $("#Detalle").html(data);
+
+                        if (msg == '1') {
+                            sweetAlert
+                                ({
+                                    title: "Eliminado!",
+                                    text: "Se ha eliminado correctamente!",
+                                    type: "success"
+                                },
+                                function () {
+                                    window.location.href = "ListarPersonas";
+                                });
+                        } else {
+                            sweetAlert
+                                ({
+                                    title: "Error!",
+                                    text: "El elemento no puede ser eliminado!",
+                                    type: "error"
+                                });
+                        }
+                    })
+
+                });
+
+        }
+    </script>
+}
+
+
+
+
