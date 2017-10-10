@@ -133,13 +133,6 @@ E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\ddcCajamarca.Models.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\ddcCajamarca.Services.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\EntityFramework.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\EntityFramework.SqlServer.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.Agent.Intercept.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.DependencyCollector.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.PerfCounterCollector.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.ServerTelemetryChannel.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.Web.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.WindowsServer.dll
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.ApplicationInsights.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.Practices.ServiceLocation.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.Practices.Unity.Configuration.dll
@@ -178,11 +171,6 @@ E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\System.Web.WebPages.Deployment.xml
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\System.Web.WebPages.Razor.xml
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Antlr3.Runtime.pdb
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Newtonsoft.Json.xml
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.ApplicationInsights.xml
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.DependencyCollector.xml
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.ServerTelemetryChannel.xml
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.WindowsServer.xml
-E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\Microsoft.AI.Web.xml
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\ddcCajamarca.Repository.pdb
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\ddcCajamarca.Repository.dll.config
 E:\GitHub\ddcCajamarca\ddcCajamarca.Web\bin\es\EntityFramework.resources.dll
