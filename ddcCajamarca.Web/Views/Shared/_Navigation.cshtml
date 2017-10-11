@@ -37,7 +37,7 @@
             </li>
             <li class="@Html.IsSelected(controller: "Directorio")">
                 <a href="#"><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.appviews">Directorio</span> </a>
-                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AppViews", cssClass: "in")">
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Directorio", cssClass: "in")">
                     <li class="@Html.IsSelected(action: "NuevaPersona")"><a href="@Url.Action("NuevaPersona", "Directorio")">Nuevo</a></li>
                     <li class="@Html.IsSelected(action: "ListarPersonas")"><a href="@Url.Action("ListarPersonas", "Directorio")">Lista Directorio</a></li>
                     <li class="@Html.IsSelected(action: "ListarPersonas2")"><a href="@Url.Action("ListarPersonas2", "Directorio")">Lista Directorio</a></li>
@@ -51,15 +51,23 @@
 
                 </ul>
             </li>
+            <li class="@Html.IsSelected(controller: "AgendaCultural")">
+                <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label" data-i18n="nav.appviews">Agenda Cultural</span> </a>
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AgendaCultural", cssClass: "in")">
+                    <li class="@Html.IsSelected(action: "Calendario")"><a href="@Url.Action("Calendario", "AgendaCultural")">Calendario</a></li>
+                    <li class=""><a href="#">Ambientes</a></li>
 
-            @*<li class="@Html.IsSelected(controller: "Mapa")">
+
+                </ul>
+            </li>
+                @*<li class="@Html.IsSelected(controller: "Mapa")">
                 <a href="@Url.Action("GoogleMaps", "Mapa")"><i class="fa fa-map-marker"></i> <span class="nav-label" data-i18n="nav.metrics">GoogleMaps</span> </a>
             </li>
 
             <li class="@Html.IsSelected(controller: "Tour")">
                 <a href="@Url.Action("Tour", "Tour")"><i class="fa fa-graduation-cap"></i> <span class="nav-label" data-i18n="nav.metrics">Tutorial</span> </a>
             </li>*@
-            @*<li class="@Html.IsSelected(controller: "Dashboards")">
+                @*<li class="@Html.IsSelected(controller: "Dashboards")">
                 <a href="@Url.Action("Dashboard_1", "Dashboards")"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Dashboards", cssClass: "in")">
                     <li class="@Html.IsSelected(action: "Dashboard_1")"><a href="@Url.Action("Dashboard_1", "Dashboards")">Dashboard v.1</a></li>
