@@ -22,7 +22,6 @@ namespace ddcCajamarca.Models
 
         public Int32 IdOrganizacion { get; set; }
         public Organizacion Organizacion { get; set; }
-        public String Cargo { get; set; }
 
         public Int32 IdOcupacionCultural { get; set; }
         public OcupacionCultural OcupacionCultural { get; set; }

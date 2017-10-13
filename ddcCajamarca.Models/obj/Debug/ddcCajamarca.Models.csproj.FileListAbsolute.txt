@@ -5,7 +5,7 @@ D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.dll
 D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.pdb
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\bin\Debug\ddcCajamarca.Models.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\bin\Debug\ddcCajamarca.Models.pdb
-E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.csprojResolveAssemblyReference.cache
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.csproj.CoreCompileInputs.cache
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.csprojResolveAssemblyReference.cache

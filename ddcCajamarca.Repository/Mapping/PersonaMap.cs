@@ -31,7 +31,6 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(p => p.Email).IsOptional();
             this.Property(p => p.Imagen).IsOptional();
             this.Property(p => p.RedesSociales).IsOptional();
-            this.Property(p => p.Cargo).IsOptional();
 
             this.ToTable("Persona");
             this.Property(c => c.Id).HasColumnName("Id");
@@ -47,7 +46,6 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.Email).HasColumnName("Email");
             this.Property(c => c.Imagen).HasColumnName("Imagen");
             this.Property(c => c.RedesSociales).HasColumnName("RedesSociales");
-            this.Property(c => c.Cargo).HasColumnName("Cargo");
 
             this.HasRequired(h => h.OcupacionCultural)
                 .WithMany(h => h.Personas)

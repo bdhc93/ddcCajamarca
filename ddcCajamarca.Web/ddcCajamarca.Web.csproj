@@ -140,12 +140,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AgendaCulturalController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\AgendaCulturalController.cs" />
     <Compile Include="Controllers\DirectorioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapaController.cs" />
@@ -1373,6 +1373,8 @@
     <Content Include="Scripts\plugins\flot\jquery.flot.time.js" />
     <Content Include="Scripts\plugins\flot\jquery.flot.tooltip.min.js" />
     <Content Include="Scripts\plugins\footable\footable.all.min.js" />
+    <Content Include="Scripts\plugins\fullcalendar\es.js" />
+    <Content Include="Scripts\plugins\fullcalendar\fullcalendar.js" />
     <Content Include="Scripts\plugins\fullcalendar\fullcalendar.min.js" />
     <Content Include="Scripts\plugins\fullcalendar\moment.min.js" />
     <Content Include="Scripts\plugins\gritter\images\gritter-light.png" />
@@ -1733,6 +1735,7 @@
     <Content Include="Views\Directorio\_GuardarOrganizacionPersona.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\AgendaCultural\Calendario.cshtml" />
+    <Content Include="Views\AgendaCultural\NuevoRegistro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActividadesCulturales\Datos\ActivoService.cs" />
+    <Compile Include="ActividadesCulturales\Datos\AmbienteService.cs" />
+    <Compile Include="ActividadesCulturales\Datos\EventoEnsayoService.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IActivoService.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IAmbienteService.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IEventoEnsayoService.cs" />
     <Compile Include="Directorio\Datos\OcupacionCulturalService.cs" />
     <Compile Include="Directorio\Datos\OrganizacionService.cs" />
     <Compile Include="Directorio\Datos\PersonaService.cs" />

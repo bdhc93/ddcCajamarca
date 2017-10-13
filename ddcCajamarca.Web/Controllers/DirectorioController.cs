@@ -316,10 +316,6 @@ namespace ddcCajamarca.Web.Controllers
             {
                 model.RedesSociales = model.RedesSociales.ToUpper();
             }
-            if (!String.IsNullOrEmpty(model.Cargo))
-            {
-                model.Cargo = model.Cargo.ToUpper();
-            }
             
             model.NombreApellidos = model.NombreApellidos.ToUpper();
 
@@ -484,10 +480,6 @@ namespace ddcCajamarca.Web.Controllers
             if (!String.IsNullOrEmpty(model.RedesSociales))
             {
                 model.RedesSociales = model.RedesSociales.ToUpper();
-            }
-            if (!String.IsNullOrEmpty(model.Cargo))
-            {
-                model.Cargo = model.Cargo.ToUpper();
             }
 
             model.NombreApellidos = model.NombreApellidos.ToUpper();

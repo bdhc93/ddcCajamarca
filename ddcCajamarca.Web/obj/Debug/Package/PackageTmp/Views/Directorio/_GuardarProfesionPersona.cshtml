@@ -1,6 +1,0 @@
-﻿@{
-    IEnumerable<SelectListItem> Profesion = new SelectList(@ViewBag.Profesion, "Id", "Nombre");
-}
-
-@Html.DropDownList("IdProfesion", Profesion, "-- Seleccionar --", new { @class = "form-control" })
-<span onclick="abrirmodalProfesion()" class="input-group-addon btn btn-primary btn-xs"><a href="#"><i style="color:darkslategrey" class="fa fa-plus"></i></a></span>

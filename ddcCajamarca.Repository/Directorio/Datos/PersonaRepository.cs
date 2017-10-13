@@ -41,7 +41,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
                         select p;
             }
             
-            return query.ToList();
+            return query.OrderBy(p => p.NombreApellidos).ToList();
         }
 
         public IEnumerable<Persona> ObtenerPersonaPorFechaNacimiento()
@@ -182,7 +182,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
                 }
             }
 
-            return query.ToList();
+            return query.OrderBy(p => p.NombreApellidos).ToList();
         }
 
         public Persona ObtenerPersonaPorId(int id)

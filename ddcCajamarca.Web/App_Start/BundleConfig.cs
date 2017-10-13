@@ -149,7 +149,8 @@ namespace ddcCajamarca.Web
             // fullCalendar 
             bundles.Add(new ScriptBundle("~/plugins/fullCalendar").Include(
                       "~/Scripts/plugins/fullcalendar/moment.min.js",
-                      "~/Scripts/plugins/fullcalendar/fullcalendar.min.js"));
+                      "~/Scripts/plugins/fullcalendar/fullcalendar.js",
+                      "~/Scripts/plugins/fullcalendar/es.js"));
 
             // vectorMap 
             bundles.Add(new ScriptBundle("~/plugins/vectorMap").Include(

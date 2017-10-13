@@ -54,6 +54,7 @@
             <li class="@Html.IsSelected(controller: "AgendaCultural")">
                 <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label" data-i18n="nav.appviews">Agenda Cultural</span> </a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AgendaCultural", cssClass: "in")">
+                    @*<li class="@Html.IsSelected(action: "NuevoRegistro")"><a href="@Url.Action("NuevoRegistro", "AgendaCultural")">NuevoRegistro</a></li>*@
                     <li class="@Html.IsSelected(action: "Calendario")"><a href="@Url.Action("Calendario", "AgendaCultural")">Calendario</a></li>
                     <li class=""><a href="#">Ambientes</a></li>
 

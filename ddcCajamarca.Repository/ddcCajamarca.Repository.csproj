@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActividadesCulturales\Datos\ActivoRepository.cs" />
+    <Compile Include="ActividadesCulturales\Datos\AmbienteRepository.cs" />
+    <Compile Include="ActividadesCulturales\Datos\EventoEnsayoRepository.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IActivoRepository.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IAmbienteRepository.cs" />
+    <Compile Include="ActividadesCulturales\Interfaces\IEventoEnsayoRepository.cs" />
     <Compile Include="ddcCajamarcaContext.cs" />
     <Compile Include="Directorio\Datos\OcupacionCulturalRepository.cs" />
     <Compile Include="Directorio\Datos\OrganizacionRepository.cs" />
@@ -83,6 +89,10 @@
     <Compile Include="Directorio\Interfaces\IOrganizacionRepository.cs" />
     <Compile Include="Directorio\Interfaces\IPersonaRepository.cs" />
     <Compile Include="Directorio\Interfaces\IProfesionRepository.cs" />
+    <Compile Include="Mapping\ActivoMap.cs" />
+    <Compile Include="Mapping\AmbienteMap.cs" />
+    <Compile Include="Mapping\DetalleRequerimientoMap.cs" />
+    <Compile Include="Mapping\EventoEnsayoMap.cs" />
     <Compile Include="Mapping\OcupacionCulturalMap.cs" />
     <Compile Include="Mapping\OrganizacionMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
@@ -110,5 +120,6 @@
   <ItemGroup>
     <Content Include="Data\Directorio.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
