@@ -29,6 +29,21 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             Context.SaveChanges();
         }
 
+        public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterio(string criterio)
+        {
+            var query = from p in Context.EventoEnsayos.Include("Ambiente")
+                        select p;
+
+            if (!String.IsNullOrEmpty(criterio))
+            {
+                query = from p in query
+                        where p.NombreActividad.ToUpper().Contains(criterio.ToUpper()) || p.NombreActividad.ToUpper().Contains(criterio.ToUpper())
+                        select p;
+            }
+
+            return query.ToList();
+        }
+
         public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente")
@@ -40,6 +55,15 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
                         where p.NombreActividad.ToUpper().Contains(criterio.ToUpper()) || p.NombreActividad.ToUpper().Contains(criterio.ToUpper())
                         select p;
             }
+
+            return query.ToList();
+        }
+
+        public IEnumerable<EventoEnsayo> ObtenerAmbientePorIdAmbiente(int idAmbiente)
+        {
+            var query = from p in Context.EventoEnsayos.Include("Ambiente")
+                        where p.IdAmbiente.Equals(idAmbiente)
+                        select p;
 
             return query.ToList();
         }

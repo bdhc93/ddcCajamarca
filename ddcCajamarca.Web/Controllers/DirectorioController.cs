@@ -74,7 +74,6 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.dato = "";
                 ViewBag.save = false;
             }
-
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", true);
             ViewBag.Ocupacion = ocupacionCulturalService.ObtenerOcupacionCulturalPorCriterio("", true);
             ViewBag.Profesion = profesionService.ObtenerProfesionPorCriterio("", true);
@@ -85,30 +84,7 @@ namespace ddcCajamarca.Web.Controllers
         [HttpGet]
         public ActionResult ListarExtras(String Tp)
         {
-            if (DateTime.Now.Month < 10)
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
-            else
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
+            ViewBag.FechaHoy = FechaHoy();
 
             if (!String.IsNullOrEmpty(Tp))
             {
@@ -193,32 +169,15 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", false);
             ViewBag.Ocupacion = ocupacionCulturalService.ObtenerOcupacionCulturalPorCriterio("", false);
             ViewBag.Profesion = profesionService.ObtenerProfesionPorCriterio("", false);
+            ViewBag.FechaHoy = FechaHoy();
+            
+            ViewBag.Personas = DataPersonasAutocomplete();
 
-            if (DateTime.Now.Month<10)
-            {
-                if (DateTime.Now.Day<10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-                
-            }
-            else
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-                
-            }
+            return View();
+        }
 
+        private string DataPersonasAutocomplete()
+        {
             var personas = personaService.ObtenerPersonaPorCriterio("");
 
             var personasarray = "";
@@ -231,10 +190,8 @@ namespace ddcCajamarca.Web.Controllers
             personasarray = "[" + personasarray + "'" + "'" + "]";
 
             personasarray = personasarray.Replace("'", char.ConvertFromUtf32(34));
-            
-            ViewBag.Personas = personasarray;
 
-            return View();
+            return personasarray;
         }
 
         [HttpPost]
@@ -354,30 +311,7 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", true);
             ViewBag.Ocupacion = ocupacionCulturalService.ObtenerOcupacionCulturalPorCriterio("", true);
             ViewBag.Profesion = profesionService.ObtenerProfesionPorCriterio("", true);
-            if (DateTime.Now.Month < 10)
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
-            else
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
+            ViewBag.FechaHoy = FechaHoy();
 
             var personas = personaService.ObtenerPersonaPorCriterio("");
 
@@ -669,30 +603,7 @@ namespace ddcCajamarca.Web.Controllers
         [HttpGet]
         public ActionResult OBtenerExtraPorId(Int32 Id, String tipo)
         {
-            if (DateTime.Now.Month < 10)
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
-            else
-            {
-                if (DateTime.Now.Day < 10)
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-0" + DateTime.Now.Day;
-                }
-                else
-                {
-                    ViewBag.FechaHoy = DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day;
-                }
-
-            }
+            ViewBag.FechaHoy = FechaHoy();
 
             if (tipo == "Ocupación Cultural")
             {
@@ -747,6 +658,37 @@ namespace ddcCajamarca.Web.Controllers
             }
 
             return PartialView("_ModificarExtra");
+        }
+
+        private string FechaHoy()
+        {
+            var fecha = "";
+
+            if (DateTime.Now.Month < 10)
+            {
+                if (DateTime.Now.Day < 10)
+                {
+                    fecha = "0" + DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                }
+                else
+                {
+                    fecha = DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                }
+
+            }
+            else
+            {
+                if (DateTime.Now.Day < 10)
+                {
+                    fecha = "0" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                }
+                else
+                {
+                    fecha = DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                }
+            }
+
+            return fecha;
         }
     }
 }

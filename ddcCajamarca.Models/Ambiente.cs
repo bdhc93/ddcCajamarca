@@ -16,8 +16,27 @@ namespace ddcCajamarca.Models
         public Int32 Id { get; set; }
         public String Nombre { get; set; }
         public Int32 Aforo { get; set; }
+        public String Color { get; set; }
         public DateTime FechaRegistro { get; set; }
 
         public List<EventoEnsayo> EventoEnsayos { get; set; }
+
+
+        public String FechaRegistroMostrar { get { return FechaRegistro.Day + "/" + FechaRegistro.Month + "/" + FechaRegistro.Year; } }
+
+        public String NombreMostrar
+        {
+            get
+            {
+                if (Aforo != 0)
+                {
+                    return Nombre + " - Aforo: " + Aforo;
+                }
+                else
+                {
+                    return Nombre;
+                }
+            }
+        }
     }
 }

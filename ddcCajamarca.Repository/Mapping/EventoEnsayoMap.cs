@@ -20,6 +20,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(p => p.InstitucionEncargada).IsOptional();
             this.Property(p => p.InformacionAdicional).IsOptional();
             this.Property(p => p.TodoDia).IsOptional();
+            this.Property(p => p.Evento).IsOptional();
             this.Property(p => p.FechaInicio).IsRequired().HasColumnType("datetime2");
             this.Property(p => p.FechaFin).IsRequired().HasColumnType("datetime2");
             this.Property(p => p.FechaRegistro).IsRequired().HasColumnType("datetime2");
@@ -33,7 +34,8 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.FechaFin).HasColumnName("FechaFin");
             this.Property(c => c.FechaRegistro).HasColumnName("FechaRegistro");
             this.Property(c => c.FechaInicio).HasColumnName("FechaInicio");
-            
+            this.Property(c => c.Evento).HasColumnName("Evento");
+
             this.HasRequired(h => h.Ambiente)
                 .WithMany(h => h.EventoEnsayos)
                 .HasForeignKey(p => p.IdAmbiente)

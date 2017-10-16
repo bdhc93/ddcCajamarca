@@ -34,101 +34,92 @@
             <div class="ibox-content">
                 <div class="row">
                     <form action="@Url.Action("NuevoRegistro", "AgendaCultural")" enctype="multipart/form-data" method="post">
-                        <div class="form-group col-sm-12">
-                            <div class="col-sm-9 b-r">
-                                <div class="form-group col-sm-6">
+                        <div class="form-group col-lg-12">
+                            <div class="col-lg-9 b-r">
+                                <div class="form-group col-lg-6">
                                     <label>Sala</label>
-                                    <input name="NombreApellidos" readonly placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" value="Sala Capuli" style="text-transform:uppercase;" required>
+                                    <input name="NombreApellidos" readonly class="form-control" value="@ViewBag.Ambiente" style="text-transform:uppercase;" required>
+                                    <input name="IdAmbiente" hidden value="@ViewBag.IdAmbiente">
+                                    <input name="opcTodoDia" hidden value="@ViewBag.opcTodoDia">
                                 </div>
 
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-lg-6">
                                     <label>Fecha de Registro</label>
-                                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                                    <input name="FechaRegistro" type="text" class="form-control" readonly value="@ViewBag.FechaHoy" />
                                 </div>
 
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-lg-6">
                                     <label>Nombre de la Actividad - Agrupacion</label>
-                                    <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required>
+                                    <input name="NombreActividad" autocomplete="off" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required>
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-lg-6">
                                     <label>Institución/Persona Encargada</label>
-                                    <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required>
+                                    <input name="InstitucionEncargada" autocomplete="off" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required>
                                 </div>
 
-                                <div class="form-group col-md-6">
-                                    <fieldset>
+                                <div class="form-group col-lg-12">
+                                    <div class="col-lg-12">
                                         <label>Requerimientos</label>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox7" type="checkbox">
-                                            <label for="checkbox7">
-                                                Sillas
-                                            </label>
-                                        </div>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox8" type="checkbox">
-                                            <label for="checkbox8">
-                                                Mesa Honor
-                                            </label>
-                                        </div>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox8" type="checkbox">
-                                            <label for="checkbox8">
-                                                Mesa de Inscripción o de bocaditos
-                                            </label>
-                                        </div>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox8" type="checkbox">
-                                            <label for="checkbox8">
-                                                Equipo de sonido
-                                            </label>
-                                        </div>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox8" type="checkbox">
-                                            <label for="checkbox8">
-                                                Proyector
-                                            </label>
-                                        </div>
-                                        <div class="checkbox checkbox-circle">
-                                            <input id="checkbox8" type="checkbox">
-                                            <label for="checkbox8">
-                                                Eckran
-                                            </label>
-                                        </div>
-                                    </fieldset>
+                                    </div>
+                                    
+                                    <div class="form-group col-lg-6">
+                                        <p>Disponibles</p>
+                                        <ul class="sortable-list connectList agile-list" id="todo">
+
+                                            @{
+                                                    var x = 0;
+                                                    foreach (var item in @ViewBag.Activos)
+                                                    {
+                                                    <li class="success-element" id="@item.Id">
+                                                        @item.Nombre
+                                                        <input name="DetalleRequerimientos[@x].Cantidad" value="@item.Cantidad" class="pull-right" style="width:50px; text-align:center;" />
+                                                        <input name="DetalleRequerimientos[@x].IdActivo" hidden value="@item.Id" />
+                                                    </li>
+                                                    x++;
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <p>Agregados</p>
+                                        <ul class="sortable-list connectList agile-list" id="enprogreso">
+                                            
+                                        </ul>
+                                    </div>
                                 </div>
 
-                                <div class="form-group col-sm-12">
+                                <div class="form-group col-lg-12">
                                     <label>Información adicional</label>
-                                    <textarea name="NombreApellidos" class="form-control" rows="5" style="text-transform:uppercase;">
-                                </textarea>
+                                    <textarea name="InformacionAdicional" class="form-control" rows="5" style="text-transform:uppercase;"> </textarea>
                                 </div>
                             </div>
-                            <div class="col-sm-3" id="paso2">
-                                <div class="form-group col-sm-12">
+                            <div class="col-lg-3" id="paso2">
+                                <div class="form-group col-lg-12">
                                     <label>Fecha Inicio</label>
                                     <div class="input-group">
-                                        <input name="FechaNacimiento" type="text" readonly class="form-control" max="@ViewBag.FechaHoy" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input name="FechaInicio" type="text" readonly class="form-control" value="@ViewBag.FechaInicio" ><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <label>Fecha Fin</label>
                                     <div class="input-group">
-                                        <input name="FechaNacimiento" value="@ViewBag.FechaHoy" type="text" readonly class="form-control" max="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input name="FechaFin" type="text" readonly class="form-control" value="@ViewBag.FechaFin"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-12">
+                                <div class="form-group col-lg-12">
                                     <label>Hora Incio</label>
                                     <div class="input-group clockpicker" data-autoclose="true">
-                                        <input type="text" class="form-control" readonly value="09:30">
+                                        <input type="text" class="form-control" name="HoraIni" readonly value="@ViewBag.HoraInicio">
                                         <span class="input-group-addon">
                                             <span class="fa fa-clock-o"></span>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-12">
+                                <div class="form-group col-lg-12">
                                     <label>Hora Fin</label>
                                     <div class="input-group clockpicker" data-autoclose="true">
-                                        <input type="text" class="form-control" readonly value="09:30">
+                                        <input type="text" class="form-control" name="HoraFin" readonly value="@ViewBag.HoraFin">
                                         <span class="input-group-addon">
                                             <span class="fa fa-clock-o"></span>
                                         </span>
@@ -138,7 +129,8 @@
 
                             
 
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-lg-12">
+                                <input hidden type="text" name="arryreq" id="arryreq" value="" />
                                 <div class="text-right">
                                     <button class="btn btn-sm btn-success m-t-n-xs" type="submit"><strong>Nuevo</strong></button>
                                 </div>
@@ -146,471 +138,51 @@
 
 
                         </div>
-                        
-                        @*<div class="col-sm-8">
-                            <div class="form-group col-lg-6">
-                                <label>Nombre y Apellidos (*)</label>
-                                <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required>
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label>Nombre Artistico</label>
-                                <input name="NombreArtistico" placeholder="INGRESE NOMBRE ARTISTICO" class="form-control" style="text-transform:uppercase;">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label>Teléfono/Celular (*)</label>
-                                <input name="Telefono" placeholder="INGRESE TELÉFONO O CELULAR" class="form-control" style="text-transform:uppercase;" required>
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label>Dirección</label>
-                                <input name="Direccion" placeholder="INGRESE DIRECCIÓN" class="form-control" style="text-transform:uppercase;">
-                            </div>
-                            <div class="form-group col-lg-6" id="data_3">
-                                <label>Fecha Nacimiento</label>
-                                <div class="input-group date">
-                                    <input name="FechaNacimiento" type="text" class="form-control" max="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label>Email</label>
-                                <input name="Email" placeholder="INGRESE CORREO ELECTRONICO" class="form-control" style="text-transform:uppercase;" type="email">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label>Redes Sociales</label>
-                                <input name="RedesSociales" placeholder="INGRESE LA DIRECCION DE UNA RED SOCIAL" class="form-control" style="text-transform:uppercase;">
-                            </div>
-                        </div>
-                        <div class="col-sm-4" id="paso2">
-                            <div class="form-group col-lg-12">
-                                <label>Fecha de Registro</label>
-                                <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
-                            </div>
-                        </div>*@
                     </form>
 
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                Serialised Output
+            </h4>
+            <p>
+                Serializes the sortable's item id's into an array of string.
+            </p>
+            <div class="output p-m m white-bg"></div>
 
-<div class="modal inmodal" id="modal_nuevo_ocupacion" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated fadeIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Nueva Ocupación Cultural</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group col-lg-12">
-                    <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
-                </div>
-                <div class="form-group col-lg-12">
-                    <label>Nombre*</label>
-                    <input name="txtNombreocupacion" id="txtNombreocupacion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
-                </div>
-                <p>*El campo nombre es obligatorio</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-primary" onclick="GuardarOcupacion()">Guardar</a>
-            </div>
         </div>
     </div>
 </div>
 
-<div class="modal inmodal" id="modal_nuevo_profesion" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated fadeIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Nueva Profesión</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group col-lg-12">
-                    <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
-                </div>
-                <div class="form-group col-lg-12">
-                    <label>Nombre*</label>
-                    <input name="txtNombreoprofesion" id="txtNombreoprofesion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
-                </div>
-                <p>*El campo nombre es obligatorio</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-primary" onclick="GuardarProfesion()">Guardar</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal inmodal" id="modal_nuevo_organizacion" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated fadeIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Nueva Organización</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group col-lg-12">
-                    <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
-                </div>
-                <div class="form-group col-lg-12">
-                    <label>Nombre*</label>
-                    <input name="txtNombreorganizacion" id="txtNombreorganizacion" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
-                </div>
-                <div class="form-group col-lg-12">
-                    <label>Direccion</label>
-                    <input name="txtDireccionOrganizacion" id="txtDireccionOrganizacion" placeholder="INGRESE DIRECCION" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
-                </div>
-                <br />
-                <p><div class="form-group">*El campo nombre es obligatorio</div> </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-primary" onclick="GuardarOrganizacion()">Guardar</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Styles {
-    @Styles.Render("~/plugins/awesomeCheckboxStyles")
-    @Styles.Render("~/plugins/clockpickerStyles")
-    @Styles.Render("~/plugins/dateRangeStyles")
-    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
-    @Styles.Render("~/Content/plugins/chosen/chosenStyles")
-    @Styles.Render("~/plugins/switcheryStyles")
-    @Styles.Render("~/plugins/jasnyBootstrapStyles")
-    @Styles.Render("~/plugins/nouiSliderStyles")
-    @Styles.Render("~/plugins/dataPickerStyles")
-    @Styles.Render("~/Content/plugins/ionRangeSlider/ionRangeStyles")
-    @Styles.Render("~/plugins/imagecropperStyles")
-    @Styles.Render("~/Content/plugins/colorpicker/colorpickerStyles")
-    @Styles.Render("~/plugins/select2Styles")
-    @Styles.Render("~/plugins/touchSpinStyles")
-    @Styles.Render("~/plugins/tagInputsStyles")
-    @Styles.Render("~/plugins/duallistStyles")
+
 }
 @section Scripts {
-    @Scripts.Render("~/plugins/iCheck")
-    @Scripts.Render("~/plugins/dataPicker")
-    @Scripts.Render("~/plugins/ionRange")
-    @Scripts.Render("~/plugins/nouiSlider")
-    @Scripts.Render("~/plugins/jasnyBootstrap")
-    @Scripts.Render("~/plugins/switchery")
-    @Scripts.Render("~/plugins/chosen")
-    @Scripts.Render("~/plugins/knob")
-    @Scripts.Render("~/plugins/imagecropper")
-    @Scripts.Render("~/plugins/colorpicker")
-    @Scripts.Render("~/plugins/clockpicker")
-    @Scripts.Render("~/plugins/dateRange")
-    @Scripts.Render("~/plugins/select2")
-    @Scripts.Render("~/plugins/touchSpin")
-    @Scripts.Render("~/plugins/tagInputs")
-    @Scripts.Render("~/plugins/duallist")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/plugins/touchPunch")
+
     <script type="text/javascript">
+
         $(document).ready(function () {
 
-            var $image = $(".image-crop > img")
-            $($image).cropper({
-                aspectRatio: 1.618,
-                preview: ".img-preview",
-                done: function (data) {
-                    // Output the result data for cropping image.
+            $("#todo, #enprogreso").sortable({
+                connectWith: ".connectList",
+                update: function (event, ui) {
+
+                    var todo = $("#todo").sortable("toArray");
+                    var inprogress = $("#enprogreso").sortable("toArray");
+                    $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress));
+                    $('#arryreq').val(inprogress);
                 }
-            });
-
-            var $inputImage = $("#inputImage");
-            if (window.FileReader) {
-                $inputImage.change(function () {
-                    var fileReader = new FileReader(),
-                        files = this.files,
-                        file;
-
-                    if (!files.length) {
-                        return;
-                    }
-
-                    file = files[0];
-
-                    if (/^image\/\w+$/.test(file.type)) {
-                        fileReader.readAsDataURL(file);
-                        fileReader.onload = function () {
-                            $inputImage.val("");
-                            $image.cropper("reset", true).cropper("replace", this.result);
-                        };
-                    } else {
-                        showMessage("Please choose an image file.");
-                    }
-                });
-            } else {
-                $inputImage.addClass("hide");
-            }
-
-            $("#download").click(function () {
-                window.open($image.cropper("getDataURL"));
-            });
-
-            $("#zoomIn").click(function () {
-                $image.cropper("zoom", 0.1);
-            });
-
-            $("#zoomOut").click(function () {
-                $image.cropper("zoom", -0.1);
-            });
-
-            $("#rotateLeft").click(function () {
-                $image.cropper("rotate", 45);
-            });
-
-            $("#rotateRight").click(function () {
-                $image.cropper("rotate", -45);
-            });
-
-            $("#setDrag").click(function () {
-                $image.cropper("setDragMode", "crop");
-            });
-
-            $('#data_1 .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
-            });
-
-            $('#data_2 .input-group.date').datepicker({
-                startView: 1,
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-
-            $('#data_3 .input-group.date').datepicker({
-                startView: 2,
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-
-            $('#data_4 .input-group.date').datepicker({
-                minViewMode: 1,
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true,
-                todayHighlight: true
-            });
-
-            $('#data_5 .input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-
-            var elem = document.querySelector('.js-switch');
-            var switchery = new Switchery(elem, { color: '#1AB394' });
-
-            var elem_2 = document.querySelector('.js-switch_2');
-            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
-
-            var elem_3 = document.querySelector('.js-switch_3');
-            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
-
-            var elem_4 = document.querySelector('.js-switch_4');
-            var switchery_4 = new Switchery(elem_4, { color: '#f8ac59' });
-            switchery_4.disable();
-
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-
-            $('.demo1').colorpicker();
-
-            var divStyle = $('.back-change')[0].style;
-            $('#demo_apidemo').colorpicker({
-                color: divStyle.backgroundColor
-            }).on('changeColor', function (ev) {
-                divStyle.backgroundColor = ev.color.toHex();
-            });
-
-            $('.clockpicker').clockpicker();
-
-            $('input[name="daterange"]').daterangepicker();
-
-            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-
-            $('#reportrange').daterangepicker({
-                format: 'MM/DD/YYYY',
-                startDate: moment().subtract(29, 'days'),
-                endDate: moment(),
-                minDate: '01/01/2012',
-                maxDate: '12/31/2015',
-                dateLimit: { days: 60 },
-                showDropdowns: true,
-                showWeekNumbers: true,
-                timePicker: false,
-                timePickerIncrement: 1,
-                timePicker12Hour: true,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-                opens: 'right',
-                drops: 'down',
-                buttonClasses: ['btn', 'btn-sm'],
-                applyClass: 'btn-primary',
-                cancelClass: 'btn-default',
-                separator: ' to ',
-                locale: {
-                    applyLabel: 'Submit',
-                    cancelLabel: 'Cancel',
-                    fromLabel: 'From',
-                    toLabel: 'To',
-                    customRangeLabel: 'Custom',
-                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    firstDay: 1
-                }
-            }, function (start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            });
-
-
-            $(".select2_demo_1").select2();
-            $(".select2_demo_2").select2();
-            $(".select2_demo_3").select2({
-                placeholder: "Select a state",
-                allowClear: true
-            });
-
-            $(".touchspin1").TouchSpin({
-                buttondown_class: 'btn btn-white',
-                buttonup_class: 'btn btn-white'
-            });
-
-            $(".touchspin2").TouchSpin({
-                min: 0,
-                max: 100,
-                step: 0.1,
-                decimals: 2,
-                boostat: 5,
-                maxboostedstep: 10,
-                postfix: '%',
-                buttondown_class: 'btn btn-white',
-                buttonup_class: 'btn btn-white'
-            });
-
-            $(".touchspin3").TouchSpin({
-                verticalbuttons: true,
-                buttondown_class: 'btn btn-white',
-                buttonup_class: 'btn btn-white'
-            });
-
-            $('.tagsinput').tagsinput({
-                tagClass: 'label label-primary'
-            });
-
-            $('.dual_select').bootstrapDualListbox({
-                selectorMinimalHeight: 160
-            });
-
-
+            }).disableSelection();
+            
         });
+        
 
-
-        $('.chosen-select').chosen({ width: "100%" });
-
-        $("#ionrange_1").ionRangeSlider({
-            min: 0,
-            max: 5000,
-            type: 'double',
-            prefix: "$",
-            maxPostfix: "+",
-            prettify: false,
-            hasGrid: true
-        });
-
-        $("#ionrange_2").ionRangeSlider({
-            min: 0,
-            max: 10,
-            type: 'single',
-            step: 0.1,
-            postfix: " carats",
-            prettify: false,
-            hasGrid: true
-        });
-
-        $("#ionrange_3").ionRangeSlider({
-            min: -50,
-            max: 50,
-            from: 0,
-            postfix: "°",
-            prettify: false,
-            hasGrid: true
-        });
-
-        $("#ionrange_4").ionRangeSlider({
-            values: [
-                "January", "February", "March",
-                "April", "May", "June",
-                "July", "August", "September",
-                "October", "November", "December"
-            ],
-            type: 'single',
-            hasGrid: true
-        });
-
-        $("#ionrange_5").ionRangeSlider({
-            min: 10000,
-            max: 100000,
-            step: 100,
-            postfix: " km",
-            from: 55000,
-            hideMinMax: true,
-            hideFromTo: false
-        });
-
-        $(".dial").knob();
-
-        $("#basic_slider").noUiSlider({
-            start: 40,
-            behaviour: 'tap',
-            connect: 'upper',
-            range: {
-                'min': 20,
-                'max': 80
-            }
-        });
-
-        $("#range_slider").noUiSlider({
-            start: [40, 60],
-            behaviour: 'drag',
-            connect: true,
-            range: {
-                'min': 20,
-                'max': 80
-            }
-        });
-
-        $("#drag-fixed").noUiSlider({
-            start: [40, 60],
-            behaviour: 'drag-fixed',
-            connect: true,
-            range: {
-                'min': 20,
-                'max': 80
-            }
-        });
     </script>
 }

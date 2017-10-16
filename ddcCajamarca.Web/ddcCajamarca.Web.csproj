@@ -155,8 +155,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
-    <Compile Include="Models\ScaffoldingContext.cs" />
-    <Compile Include="Models\Worker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1509,6 +1507,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
@@ -1736,6 +1735,12 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\AgendaCultural\Calendario.cshtml" />
     <Content Include="Views\AgendaCultural\NuevoRegistro.cshtml" />
+    <Content Include="Views\AgendaCultural\_MostrarCalendario.cshtml" />
+    <Content Include="Views\AgendaCultural\ListarAmbientes.cshtml" />
+    <Content Include="Views\AgendaCultural\_GuardarAmbiente.cshtml" />
+    <Content Include="Views\AgendaCultural\_EliminarAmbiente.cshtml" />
+    <Content Include="Views\AgendaCultural\_OBtenerAmbientePorId.cshtml" />
+    <Content Include="Views\AgendaCultural\_ModificarAmbiente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">
