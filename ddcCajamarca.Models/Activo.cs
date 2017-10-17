@@ -19,5 +19,13 @@ namespace ddcCajamarca.Models
         public DateTime FechaRegistro { get; set; }
 
         public List<DetalleRequerimiento> DetalleRequerimientos { get; set; }
+
+        public String FechaRegistroMostrar
+        {
+            get
+            {
+                return FechaRegistro.Day + "/" + FechaRegistro.Month + "/" + FechaRegistro.Year;
+            }
+        }
     }
 }

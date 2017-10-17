@@ -1741,6 +1741,8 @@
     <Content Include="Views\AgendaCultural\_EliminarAmbiente.cshtml" />
     <Content Include="Views\AgendaCultural\_OBtenerAmbientePorId.cshtml" />
     <Content Include="Views\AgendaCultural\_ModificarAmbiente.cshtml" />
+    <Content Include="Views\AgendaCultural\_BuscarAmbiente.cshtml" />
+    <Content Include="Views\AgendaCultural\ListarActivos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

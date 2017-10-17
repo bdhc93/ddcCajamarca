@@ -96,11 +96,6 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Ambiente = ambienteService.ObtenerAmbientePorId(idAmbientes).NombreMostrar;
             ViewBag.Activos = activoService.ObtenerActivoPorCriterio("");
 
-            //var x5 = DateTime.Parse(FechaIni + " " + HoraIni);
-            //var x6 = DateTime.Parse(FechaFin + " " + HoraFin);
-
-            //var x7 = x5.TimeOfDay;
-
             return View();
         }
 
@@ -290,13 +285,13 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_MostrarCalendario");
             }
         }
-        
+
         [HttpGet]
         public ActionResult ListarAmbientes(String Tp)
         {
             if (Tp == "G1")
             {
-                ViewBag.msgini = "G1";
+                ViewBag.ToasMS = "G1";
 
                 var Amb = ambienteService.ObtenerAmbientePorCriterio("");
 
@@ -306,7 +301,7 @@ namespace ddcCajamarca.Web.Controllers
             }
             else if (Tp == "M1")
             {
-                ViewBag.msgini = "M1";
+                ViewBag.ToasMS = "M1";
 
                 var Amb = ambienteService.ObtenerAmbientePorCriterio("");
 
@@ -316,7 +311,7 @@ namespace ddcCajamarca.Web.Controllers
             }
             else
             {
-                ViewBag.msgini = "G4";
+                ViewBag.ToasMS = "G4";
 
                 var Amb = ambienteService.ObtenerAmbientePorCriterio("");
 
@@ -326,7 +321,50 @@ namespace ddcCajamarca.Web.Controllers
             }
 
             ViewBag.FechaHoy = FechaHoy();
-            
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ListarActivos(String Tp)
+        {
+            var act = activoService.ObtenerActivoPorCriterio("");
+
+            ViewBag.Coincidencias = act.LongCount();
+
+            ViewBag.Activo = act;
+
+            ViewBag.msgini = Tp;
+
+            //if (Tp == "G1")
+            //{
+            //    ViewBag.msgini = "G1";
+
+                
+            //}
+            //else if (Tp == "M1")
+            //{
+            //    ViewBag.msgini = "M1";
+
+            //    var Amb = ambienteService.ObtenerAmbientePorCriterio("");
+
+            //    ViewBag.Coincidencias = Amb.LongCount();
+
+            //    ViewBag.Ambiente = Amb;
+            //}
+            //else
+            //{
+            //    ViewBag.msgini = "G4";
+
+            //    var Amb = ambienteService.ObtenerAmbientePorCriterio("");
+
+            //    ViewBag.Coincidencias = Amb.LongCount();
+
+            //    ViewBag.Ambiente = Amb;
+            //}
+
+            ViewBag.FechaHoy = FechaHoy();
+
             return View();
         }
 
@@ -344,7 +382,7 @@ namespace ddcCajamarca.Web.Controllers
 
                 ViewBag.msg = "G1";
 
-                Ambiente amb = new Ambiente { Nombre = Nombre, Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
+                Ambiente amb = new Ambiente { Nombre = Nombre.ToUpper(), Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
 
                 ambienteService.GuardarAmbiente(amb);
             }
@@ -372,6 +410,25 @@ namespace ddcCajamarca.Web.Controllers
             }
 
             return PartialView("_EliminarAmbiente");
+        }
+
+        [HttpGet]
+        public ActionResult BuscarAmbiente(String criterio)
+        {
+            try
+            {
+                var result = ambienteService.ObtenerAmbientePorCriterio(criterio);
+
+                ViewBag.Coincidencias = result.Count();
+
+                return PartialView("_BuscarAmbiente", result);
+            }
+            catch (Exception)
+            {
+                ViewBag.Coincidencias =0;
+
+                return PartialView("_BuscarAmbiente");
+            }
         }
 
         [HttpGet]
@@ -404,7 +461,7 @@ namespace ddcCajamarca.Web.Controllers
 
                 ViewBag.msg = "M1";
 
-                Ambiente amb = new Ambiente { Id = Idmod, Nombre = nombre, Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
+                Ambiente amb = new Ambiente { Id = Idmod, Nombre = nombre.ToUpper(), Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
 
                 ambienteService.ModificarAmbiente(amb);
 

@@ -14,7 +14,7 @@
                 Agenda Cultural
             </li>
             <li class="active">
-                <strong>Salones y Patios</strong>
+                <strong>Activos</strong>
             </li>
         </ol>
     </div>
@@ -45,7 +45,7 @@
                     <div class="form-group col-lg-12"><h3>Nuevo Ingreso</h3></div>
                 </div>
                 <div class="row">
-                    
+
                     <div class="form-group col-lg-12">
                         <a href="#" class="btn btn-primary" onclick="abrilmodalNuevo()">Nuevo</a>
                     </div>
@@ -65,8 +65,7 @@
 
                             <tr>
                                 <th>Nombre</th>
-                                <th>Aforo</th>
-                                <th>Color</th>
+                                <th>Cantidad</th>
                                 <th>FechaRegistro</th>
                                 <th class="text-center">Acciones</th>
                             </tr>
@@ -74,12 +73,11 @@
                         <tbody>
 
                             @{
-                                foreach (var item in @ViewBag.Ambiente)
+                                foreach (var item in @ViewBag.Activo)
                                 {
                                     <tr>
                                         <td>@item.Nombre</td>
-                                        <td>@item.Aforo</td>
-                                        <td style="color:@item.Color">@item.Color</td>
+                                        <td>@item.Cantidad</td>
                                         <td>@item.FechaRegistroMostrar</td>
                                         <td class="text-center">
                                             <div class="btn-group">
