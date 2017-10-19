@@ -31,9 +31,9 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Datos
             eventoEnsayoRepository.ModificarEventoEnsayo(eventoEnsayo);
         }
 
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
         {
-            return eventoEnsayoRepository.ObtenerAmbientePorCriterioYFechas(criterio, fechaIni, FechaFin);
+            return eventoEnsayoRepository.ObtenerEventoEnsayoPorCriterioYFechas(criterio, fechaIni, FechaFin);
         }
 
         public EventoEnsayo ObtenerEventoEnsayoPorId(int id)
@@ -41,14 +41,14 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Datos
             return eventoEnsayoRepository.ObtenerEventoEnsayoPorId(id);
         }
 
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorIdAmbiente(int idAmbiente)
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorIdAmbiente(int idAmbiente)
         {
-            return eventoEnsayoRepository.ObtenerAmbientePorIdAmbiente(idAmbiente);
+            return eventoEnsayoRepository.ObtenerEventoEnsayoPorIdAmbiente(idAmbiente);
         }
 
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterio(string criterio)
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterio(string criterio)
         {
-            return eventoEnsayoRepository.ObtenerAmbientePorCriterio(criterio);
+            return eventoEnsayoRepository.ObtenerEventoEnsayoPorCriterio(criterio);
         }
     }
 }

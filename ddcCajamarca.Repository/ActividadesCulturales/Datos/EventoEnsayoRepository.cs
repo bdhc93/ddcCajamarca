@@ -29,7 +29,22 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             Context.SaveChanges();
         }
 
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterio(string criterio)
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterio(string criterio)
+        {
+            var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
+                        select p;
+
+            if (!String.IsNullOrEmpty(criterio))
+            {
+                query = from p in query
+                        where p.NombreActividad.ToUpper().Contains(criterio.ToUpper()) || p.NombreActividad.ToUpper().Contains(criterio.ToUpper())
+                        select p;
+            }
+
+            return query.ToList();
+        }
+
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente")
                         select p;
@@ -44,24 +59,9 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             return query.ToList();
         }
 
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
+        public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorIdAmbiente(int idAmbiente)
         {
-            var query = from p in Context.EventoEnsayos.Include("Ambiente")
-                        select p;
-
-            if (!String.IsNullOrEmpty(criterio))
-            {
-                query = from p in query
-                        where p.NombreActividad.ToUpper().Contains(criterio.ToUpper()) || p.NombreActividad.ToUpper().Contains(criterio.ToUpper())
-                        select p;
-            }
-
-            return query.ToList();
-        }
-
-        public IEnumerable<EventoEnsayo> ObtenerAmbientePorIdAmbiente(int idAmbiente)
-        {
-            var query = from p in Context.EventoEnsayos.Include("Ambiente")
+            var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
                         where p.IdAmbiente.Equals(idAmbiente)
                         select p;
 

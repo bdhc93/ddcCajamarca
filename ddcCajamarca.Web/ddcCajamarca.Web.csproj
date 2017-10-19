@@ -1431,6 +1431,8 @@
     <Content Include="Scripts\plugins\jqGrid\i18n\grid.locale-ua.js" />
     <Content Include="Scripts\plugins\jqGrid\i18n\grid.locale-vi.js" />
     <Content Include="Scripts\plugins\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\plugins\jquery-qtip\jquery.qtip.min.css" />
+    <Content Include="Scripts\plugins\jquery-qtip\jquery.qtip.min.js" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_777620_256x240.png" />

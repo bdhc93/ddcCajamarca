@@ -29,21 +29,32 @@ namespace ddcCajamarca.Web.Controllers
 
             ViewBag.Ambientes = ambienteService.ObtenerAmbientePorCriterio("");
 
-            var Eventos = eventoEnsayoService.ObtenerAmbientePorCriterio("");
+            var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorCriterio("");
 
             var tamb = Eventos.LongCount();
 
             var contador = 0;
 
             var titulo = new String[tamb];
+            var idEvento = new Int32[tamb];
             var inicio = new DateTime[tamb];
             var fin = new DateTime[tamb];
             var tododia = new Boolean[tamb];
             var color = new String[tamb];
+            var descripcion = new String[tamb];
 
             foreach (var item in Eventos)
             {
-                titulo[contador] = item.NombreActividad + " - " + item.InstitucionEncargada;
+                var detallerequerimientos = "";
+
+                foreach (var itemreq in item.DetalleRequerimientos)
+                {
+                    detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+                }
+
+                idEvento[contador] = item.Id;
+
+                titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
 
                 if (item.FechaFin.Date != item.FechaInicio.Date)
                 {
@@ -51,6 +62,7 @@ namespace ddcCajamarca.Web.Controllers
                     inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                     fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                     color[contador] = item.Ambiente.Color;
+                    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                 }
                 else
                 {
@@ -58,16 +70,19 @@ namespace ddcCajamarca.Web.Controllers
                     inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                     fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                     color[contador] = item.Ambiente.Color;
+                    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                 }
                 
                 contador++;
             }
 
             ViewBag.titulo = titulo;
+            ViewBag.IdEvento = idEvento;
             ViewBag.inicio = inicio;
             ViewBag.fin = fin;
             ViewBag.tododia = tododia;
             ViewBag.color = color;
+            ViewBag.descripcion = descripcion;
 
             return View();
         }
@@ -200,21 +215,32 @@ namespace ddcCajamarca.Web.Controllers
             {
                 id = Int32.Parse(idAmbiente);
 
-                var Eventos = eventoEnsayoService.ObtenerAmbientePorIdAmbiente(id);
+                var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorIdAmbiente(id);
 
                 var tamb = Eventos.LongCount();
 
                 var contador = 0;
 
                 var titulo = new String[tamb];
+                var idEvento = new Int32[tamb];
                 var inicio = new DateTime[tamb];
                 var fin = new DateTime[tamb];
                 var tododia = new Boolean[tamb];
                 var color = new String[tamb];
+                var descripcion = new String[tamb];
 
                 foreach (var item in Eventos)
                 {
-                    titulo[contador] = item.NombreActividad + " - " + item.InstitucionEncargada;
+                    var detallerequerimientos = "";
+
+                    foreach (var itemreq in item.DetalleRequerimientos)
+                    {
+                        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+                    }
+
+                    idEvento[contador] = item.Id;
+
+                    titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
 
                     if (item.FechaFin.Date != item.FechaInicio.Date)
                     {
@@ -222,6 +248,7 @@ namespace ddcCajamarca.Web.Controllers
                         inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                         fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                         color[contador] = item.Ambiente.Color;
+                        descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                     }
                     else
                     {
@@ -229,35 +256,49 @@ namespace ddcCajamarca.Web.Controllers
                         inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                         fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                         color[contador] = item.Ambiente.Color;
+                        descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                     }
                     contador++;
                 }
 
+                ViewBag.IdEvento = idEvento;
                 ViewBag.titulo = titulo;
                 ViewBag.inicio = inicio;
                 ViewBag.fin = fin;
                 ViewBag.tododia = tododia;
                 ViewBag.color = color;
+                ViewBag.descripcion = descripcion;
 
                 return PartialView("_MostrarCalendario");
             }
             else
             {
-                var Eventos = eventoEnsayoService.ObtenerAmbientePorCriterio("");
+                var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorCriterio("");
 
                 var tamb = Eventos.LongCount();
 
                 var contador = 0;
 
                 var titulo = new String[tamb];
+                var idEvento = new Int32[tamb];
                 var inicio = new DateTime[tamb];
                 var fin = new DateTime[tamb];
                 var tododia = new Boolean[tamb];
                 var color = new String[tamb];
+                var descripcion = new String[tamb];
 
                 foreach (var item in Eventos)
                 {
-                    titulo[contador] = item.NombreActividad;
+                    var detallerequerimientos = "";
+
+                    foreach (var itemreq in item.DetalleRequerimientos)
+                    {
+                        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+                    }
+
+                    idEvento[contador] = item.Id;
+
+                    titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
 
                     if (item.FechaFin.Date != item.FechaInicio.Date)
                     {
@@ -265,6 +306,7 @@ namespace ddcCajamarca.Web.Controllers
                         inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                         fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                         color[contador] = item.Ambiente.Color;
+                        descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                     }
                     else
                     {
@@ -272,15 +314,18 @@ namespace ddcCajamarca.Web.Controllers
                         inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
                         fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
                         color[contador] = item.Ambiente.Color;
+                        descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
                     }
                     contador++;
                 }
 
+                ViewBag.IdEvento = idEvento;
                 ViewBag.titulo = titulo;
                 ViewBag.inicio = inicio;
                 ViewBag.fin = fin;
                 ViewBag.tododia = tododia;
                 ViewBag.color = color;
+                ViewBag.descripcion = descripcion;
 
                 return PartialView("_MostrarCalendario");
             }

@@ -7,9 +7,9 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Interfaces
     public interface IEventoEnsayoService
     {
         EventoEnsayo ObtenerEventoEnsayoPorId(Int32 id);
-        IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterio(String criterio);
-        IEnumerable<EventoEnsayo> ObtenerAmbientePorCriterioYFechas(String criterio, DateTime fechaIni, DateTime FechaFin);
-        IEnumerable<EventoEnsayo> ObtenerAmbientePorIdAmbiente(Int32 idAmbiente);
+        IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterio(String criterio);
+        IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterioYFechas(String criterio, DateTime fechaIni, DateTime FechaFin);
+        IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorIdAmbiente(Int32 idAmbiente);
 
         void GuardarEventoEnsayo(EventoEnsayo eventoEnsayo);
         void ModificarEventoEnsayo(EventoEnsayo eventoEnsayo);

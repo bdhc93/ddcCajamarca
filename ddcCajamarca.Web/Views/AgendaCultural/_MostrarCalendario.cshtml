@@ -6,13 +6,14 @@
     var fineventos = jss.Serialize(ViewBag.fin);
     var tododiaeventos = jss.Serialize(ViewBag.tododia);
     var coloreventos = jss.Serialize(ViewBag.color);
+    var descripcioneventos = jss.Serialize(ViewBag.descripcion);
 
 }
 
 <div id="calendar2"></div>
 
 <script type="text/javascript">
-    
+
     $(document).ready(function () {
         var date = new Date();
         var d = date.getDate();
@@ -29,6 +30,17 @@
             droppable: true,
             events: [
             ],
+            eventRender: function (event, element) {
+
+                element.qtip({
+                    content: event.description,
+                    style: 'qtip-light',
+                    position: {
+                        target: 'mouse', // Track the mouse as the positioning target
+                        adjust: { x: 5, y: 5 } // Offset it slightly from under the mouse
+                    }
+                });
+            },
             eventClick: function (calEvent, jsEvent, view) {
 
                 $(this).css('border-color', 'red');
@@ -60,8 +72,9 @@
         var tituloeventos = JSON.parse('@Html.Raw(tituloeventos)');
         var inicioeventos = JSON.parse('@Html.Raw(inicioeventos)');
         var fineventos = JSON.parse('@Html.Raw(fineventos)');
-        var tododiaeventos = JSON.parse('@Html.Raw(tododiaeventos)'); 
-        var coloreventos = JSON.parse('@Html.Raw(coloreventos)'); 
+        var tododiaeventos = JSON.parse('@Html.Raw(tododiaeventos)');
+        var coloreventos = JSON.parse('@Html.Raw(coloreventos)');
+        var descripcioneventos = JSON.parse('@Html.Raw(descripcioneventos)');
 
         tituloeventos.forEach(function (entry, index) {
 
@@ -73,7 +86,8 @@
                 start: new Date(fechainieve.getFullYear(), fechainieve.getMonth(), fechainieve.getDate(), fechainieve.getHours(), fechainieve.getMinutes()),
                 end: new Date(fechafineve.getFullYear(), fechafineve.getMonth(), fechafineve.getDate(), fechafineve.getHours(), fechafineve.getMinutes()),
                 allDay: tododiaeventos[index],
-                color: coloreventos[index]
+                color: coloreventos[index],
+                description: descripcioneventos[index],
             };
             $('#calendar2').fullCalendar('renderEvent', myevento, true);
         });

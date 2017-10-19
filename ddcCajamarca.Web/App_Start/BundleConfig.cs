@@ -29,6 +29,13 @@ namespace ddcCajamarca.Web
             // jQueryUI 
             bundles.Add(new StyleBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/plugins/jquery-ui/jquery-ui.min.js"));
+            // jQuery QTIP CSS
+            bundles.Add(new ScriptBundle("~/Scripts/plugins/jquery-qtip/jqueryqtipStyles").Include(
+                        "~/Scripts/plugins/jquery-qtip/jquery.qtip.min.css"));
+
+            // jQuery QTIP 
+            bundles.Add(new StyleBundle("~/bundles/jqueryqtip").Include(
+                        "~/Scripts/plugins/jquery-qtip/jquery.qtip.min.js"));
 
             // Bootstrap
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
