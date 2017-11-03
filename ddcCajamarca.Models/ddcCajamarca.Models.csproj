@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Activo.cs" />
     <Compile Include="Ambiente.cs" />
+    <Compile Include="DetalleHorasEvento.cs" />
     <Compile Include="DetalleRequerimiento.cs" />
     <Compile Include="EventoEnsayo.cs" />
     <Compile Include="OcupacionCultural.cs" />

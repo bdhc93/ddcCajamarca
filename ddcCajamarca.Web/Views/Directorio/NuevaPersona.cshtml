@@ -98,11 +98,9 @@
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Imagen</label>
-                                @*<input name="file" type="file" id="files" class="form-control" style="text-transform:uppercase;">*@
                                 <label title="Upload image file" for="inputImage" class="form-control">
                                     <input type="file" accept="image/*" name="file" id="inputImage">
                                 </label>
-                                @*<div hidden id="idprevimage" class="img-preview img-preview-sm"></div>*@
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Vista Previa</label>
@@ -281,6 +279,7 @@
         }
 
         $('#data_3 .input-group.date').datepicker({
+            language: "es",
             startView: 2,
             todayBtn: "linked",
             keyboardNavigation: false,
@@ -336,52 +335,6 @@
             } else {
                 $inputImage.addClass("hide");
             }
-            
-            //Tour
-
-            //var tour = new Tour({
-            //    steps: [{
-
-            //        element: "#paso1",
-            //        title: "Title of my step",
-            //        content: "Content of my step",
-            //        placement: "top",
-            //        backdrop: true,
-            //        backdropContainer: '#wrapper',
-            //        onShown: function (tour) {
-            //            $('body').addClass('tour-open')
-            //        },
-            //        onHidden: function (tour) {
-            //            $('body').removeClass('tour-close')
-            //        }
-            //    },
-            //    {
-            //        element: "#paso2",
-            //        title: "Title of my step",
-            //        content: "Content of my step",
-            //        placement: "top",
-            //        backdrop: true,
-            //        backdropContainer: '#wrapper',
-            //        onShown: function (tour) {
-            //            $('body').addClass('tour-open')
-            //        },
-            //        onHidden: function (tour) {
-            //            $('body').removeClass('tour-close')
-            //        }
-            //    }
-            //    ]
-            //});
-
-            //// Initialize the tour
-            //tour.init();
-
-            //$('.startTour').click(function () {
-            //    tour.restart();
-
-            //    // Start the tour
-            //    // tour.start();
-            //})
-
         });
         
     </script>

@@ -55,6 +55,14 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
                         where p.NombreActividad.ToUpper().Contains(criterio.ToUpper()) || p.NombreActividad.ToUpper().Contains(criterio.ToUpper())
                         select p;
             }
+            else
+            {
+                var fechainirest = fechaIni.AddDays(-5);
+                var fechainipost = fechaIni.AddDays(5);
+                query = from p in query
+                        where p.FechaInicio <= fechaIni && p.FechaFin >= fechaIni || p.FechaInicio >= fechainirest && p.FechaFin <= fechainipost
+                        select p;
+            }
 
             return query.ToList();
         }
@@ -70,7 +78,53 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
 
         public EventoEnsayo ObtenerEventoEnsayoPorId(int id)
         {
-            return Context.EventoEnsayos.Find(id);
+            var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
+                        where p.Id.Equals(id)
+                        select p;
+
+            return query.Single();
+        }
+
+        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorCriterio(int criterio, bool evento)
+        {
+            var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        select p;
+
+            if (evento)
+            {
+                if (criterio != 0)
+                {
+                    query = from p in query
+                            where p.EventoEnsayo.Id.Equals(criterio)
+                            select p;
+                }
+            }
+            else
+            {
+                if (criterio != 0)
+                {
+                    query = from p in query
+                            where p.EventoEnsayo.Ambiente.Id.Equals(criterio)
+                            select p;
+                }
+            }
+
+            return query.ToList();
+        }
+
+        public DetalleHorasEvento ObtenerDetalleHorasEventoPorIdEvento(int Id)
+        {
+            var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        select p;
+
+            if (Id != 0)
+            {
+                query = from p in query
+                        where p.Id.Equals(Id)
+                        select p;
+            }
+
+            return query.Single();
         }
     }
 }

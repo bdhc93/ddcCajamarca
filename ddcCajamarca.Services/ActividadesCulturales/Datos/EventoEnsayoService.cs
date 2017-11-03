@@ -50,5 +50,15 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Datos
         {
             return eventoEnsayoRepository.ObtenerEventoEnsayoPorCriterio(criterio);
         }
+
+        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorCriterio(int criterio, bool evento)
+        {
+            return eventoEnsayoRepository.ObtenerDetalleHorasEventoPorCriterio(criterio, evento);
+        }
+
+        public DetalleHorasEvento ObtenerDetalleHorasEventoPorIdEvento(int Id)
+        {
+            return eventoEnsayoRepository.ObtenerDetalleHorasEventoPorIdEvento(Id);
+        }
     }
 }

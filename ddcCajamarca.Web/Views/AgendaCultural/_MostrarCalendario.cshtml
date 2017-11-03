@@ -43,7 +43,11 @@
             },
             eventClick: function (calEvent, jsEvent, view) {
 
-                $(this).css('border-color', 'red');
+                $.get("OBtenerEventoPorId", { 'Id': ideve.eventoId })
+                    .done(function (response) {
+                        $('#Detalle_Modificar').html(response);
+                        $('#modal_modificar').modal('show');
+                    });
             },
             dayClick: function (date) {
                 if (count == 0) {

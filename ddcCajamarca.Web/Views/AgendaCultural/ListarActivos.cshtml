@@ -35,7 +35,7 @@
                     <div class="form-group col-lg-12">
                         <div class="form-group col-lg-12">
                             <label class="control-label">Nombre</label>
-                            <input type="text" id="txtBuscarExtra" name="txtBuscarExtra" value="" placeholder="Ingresar nombre a buscar" style="text-transform:uppercase;" onkeyup="buscarCriterio()" class="form-control" autocomplete="off">
+                            <input type="text" id="txtBuscarActivo" name="txtBuscarActivo" value="" placeholder="Ingresar nombre a buscar" style="text-transform:uppercase;" onkeyup="buscarCriterio()" class="form-control" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title"><label>Nuevo Ambiente</label> </h4>
+                <h4 class="modal-title"><label>Nuevo Activo</label> </h4>
             </div>
             <div class="modal-body">
                 <div class="form-group col-lg-12">
@@ -121,39 +121,15 @@
                     <input name="txtNombre" id="txtNombre" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
                 </div>
                 <div class="form-group col-lg-12">
-                    <label>Aforo</label>
-                    <input name="Aforo" id="txtAforo" placeholder="INGRESE AFORO" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
-                </div>
-                <div class="form-group col-lg-12">
-                    <label>Color</label>
-                    <select class="form-control" id="idopcioncolor" name="idopcioncolor">
-                        <option style="color:white ;background-color:#2591F6">Azul</option>
-                        <option style="color:white ;background-color:#EAE54E">Amarillo</option>
-                        <option style="color:white ;background-color:#5D0560">Berenjena</option>
-                        <option style="color:white ;background-color:#66C4E5">Celeste</option>
-                        <option style="color:white ;background-color:#F5D4F4">Chicle</option>
-                        <option style="color:white ;background-color:#27F8F5">Cielo</option>
-                        <option style="color:white ;background-color:#A023A4">Ciruela</option>
-                        <option style="color:white ;background-color:#F31ADE">Fresa</option>
-                        <option style="color:white ;background-color:#F4DA18">Limon</option>
-                        <option style="color:white ;background-color:#8D7CCA">Orquidea</option>
-                        <option style="color:white ;background-color:#337352">Musgo</option>
-                        <option style="color:white ;background-color:#C352D4">Magenta</option>
-                        <option style="color:white ;background-color:#F00C82">Morado</option>
-                        <option style="color:white ;background-color:#E79742">Naranja</option>
-                        <option style="color:white ;background-color:#EE79E3">Rosa</option>
-                        <option style="color:white ;background-color:#FF0000">Rojo</option>
-                        <option style="color:white ;background-color:#8A0808">Rojo Oscuro</option>
-                        <option style="color:white ;background-color:#397402">Trebol</option>
-                        <option style="color:white ;background-color:#50B258">Verde</option>
-                    </select>
+                    <label>Cantidad</label>
+                    <input name="Cantidad" id="txtCantidad" placeholder="INGRESE AFORO" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
                 </div>
                 <br />
                 <p><div class="form-group">*El campo nombre es obligatorio</div> </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-primary" onclick="guardarambiente()">Guardar</a>
+                <a href="#" class="btn btn-primary" onclick="guardaractivo()">Guardar</a>
             </div>
         </div>
     </div>
@@ -171,7 +147,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-primary" onclick="modificarambiente()">Guardar</a>
+                <a href="#" class="btn btn-primary" onclick="modificaractivo()">Guardar</a>
             </div>
         </div>
     </div>
@@ -199,10 +175,9 @@
         function abrilmodalNuevo() {
             $('#modal_nuevo').modal('show');
         }
-
-
+        
         function abrirmodalmod(idmod) {
-            $.get("OBtenerAmbientePorId", { 'Id': idmod })
+            $.get("OBtenerActivoPorId", { 'Id': idmod })
                 .done(function (response) {
                     $('#Detalle_Modificar').html(response);
                     $('#modal_modificar').modal('show');
@@ -210,44 +185,44 @@
         }
 
         function buscarCriterio() {
-            var criterio = $('#txtBuscarExtra').val();
-            $.get("BuscarAmbiente", { 'criterio': criterio })
+            var criterio = $('#txtBuscarActivo').val();
+            $.get("BuscarActivo", { 'criterio': criterio })
                 .done(function (response) {
                     $('#list').html(response);
                     $('.table').footable();
                 });
         }
 
-        function modificarambiente() {
+        function modificaractivo() {
             var Idmod = $('#txtIdMod').val();
             var criterio = $('#txtNombreMod').val();
-            var aforo = $('#txtAforoMod').val();
-            var color = $('#idopcioncolorMod').val();
+            var cantidad = $('#txtCantidadMod').val();
             if (criterio != "") {
-                $.get("ModificarAmbiente", { 'Idmod': Idmod, 'nombre': criterio, 'aforo': aforo, 'color': color })
+
+                $.get("ModificarActivo", { 'Idmod': Idmod, 'nombre': criterio, 'cantidad': cantidad })
                     .done(function (response) {
                         $('#Detalle').html(response);
 
                         if (msg == 'M1') {
-                            window.location.href = "ListarAmbientes" + "?Tp=" + msg;
+                            window.location.href = "ListarActivos" + "?Tp=" + msg;
                         } else {
-                            window.location.href = "ListarAmbientes";
+                            window.location.href = "ListarActivos";
                         }
                     });
             }
         }
 
-        function guardarambiente() {
+        function guardaractivo() {
             var criterio = $('#txtNombre').val();
             if (criterio != "") {
-                $.get("GuardarAmbiente", { 'nombre': criterio, 'aforo': $("#txtAforo").val(), 'color': $('#idopcioncolor').val() })
+                $.get("GuardarActivo", { 'nombre': criterio, 'cantidad': $("#txtCantidad").val() })
                     .done(function (response) {
                         $('#Detalle').html(response);
 
                         if (msg == 'G1') {
-                            window.location.href = "ListarAmbientes" + "?Tp=" + msg;
+                            window.location.href = "ListarActivos" + "?Tp=" + msg;
                         } else {
-                            window.location.href = "ListarAmbientes";
+                            window.location.href = "ListarActivos";
                         }
                     });
             }
@@ -260,9 +235,9 @@
             });
 
             if ('@ViewBag.ToasMS' === 'G1') {
-                toastr.success('Ambiente añadido.', 'Correcto.');
+                toastr.success('Activo añadido.', 'Correcto.');
             } else if ('@ViewBag.ToasMS' === 'M1') {
-                toastr.success('Ambiente modificado.', 'Modificado.');
+                toastr.success('Activo modificado.', 'Modificado.');
             }
         });
 
@@ -280,7 +255,7 @@
             },
                 function () {
 
-                    $.get("EliminarAmbiente", { idelim: idper }).done(function (data) {
+                    $.get("EliminarActivo", { idelim: idper }).done(function (data) {
                         $("#Detalle").html(data);
 
                         if (msg == 'E1') {
@@ -291,7 +266,7 @@
                                     type: "success"
                                 },
                                 function () {
-                                    window.location.href = "ListarAmbientes";
+                                    window.location.href = "ListarActivos";
                                 });
                         } else {
                             sweetAlert

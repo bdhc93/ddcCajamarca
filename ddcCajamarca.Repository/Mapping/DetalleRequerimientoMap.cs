@@ -32,7 +32,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.HasRequired(h => h.EventoEnsayo)
                 .WithMany(h => h.DetalleRequerimientos)
                 .HasForeignKey(p => p.IdEventoEnsayo)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
             
             this.HasRequired(h => h.Activo)
                 .WithMany(h => h.DetalleRequerimientos)

@@ -91,6 +91,7 @@
     <Compile Include="Directorio\Interfaces\IProfesionRepository.cs" />
     <Compile Include="Mapping\ActivoMap.cs" />
     <Compile Include="Mapping\AmbienteMap.cs" />
+    <Compile Include="Mapping\DetalleHorasEventoMap.cs" />
     <Compile Include="Mapping\DetalleRequerimientoMap.cs" />
     <Compile Include="Mapping\EventoEnsayoMap.cs" />
     <Compile Include="Mapping\OcupacionCulturalMap.cs" />

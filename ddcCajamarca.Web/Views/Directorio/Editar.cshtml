@@ -99,16 +99,12 @@
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Imagen</label>
-                                @*<input name="file" type="file" id="files" class="form-control" style="text-transform:uppercase;">*@
                                 <label title="Upload image file" for="inputImage" class="form-control">
                                     <input type="file" accept="image/*" name="file" id="inputImage">
                                 </label>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Vista Previa</label>
-                                @*<output id="list">
-                                    <img name="imgbase" style="height:125px;width:125px" class="img-circle m-t-xs img-responsive" src="@Model.Imagen.ToString()" title="', escape(theFile.name), '" />
-                                </output>*@
                                 <div class="image-crop" style="width:125px">
                                     <img src="@Model.Imagen.ToString()">
                                 </div>
@@ -289,7 +285,6 @@
 
         function archivo(evt) {
             var files = evt.target.files;
-            // Obtenemos la imagen del campo "file".
             for (var i = 0, f; f = files[i]; i++) {
                 //Solo admitimos imágenes.
                 if (!f.type.match('image.*')) {
@@ -310,6 +305,7 @@
         }
 
         $('#data_3 .input-group.date').datepicker({
+            language: "es",
             startView: 2,
             todayBtn: "linked",
             keyboardNavigation: false,

@@ -1351,6 +1351,7 @@
     <Content Include="Scripts\plugins\cropper\cropper.min.js" />
     <Content Include="Scripts\plugins\d3\d3.min.js" />
     <Content Include="Scripts\plugins\datamaps\datamaps.all.min.js" />
+    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.es.min.js" />
     <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
     <Content Include="Scripts\plugins\daterangepicker\daterangepicker.js" />
@@ -1745,6 +1746,12 @@
     <Content Include="Views\AgendaCultural\_ModificarAmbiente.cshtml" />
     <Content Include="Views\AgendaCultural\_BuscarAmbiente.cshtml" />
     <Content Include="Views\AgendaCultural\ListarActivos.cshtml" />
+    <Content Include="Views\AgendaCultural\_BuscarActivo.cshtml" />
+    <Content Include="Views\AgendaCultural\_EliminarActivo.cshtml" />
+    <Content Include="Views\AgendaCultural\_GuardarActivo.cshtml" />
+    <Content Include="Views\AgendaCultural\_OBtenerActivoPorId.cshtml" />
+    <Content Include="Views\AgendaCultural\_ModificarActivo.cshtml" />
+    <Content Include="Views\AgendaCultural\_OBtenerEventoPorId.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

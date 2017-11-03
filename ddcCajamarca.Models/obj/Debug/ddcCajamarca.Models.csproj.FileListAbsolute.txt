@@ -8,3 +8,4 @@ E:\GitHub\ddcCajamarca\ddcCajamarca.Models\bin\Debug\ddcCajamarca.Models.pdb
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.csproj.CoreCompileInputs.cache
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.dll
 E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Debug\ddcCajamarca.Models.csprojResolveAssemblyReference.cache

@@ -23,6 +23,7 @@ namespace ddcCajamarca.Repository
         public DbSet<Activo> Activos { get; set; }
         public DbSet<Ambiente> Ambientes { get; set; }
         public DbSet<DetalleRequerimiento> DetalleRequerimientos { get; set; }
+        public DbSet<DetalleHorasEvento> DetalleHorasEventos { get; set; }
         public DbSet<EventoEnsayo> EventoEnsayos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -37,6 +38,7 @@ namespace ddcCajamarca.Repository
             modelBuilder.Configurations.Add(new ActivoMap());
             modelBuilder.Configurations.Add(new AmbienteMap());
             modelBuilder.Configurations.Add(new DetalleRequerimientoMap());
+            modelBuilder.Configurations.Add(new DetalleHorasEventoMap());
             modelBuilder.Configurations.Add(new EventoEnsayoMap());
         }
     }

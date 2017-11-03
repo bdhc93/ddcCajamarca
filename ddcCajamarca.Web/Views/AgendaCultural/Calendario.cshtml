@@ -121,11 +121,6 @@
                 <div class="ibox-title">
                     <h5>Calendario Cultural </h5>
 
-                    @*<div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </div>*@
                 </div>
                 <div class="ibox-content">
                     <div id="calendarioporsala">
@@ -139,6 +134,27 @@
 
 </div>
 
+<div class="modal inmodal" id="modal_modificar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Detalle Evento</h4>
+            </div>
+            <div class="modal-body" id="Detalle_Modificar">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-danger" onclick="abrirmodalelim()">Eliminar</a>
+                <a href="#" class="btn btn-primary" onclick="modificaractivo()">Modificar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Detalle">
+
+</div>
 @section Styles {
     @Styles.Render("~/plugins/fullCalendarStyles")
     @Styles.Render("~/plugins/dataPickerStyles")
@@ -146,6 +162,7 @@
     @Styles.Render("~/plugins/clockpickerStyles")
     @Styles.Render("~/plugins/switcheryStyles")
     @Styles.Render("~/Scripts/plugins/jquery-qtip/jqueryqtipStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
@@ -155,8 +172,52 @@
     @Scripts.Render("~/plugins/clockpicker")
     @Scripts.Render("~/plugins/dataPicker")
     @Scripts.Render("~/plugins/switchery")
+    @Scripts.Render("~/plugins/sweetAlert")
 
     <script type="text/javascript">
+
+        function abrirmodalelim() {
+            //$('#modal_modificar').modal('toggle');
+            swal({
+                title: "Estas seguro?",
+                text: "No se podrá recuperar la información",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, Eliminarlo!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                
+            function () {
+
+                $.get("EliminarEventoEnsayo", { idelim: $('#txtIdMod').val() }).done(function (data) {
+                    $("#Detalle").html(data);
+
+                    if (msg == 'E1') {
+                        sweetAlert
+                            ({
+                                title: "Eliminado!",
+                                text: "Se ha eliminado correctamente!",
+                                type: "success"
+                            },
+                            function () {
+                                window.location.href = "Calendario";
+                            });
+                    } else {
+                        sweetAlert
+                            ({
+                                title: "Error!",
+                                text: "El elemento no puede ser eliminado!",
+                                type: "error"
+                            });
+                    }
+
+                })
+
+            });
+        };
 
         $("#idAmbientes").change(function (e) {
 
@@ -173,6 +234,7 @@
 
         var x;
         $('#calendario .input-group.date').datepicker({
+            language: "es",
             startView: 1,
             todayBtn: "linked",
             keyboardNavigation: false,
@@ -187,7 +249,8 @@
         $('#calendario .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
 
         $('#calendario2 .input-group.date').datepicker({
-            startView: 1,
+            language: "es",
+            startView: 0,
             todayBtn: "linked",
             keyboardNavigation: false,
             forceParse: false,
@@ -243,66 +306,28 @@
                 editable: false,
                 droppable: true,
                 events: [
-                    //{
-                    //    title: '1er Salon de Grabado',
-                    //    start: new Date(y, m, 1)
-                    //},
-                    //{
-                    //    title: 'Pieza historica del mes',
-                    //    start: new Date(y, m, d - 5),
-                    //    end: new Date(y, m, d - 2),
-                    //},
-                    //{
-                    //    id: 999,
-                    //    title: 'Seminario de Literatura "Julio Ramon Ribeyro"',
-                    //    start: new Date(y, m, d - 3, 16, 0),
-                    //    allDay: false,
-                    //},
-                    //{
-                    //    id: 999,
-                    //    title: 'La cultura cerca de tí',
-                    //    start: new Date(y, m, d + 4, 16, 0),
-                    //    allDay: false
-                    //},
-                    //{
-                    //    title: 'Feria de Servicios y Productos Culturales',
-                    //    start: new Date(y, m, d, 10, 30),
-                    //    allDay: false
-                    //},
-                    //{
-                    //    title: 'Foro internacional de la cultura "La Cultura Como Motor De Desarrollo"',
-                    //    start: new Date(y, m, d, 12, 0),
-                    //    end: new Date(y, m, d, 14, 0),
-                    //    allDay: false
-                    //},
-                    //{
-                    //    title: 'Cine Club DDC - Cajamarca',
-                    //    start: new Date(y, m, d + 1, 19, 0),
-                    //    end: new Date(y, m, d + 1, 22, 30),
-                    //    allDay: false
-                    //},
-                    //{
-                    //    title: 'Taller "Herederos del Clarín Cajamarquino"',
-                    //    start: new Date(y, m, 28),
-                    //    end: new Date(y, m, 29),
-                    //}
                 ],
                 eventRender: function (event, element) {
-                    //var ideve = event.data(x)
-                    //console.log(ideve.eventoId);
                     element.qtip({
                         content: event.description,
                         style: 'qtip-light',
                         position: {
-                            target: 'mouse', // Track the mouse as the positioning target
-                            adjust: { x: 5, y: 5 } // Offset it slightly from under the mouse
+                            target: 'mouse', // Sige Movimiento Mouse
+                            adjust: { x: 5, y: 5 } 
                         }
                     });
                 },
                 eventClick: function (calEvent, jsEvent, view) {
                     var ideve = calEvent.data(x)
-                    console.log(ideve.eventoId);
-                    $(this).css('border-color', 'red');
+                    //console.log(ideve.eventoId);
+                    //$(this).css('border-color', 'red');
+                    //
+                    
+                    $.get("OBtenerEventoPorId", { 'Id': ideve.eventoId })
+                        .done(function (response) {
+                            $('#Detalle_Modificar').html(response);
+                            $('#modal_modificar').modal('show');
+                        });
                 },
                 dayClick: function (date) {
                     if (count == 0) {
@@ -348,7 +373,7 @@
                 allDay: tododiaeventos[index],
                 color: coloreventos[index],
                 description: descripcioneventos[index],
-                data: function () { // a function that returns an object
+                data: function () { 
                     return {
                         eventoId: idEventos[index],
                     };
@@ -358,8 +383,7 @@
         });
 
         });
-
-
+        
 
     </script>
 }
