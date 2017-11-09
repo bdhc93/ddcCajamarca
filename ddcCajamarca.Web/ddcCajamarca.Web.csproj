@@ -1752,6 +1752,7 @@
     <Content Include="Views\AgendaCultural\_OBtenerActivoPorId.cshtml" />
     <Content Include="Views\AgendaCultural\_ModificarActivo.cshtml" />
     <Content Include="Views\AgendaCultural\_OBtenerEventoPorId.cshtml" />
+    <Content Include="Views\AgendaCultural\ModificarRegistro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

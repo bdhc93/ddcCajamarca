@@ -68,6 +68,8 @@
 
 *Para ver la información completa o modificar, haga clic en Modificar.
 <input id="txtIdMod" hidden value="@Model.EventoEnsayo.Id" />
+<input id="txtIdModDetalle" hidden value="@Model.Id" />
+<input id="InfoTodo" hidden value="false" />
 
 <script type="text/javascript">
     
@@ -89,6 +91,7 @@
             $('#FFDet').hide();
             $('#HIDet').hide();
             $('#HFDet').hide();
+            $('#InfoTodo').val("True");
         } else {
             $('#FIEve').hide();
             $('#FFEve').hide();
@@ -98,6 +101,7 @@
             $('#FFDet').show();
             $('#HIDet').show();
             $('#HFDet').show();
+            $('#InfoTodo').val("false");
         }
     });
 

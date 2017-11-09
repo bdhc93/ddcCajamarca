@@ -147,7 +147,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
                 <a href="#" class="btn btn-danger" onclick="abrirmodalelim()">Eliminar</a>
-                <a href="#" class="btn btn-primary" onclick="modificaractivo()">Modificar</a>
+                <a href="#" class="btn btn-primary" onclick="modificarregistro()">Modificar</a>
             </div>
         </div>
     </div>
@@ -176,6 +176,15 @@
 
     <script type="text/javascript">
 
+        function modificarregistro() {
+            //$.get("ModificarRegistro", {
+            //    idMod: $('#txtIdMod').val(),
+            //    IdModDet: $('#txtIdModDetalle').val(),
+            //    todo: $('#InfoTodo').val()
+            //});
+            window.location.href = "ModificarRegistro?idMod=" + $('#txtIdMod').val() + "&IdModDet=" + $('#txtIdModDetalle').val() + "&todo=" + $('#InfoTodo').val();
+        };
+
         function abrirmodalelim() {
             //$('#modal_modificar').modal('toggle');
             swal({
@@ -192,7 +201,7 @@
                 
             function () {
 
-                $.get("EliminarEventoEnsayo", { idelim: $('#txtIdMod').val() }).done(function (data) {
+                $.get("EliminarEventoEnsayo", { idelim: $('#txtIdMod').val(), idelimdet: $('#txtIdModDetalle').val(), todo: $('#InfoTodo').val() }).done(function (data) {
                     $("#Detalle").html(data);
 
                     if (msg == 'E1') {

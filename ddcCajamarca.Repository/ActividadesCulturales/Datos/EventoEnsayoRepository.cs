@@ -25,7 +25,24 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
 
         public void ModificarEventoEnsayo(EventoEnsayo eventoEnsayo)
         {
-            Context.Entry(eventoEnsayo).State = EntityState.Modified;
+            if (eventoEnsayo.DetalleRequerimientos.Count > 0)
+            {
+                Context.Database.ExecuteSqlCommand("dbo.EliminarDetalleRequerimientos @IdEventoEnsay = '"
+                    + eventoEnsayo.Id + "'");
+
+                foreach (var detalle in eventoEnsayo.DetalleRequerimientos)
+                {
+                    Context.Database.ExecuteSqlCommand("exec dbo.AgregarDetalleRequerimientos @IdEventoEnsayo = '" + eventoEnsayo.Id
+                        + "', @IdActivo = '" + detalle.IdActivo
+                        + "', @Cantidad = '" + detalle.Cantidad + "'");
+                }
+            }
+
+            Context.Database.ExecuteSqlCommand("exec dbo.ModificarEventoEnsayo @NombreActividad = '" + eventoEnsayo.NombreActividad
+                    + "', @InstitucionEncargada = '" + eventoEnsayo.InstitucionEncargada
+                    + "', @InformacionAdicional = '" + eventoEnsayo.InformacionAdicional
+                    + "', @IdEvento = '" + eventoEnsayo.Id + "'");
+
             Context.SaveChanges();
         }
 
@@ -125,6 +142,14 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             }
 
             return query.Single();
+        }
+
+        public void EliminarDetalleEventoEnsayo(int id)
+        {
+            var elim = Context.DetalleHorasEventos.Find(id);
+
+            Context.DetalleHorasEventos.Remove(elim);
+            Context.SaveChanges();
         }
     }
 }

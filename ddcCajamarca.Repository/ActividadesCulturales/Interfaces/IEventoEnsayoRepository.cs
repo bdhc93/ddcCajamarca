@@ -16,5 +16,6 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Interfaces
         void GuardarEventoEnsayo(EventoEnsayo eventoEnsayo);
         void ModificarEventoEnsayo(EventoEnsayo eventoEnsayo);
         void EliminarEventoEnsayo(Int32 id);
+        void EliminarDetalleEventoEnsayo(Int32 id);
     }
 }
