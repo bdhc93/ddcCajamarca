@@ -1121,6 +1121,15 @@ namespace ddcCajamarca.Web.Controllers
             return PartialView("_ModificarActivo");
         }
 
+        [HttpGet]
+        public ActionResult ReporteActividadesCulturales()
+        {
+            var result = eventoEnsayoService.ObtenerEventoEnsayoPorCriterioYFechas("", DateTime.Today, DateTime.Today);
+
+            return View(result);
+        }
+
+
         private string DataEventosAutocomplete(Int32 idbus)
         {
             var eventos = eventoEnsayoService.ObtenerEventoEnsayoPorIdAmbiente(idbus);
