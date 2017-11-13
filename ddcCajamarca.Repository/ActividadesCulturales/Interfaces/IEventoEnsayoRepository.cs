@@ -9,6 +9,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Interfaces
         EventoEnsayo ObtenerEventoEnsayoPorId(Int32 id);
         IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterio(String criterio);
         IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorCriterio(Int32 criterio, Boolean evento);
+        IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin);
         DetalleHorasEvento ObtenerDetalleHorasEventoPorIdEvento(Int32 Id);
         IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterioYFechas(String criterio, DateTime fechaIni, DateTime FechaFin);
         IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorIdAmbiente(Int32 idAmbiente);

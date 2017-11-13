@@ -42,11 +42,11 @@
                         <div class="col-sm-8 b-r">
                             <div class="form-group col-lg-6">
                                 <label>Nombre y Apellidos (*)</label>
-                                <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required value="@Model.NombreApellidos">
+                                <input name="NombreApellidos" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" data-source='@ViewBag.Personas' style="text-transform:uppercase;" required value="@Model.NombreApellidos" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Nombre Artistico</label>
-                                <input name="NombreArtistico" placeholder="INGRESE NOMBRE ARTISTICO" class="form-control" style="text-transform:uppercase;" value="@Model.NombreArtistico">
+                                <input name="NombreArtistico" placeholder="INGRESE NOMBRE ARTISTICO" class="form-control" style="text-transform:uppercase;" value="@Model.NombreArtistico" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Ocupación Cultural (*)</label>
@@ -57,25 +57,25 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Teléfono/Celular (*)</label>
-                                <input name="Telefono" placeholder="INGRESE TELÉFONO O CELULAR" class="form-control" style="text-transform:uppercase;" required value="@Model.Telefono">
+                                <input name="Telefono" placeholder="INGRESE TELÉFONO O CELULAR" class="form-control" style="text-transform:uppercase;" required value="@Model.Telefono" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Dirección</label>
-                                <input name="Direccion" placeholder="INGRESE DIRECCIÓN" class="form-control" style="text-transform:uppercase;" value="@Model.Direccion">
+                                <input name="Direccion" placeholder="INGRESE DIRECCIÓN" class="form-control" style="text-transform:uppercase;" value="@Model.Direccion" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6" id="data_3">
                                 <label>Fecha Nacimiento</label>
                                 <div class="input-group date">
-                                    <input name="FechaNacimiento" type="text" class="form-control" value="@Model.FechaNacimiento" max="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input name="FechaNacimiento" type="text" class="form-control" value="@Model.FechaNacimiento" max="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA" autocomplete="off"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Email</label>
-                                <input name="Email" placeholder="INGRESE CORREO ELECTRONICO" class="form-control" style="text-transform:uppercase;" type="email" value="@Model.Email">
+                                <input name="Email" placeholder="INGRESE CORREO ELECTRONICO" class="form-control" style="text-transform:uppercase;" type="email" value="@Model.Email" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Redes Sociales</label>
-                                <input name="RedesSociales" placeholder="INGRESE LA DIRECCION DE UNA RED SOCIAL" class="form-control" style="text-transform:uppercase;" value="@Model.RedesSociales">
+                                <input name="RedesSociales" placeholder="INGRESE LA DIRECCION DE UNA RED SOCIAL" class="form-control" style="text-transform:uppercase;" value="@Model.RedesSociales" autocomplete="off">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label>Organizacion</label>
@@ -95,20 +95,16 @@
                         <div class="col-sm-4">
                             <div class="form-group col-lg-12">
                                 <label>Fecha de Registro</label>
-                                <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                                <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Imagen</label>
-                                @*<input name="file" type="file" id="files" class="form-control" style="text-transform:uppercase;">*@
                                 <label title="Upload image file" for="inputImage" class="form-control">
                                     <input type="file" accept="image/*" name="file" id="inputImage">
                                 </label>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label>Vista Previa</label>
-                                @*<output id="list">
-                                    <img name="imgbase" style="height:125px;width:125px" class="img-circle m-t-xs img-responsive" src="@Model.Imagen.ToString()" title="', escape(theFile.name), '" />
-                                </output>*@
                                 <div class="image-crop" style="width:125px">
                                     <img src="@Model.Imagen.ToString()">
                                 </div>
@@ -147,7 +143,7 @@
             <div class="modal-body">
                 <div class="form-group col-lg-12">
                     <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Nombre*</label>
@@ -173,7 +169,7 @@
             <div class="modal-body">
                 <div class="form-group col-lg-12">
                     <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Nombre*</label>
@@ -199,7 +195,7 @@
             <div class="modal-body">
                 <div class="form-group col-lg-12">
                     <label>Fecha de Registro</label>
-                    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
                 </div>
                 <div class="form-group col-lg-12">
                     <label>Nombre*</label>
@@ -289,7 +285,6 @@
 
         function archivo(evt) {
             var files = evt.target.files;
-            // Obtenemos la imagen del campo "file".
             for (var i = 0, f; f = files[i]; i++) {
                 //Solo admitimos imágenes.
                 if (!f.type.match('image.*')) {
@@ -310,6 +305,7 @@
         }
 
         $('#data_3 .input-group.date').datepicker({
+            language: "es",
             startView: 2,
             todayBtn: "linked",
             keyboardNavigation: false,

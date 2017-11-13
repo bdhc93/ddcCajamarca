@@ -151,5 +151,17 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             Context.DetalleHorasEventos.Remove(elim);
             Context.SaveChanges();
         }
+
+        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin)
+        {
+            var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        select p;
+
+            query = from p in query
+                    where p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin
+                    select p;
+
+            return query.ToList();
+        }
     }
 }

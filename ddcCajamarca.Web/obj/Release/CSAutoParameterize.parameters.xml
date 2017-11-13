@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="ddcCajamarcaContext-Web.config Connection String" description="ddcCajamarcaContext Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="Data Source=BDHC93\SQLEXPRESS; Initial Catalog=DBDDC; Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\GitHub\\ddcCajamarca\\ddcCajamarca\.Web\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ddcCajamarcaContext']/@connectionString" />
+  </parameter>
+</parameters>

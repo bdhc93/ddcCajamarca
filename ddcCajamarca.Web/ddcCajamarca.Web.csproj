@@ -1735,6 +1735,7 @@
     <Content Include="Views\Directorio\_GuardarOcupacionPersona.cshtml" />
     <Content Include="Views\Directorio\_GuardarProfesionPersona.cshtml" />
     <Content Include="Views\Directorio\_GuardarOrganizacionPersona.cshtml" />
+    <None Include="Properties\PublishProfiles\ddcCajamarcaWeb20171110082612 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\AgendaCultural\Calendario.cshtml" />
     <Content Include="Views\AgendaCultural\NuevoRegistro.cshtml" />

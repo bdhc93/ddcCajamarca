@@ -1,0 +1,15 @@
+﻿<div class="form-group col-lg-12">
+    <label>Fecha de Registro</label>
+    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
+</div>
+<div class="form-group col-lg-12">
+    <label>Nombre*</label>
+    <input name="txtNombre" id="txtNombreMod" value="@Model.Nombre" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+</div>
+<div class="form-group col-lg-12">
+    <label>Cantidad</label>
+    <input name="Cantidad" id="txtCantidadMod" value="@Model.Cantidad" placeholder="INGRESE AFORO" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+</div>
+<br />
+<p><div class="form-group">*El campo nombre es obligatorio</div> </p>
+<input id="txtIdMod" hidden value="@Model.Id" />

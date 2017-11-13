@@ -37,11 +37,11 @@
             </li>
             <li class="@Html.IsSelected(controller: "Directorio")">
                 <a href="#"><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.appviews">Directorio</span> </a>
-                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AppViews", cssClass: "in")">
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Directorio", cssClass: "in")">
+                    <li class="@Html.IsSelected(action: "ListarExtras")"><a href="@Url.Action("ListarExtras", "Directorio")">Complementos Dir.</a></li>
                     <li class="@Html.IsSelected(action: "NuevaPersona")"><a href="@Url.Action("NuevaPersona", "Directorio")">Nuevo</a></li>
                     <li class="@Html.IsSelected(action: "ListarPersonas")"><a href="@Url.Action("ListarPersonas", "Directorio")">Lista Directorio</a></li>
-                    <li class="@Html.IsSelected(action: "ListarPersonas2")"><a href="@Url.Action("ListarPersonas2", "Directorio")">Lista Directorio</a></li>
-                    <li class="@Html.IsSelected(action: "ListarExtras")"><a href="@Url.Action("ListarExtras", "Directorio")">Complementos Dir.</a></li>
+                    <li class="@Html.IsSelected(action: "ListarPersonas2")"><a href="@Url.Action("ListarPersonas2", "Directorio")">Vista Contactos</a></li>
                     @*<li class="@Html.IsSelected(action: "Contacts2")"><a href="@Url.Action("Contacts2", "Directorio")">Personas v.2</a></li>
                     <li class="@Html.IsSelected(action: "Profile")"><a href="@Url.Action("Profile", "Directorio")">Perfil</a></li>
                     <li class="@Html.IsSelected(action: "Profile2")"><a href="@Url.Action("Profile2", "Directorio")">Perfil v.2</a></li>
@@ -51,15 +51,25 @@
 
                 </ul>
             </li>
+            <li class="@Html.IsSelected(controller: "AgendaCultural")">
+                <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label" data-i18n="nav.appviews">Agenda Cultural</span> </a>
+                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AgendaCultural", cssClass: "in")">
+                    <li class="@Html.IsSelected(action: "ListarActivos")"><a href="@Url.Action("ListarActivos", "AgendaCultural")">Activos</a></li>
+                    <li class="@Html.IsSelected(action: "ListarAmbientes")"><a href="@Url.Action("ListarAmbientes", "AgendaCultural")">Ambientes</a></li>
+                    <li class="@Html.IsSelected(action: "Calendario")"><a href="@Url.Action("Calendario", "AgendaCultural")">Calendario</a></li>
+                    <li class="@Html.IsSelected(action: "ReporteActividadesCulturales")"><a href="@Url.Action("ReporteActividadesCulturales", "AgendaCultural")">Reportes</a></li>
 
-            @*<li class="@Html.IsSelected(controller: "Mapa")">
+
+                </ul>
+            </li>
+                @*<li class="@Html.IsSelected(controller: "Mapa")">
                 <a href="@Url.Action("GoogleMaps", "Mapa")"><i class="fa fa-map-marker"></i> <span class="nav-label" data-i18n="nav.metrics">GoogleMaps</span> </a>
             </li>
 
             <li class="@Html.IsSelected(controller: "Tour")">
                 <a href="@Url.Action("Tour", "Tour")"><i class="fa fa-graduation-cap"></i> <span class="nav-label" data-i18n="nav.metrics">Tutorial</span> </a>
             </li>*@
-            @*<li class="@Html.IsSelected(controller: "Dashboards")">
+                @*<li class="@Html.IsSelected(controller: "Dashboards")">
                 <a href="@Url.Action("Dashboard_1", "Dashboards")"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Dashboards", cssClass: "in")">
                     <li class="@Html.IsSelected(action: "Dashboard_1")"><a href="@Url.Action("Dashboard_1", "Dashboards")">Dashboard v.1</a></li>
@@ -112,18 +122,18 @@
                     <li class="@Html.IsSelected(action: "Markdown")"><a href="@Url.Action("Markdown", "Forms")">Markdown</a></li>
                 </ul>
             </li>
-            <li class="@Html.IsSelected(controller: "AppViews")">
+            <li class="@Html.IsSelected(controller: "Vistas")">
                 <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label" data-i18n="nav.appviews">App Views</span>  <span class="pull-right label label-primary">SPECIAL</span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AppViews", cssClass: "in")">
                     <li class="@Html.IsSelected(action: "Contacts")"><a href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
-                    <li class="@Html.IsSelected(action: "Profile")"><a href="@Url.Action("Profile", "AppViews")">Profile</a></li>
-                    <li class="@Html.IsSelected(action: "Profile2")"><a href="@Url.Action("Profile2", "AppViews")">Profile v.2</a></li>
+                    <li class="@Html.IsSelected(action: "Profile")"><a href="@Url.Action("Profile", "AppViews")">Vista 1</a></li>
+                    <li class="@Html.IsSelected(action: "Profile2")"><a href="@Url.Action("Profile2", "AppViews")">Vista 2</a></li>
                     <li class="@Html.IsSelected(action: "Contacts2")"><a href="@Url.Action("Contacts2", "AppViews")">Contacts v.2</a></li>
                     <li class="@Html.IsSelected(action: "Projects")"><a href="@Url.Action("Projects", "AppViews")">Projects</a></li>
                     <li class="@Html.IsSelected(action: "ProjectDetail")"><a href="@Url.Action("ProjectDetail", "AppViews")">Project detail</a></li>
                     <li class="@Html.IsSelected(action: "ActivityStream")"><a href="@Url.Action("ActivityStream", "AppViews")">Activity stream</a></li>
                     <li class="@Html.IsSelected(action: "TeamsBoard")"><a href="@Url.Action("TeamsBoard", "AppViews")">Teams board</a></li>
-                    <li class="@Html.IsSelected(action: "SocialFeed")"><a href="@Url.Action("SocialFeed", "AppViews")">Social feed</a></li>
+                    <li class="@Html.IsSelected(action: "SocialFeed")"><a href="@Url.Action("SocialFeed", "AppViews")">Vista Social</a></li>
                     <li class="@Html.IsSelected(action: "Clients")"><a href="@Url.Action("Clients", "AppViews")">Clients</a></li>
                     <li class="@Html.IsSelected(action: "OutlookView")"><a href="@Url.Action("OutlookView", "AppViews")">Outlook view</a></li>
                     <li class="@Html.IsSelected(action: "VoteList")"><a href="@Url.Action("VoteList", "AppViews")">Vote list</a></li>
@@ -136,7 +146,7 @@
                     <li class="@Html.IsSelected(action: "Timeline")"><a href="@Url.Action("Timeline", "AppViews")">Timeline</a></li>
                     <li class="@Html.IsSelected(action: "PinBoard")"><a href="@Url.Action("PinBoard", "AppViews")">Pin board</a></li>
                 </ul>
-            </li>
+            </li>@*
             <li class="@Html.IsSelected(controller: "Pages")">
                 <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label" data-i18n="nav.otherpages">Other Pages</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Pages", cssClass: "in")">

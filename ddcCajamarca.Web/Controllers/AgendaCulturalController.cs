@@ -689,135 +689,6 @@ namespace ddcCajamarca.Web.Controllers
             }
         }
 
-        //[HttpGet]
-        //public ActionResult MostrarCalendario(String idAmbiente)
-        //{
-        //    var id = 0;
-
-        //    if (!String.IsNullOrEmpty(idAmbiente))
-        //    {
-        //        id = Int32.Parse(idAmbiente);
-
-        //        var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorIdAmbiente(id);
-
-        //        var tamb = Eventos.LongCount();
-
-        //        var contador = 0;
-
-        //        var titulo = new String[tamb];
-        //        var idEvento = new Int32[tamb];
-        //        var inicio = new DateTime[tamb];
-        //        var fin = new DateTime[tamb];
-        //        var tododia = new Boolean[tamb];
-        //        var color = new String[tamb];
-        //        var descripcion = new String[tamb];
-
-        //        foreach (var item in Eventos)
-        //        {
-        //            var detallerequerimientos = "";
-
-        //            foreach (var itemreq in item.DetalleRequerimientos)
-        //            {
-        //                detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
-        //            }
-
-        //            idEvento[contador] = item.Id;
-
-        //            titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
-
-        //            if (item.FechaFin.Date != item.FechaInicio.Date)
-        //            {
-        //                inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //                fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //            }
-        //            else
-        //            {
-        //                //tododia[contador] = item.TodoDia;
-        //                inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //                fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //                //color[contador] = item.Ambiente.ColorNombre;
-        //                //descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-        //            }
-
-        //            tododia[contador] = item.TodoDia;
-        //            color[contador] = item.Ambiente.ColorNombre;
-        //            descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-
-        //            contador++;
-        //        }
-
-        //        ViewBag.IdEvento = idEvento;
-        //        ViewBag.titulo = titulo;
-        //        ViewBag.inicio = inicio;
-        //        ViewBag.fin = fin;
-        //        ViewBag.tododia = tododia;
-        //        ViewBag.color = color;
-        //        ViewBag.descripcion = descripcion;
-
-        //        return PartialView("_MostrarCalendario");
-        //    }
-        //    else
-        //    {
-        //        var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorCriterio("");
-
-        //        var tamb = Eventos.LongCount();
-
-        //        var contador = 0;
-
-        //        var titulo = new String[tamb];
-        //        var idEvento = new Int32[tamb];
-        //        var inicio = new DateTime[tamb];
-        //        var fin = new DateTime[tamb];
-        //        var tododia = new Boolean[tamb];
-        //        var color = new String[tamb];
-        //        var descripcion = new String[tamb];
-
-        //        foreach (var item in Eventos)
-        //        {
-        //            var detallerequerimientos = "";
-
-        //            foreach (var itemreq in item.DetalleRequerimientos)
-        //            {
-        //                detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
-        //            }
-
-        //            idEvento[contador] = item.Id;
-
-        //            titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
-
-        //            if (item.FechaFin.Date != item.FechaInicio.Date)
-        //            {
-        //                inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //                fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //            }
-        //            else
-        //            {
-        //                //tododia[contador] = item.TodoDia;
-        //                inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //                fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //                //color[contador] = item.Ambiente.ColorNombre;
-        //                //descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-        //            }
-
-        //            tododia[contador] = item.TodoDia;
-        //            color[contador] = item.Ambiente.ColorNombre;
-        //            descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-
-        //            contador++;
-        //        }
-
-        //        ViewBag.IdEvento = idEvento;
-        //        ViewBag.titulo = titulo;
-        //        ViewBag.inicio = inicio;
-        //        ViewBag.fin = fin;
-        //        ViewBag.tododia = tododia;
-        //        ViewBag.color = color;
-        //        ViewBag.descripcion = descripcion;
-
-        //        return PartialView("_MostrarCalendario");
-        //    }
-        //}
-
         [HttpGet]
         public ActionResult ListarAmbientes(String Tp)
         {
@@ -1124,7 +995,65 @@ namespace ddcCajamarca.Web.Controllers
         [HttpGet]
         public ActionResult ReporteActividadesCulturales()
         {
-            var result = eventoEnsayoService.ObtenerEventoEnsayoPorCriterioYFechas("", DateTime.Today, DateTime.Today);
+            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Today, DateTime.Today.AddDays(5));
+
+            List<DetalleHorasEvento> dia1 = new List<DetalleHorasEvento>();
+            List<DetalleHorasEvento> dia2 = new List<DetalleHorasEvento>();
+            List<DetalleHorasEvento> dia3 = new List<DetalleHorasEvento>();
+            List<DetalleHorasEvento> dia4 = new List<DetalleHorasEvento>();
+            List<DetalleHorasEvento> dia5 = new List<DetalleHorasEvento>();
+
+            var salas = ambienteService.ObtenerAmbientePorCriterio("");
+
+            var arraysalas = new String[salas.Count()];
+            var arraydetallesalas = new String[6];
+            var contsalas = 0;
+
+            var matriz = new String[salas.Count(), 6];
+
+            foreach (var item in salas)
+            {
+                matriz[contsalas, 0] = item.Nombre;
+                contsalas++;
+            }
+
+            foreach (var item in result)
+            {
+                for (int i = 0; i < salas.Count(); i++)
+                {
+                    if (item.EventoEnsayo.Ambiente.Nombre == matriz[i, 0])
+                    {
+                        if (item.FechaInicio.Day == DateTime.Today.AddDays(0).Day)
+                        {
+                            //dia1.Add(item);
+                            matriz[i, 1] = matriz[i, 1] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                        }
+                        else if (item.FechaInicio.Day == DateTime.Today.AddDays(1).Day)
+                        {
+                            //dia2.Add(item);
+                            matriz[i, 2] = matriz[i, 2] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                        }
+                        else if (item.FechaInicio.Day == DateTime.Today.AddDays(2).Day)
+                        {
+                            //dia3.Add(item);
+                            matriz[i, 3] = matriz[i, 3] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                        }
+                        else if (item.FechaInicio.Day == DateTime.Today.AddDays(3).Day)
+                        {
+                            //dia4.Add(item);
+                            matriz[i, 4] = matriz[i, 4] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                        }
+                        else if (item.FechaInicio.Day == DateTime.Today.AddDays(4).Day)
+                        {
+                            //dia5.Add(item);
+                            matriz[i, 5] = matriz[i, 5] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                        }
+                    }
+                }
+            }
+            
+            ViewBag.detalle = matriz;
+            
 
             return View(result);
         }

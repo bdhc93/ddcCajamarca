@@ -65,5 +65,10 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Datos
         {
             eventoEnsayoRepository.EliminarDetalleEventoEnsayo(id);
         }
+
+        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin)
+        {
+            return eventoEnsayoRepository.ObtenerDetalleHorasEventoPorFecha(fechaini, fechafin);
+        }
     }
 }

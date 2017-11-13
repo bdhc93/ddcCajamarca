@@ -3,3 +3,9 @@ D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\bin\Release\ddcCajamarca.Models.pdb
 D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.csproj.CoreCompileInputs.cache
 D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.dll
 D:\Inc\2017\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\bin\Release\ddcCajamarca.Models.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\bin\Release\ddcCajamarca.Models.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.csprojResolveAssemblyReference.cache
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.csproj.CoreCompileInputs.cache
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.Models\obj\Release\ddcCajamarca.Models.pdb
