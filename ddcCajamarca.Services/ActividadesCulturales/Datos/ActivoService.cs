@@ -40,5 +40,10 @@ namespace ddcCajamarca.Services.ActividadesCulturales.Datos
         {
             return activoRepository.ObtenerActivoPorId(id);
         }
+        
+        public IEnumerable<Activo> ObtenerActivoSinUsoPorFechas(DateTime fechaini, DateTime fechafin)
+        {
+            return activoRepository.ObtenerActivoSinUsoPorFechas(fechaini, fechafin);
+        }
     }
 }

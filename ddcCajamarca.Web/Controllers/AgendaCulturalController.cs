@@ -111,19 +111,21 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.opcTodoDia = "True";
                 ViewBag.HoraInicio = "00:00";
                 ViewBag.HoraFin = "23:59";
+                ViewBag.Activos = activoService.ObtenerActivoSinUsoPorFechas(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin));
             }
             else
             {
                 ViewBag.opcTodoDia = "False";
                 ViewBag.HoraInicio = HoraIni;
                 ViewBag.HoraFin = HoraFin;
+                ViewBag.Activos = activoService.ObtenerActivoSinUsoPorFechas(DateTime.Parse(FechaIni + " " + HoraIni), DateTime.Parse(FechaFin + " " + HoraFin));
             }
 
             ViewBag.IdAmbiente = idAmbientes;
             ViewBag.Ambiente = ambienteService.ObtenerAmbientePorId(idAmbientes).NombreMostrar;
-            ViewBag.Activos = activoService.ObtenerActivoPorCriterio("");
+            //ViewBag.Activos = activoService.ObtenerActivoPorCriterio("");
 
-            ViewBag.EventosAuto = DataEventosAutocomplete(idAmbientes);
+            ViewBag.EventosAuto = DataEventosAutocomplete(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin));
 
             return View();
         }
@@ -132,6 +134,9 @@ namespace ddcCajamarca.Web.Controllers
         public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo)
         {
             EventoEnsayo eventoguardar;
+
+            evento.NombreActividad = evento.NombreActividad.Replace(char.ConvertFromUtf32(34), "'");
+            evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
 
             if (opcTodoDia)
             {
@@ -281,6 +286,9 @@ namespace ddcCajamarca.Web.Controllers
         public ActionResult ModificarRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, String HoraIni, String HoraFin, Boolean Eventotipo, Boolean opcTodoDia)
         {
             EventoEnsayo eventoguardar;
+
+            evento.NombreActividad = evento.NombreActividad.Replace(char.ConvertFromUtf32(34), "'");
+            evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
 
             if (opcTodoDia)
             {
@@ -712,7 +720,16 @@ namespace ddcCajamarca.Web.Controllers
                 }
                 else
                 {
-                    eventoEnsayoService.EliminarDetalleEventoEnsayo(idelimdet);
+                    var evento = eventoEnsayoService.ObtenerEventoEnsayoPorId(idelim);
+
+                    if (evento.DetalleHorasEventos.Count > 1)
+                    {
+                        eventoEnsayoService.EliminarDetalleEventoEnsayo(idelimdet);
+                    }
+                    else
+                    {
+                        eventoEnsayoService.EliminarEventoEnsayo(idelim);
+                    }
                 }
             }
             catch (Exception)
@@ -928,15 +945,15 @@ namespace ddcCajamarca.Web.Controllers
         }
 
 
-        private string DataEventosAutocomplete(Int32 idbus)
+        private string DataEventosAutocomplete(DateTime Fechaini, DateTime FechaFin)
         {
-            var eventos = eventoEnsayoService.ObtenerEventoEnsayoPorIdAmbiente(idbus);
+            var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechaini, FechaFin);
 
             var eventosarray = "";
 
             foreach (var item in eventos)
             {
-                eventosarray = eventosarray + "'" + item.NombreActividad + "'" + ",";
+                eventosarray = eventosarray + "'" + item.EventoEnsayo.NombreActividad + "'" + ",";
             }
 
             eventosarray = "[" + eventosarray + "'" + "'" + "]";

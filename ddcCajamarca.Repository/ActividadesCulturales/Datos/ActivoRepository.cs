@@ -42,5 +42,20 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             return Context.Activos.Find(id);
         }
+
+        public IEnumerable<Activo> ObtenerActivoSinUsoPorFechas(DateTime fechaini, DateTime fechafin)
+        {
+            var query = from p in Context.Activos
+                        select p;
+            
+            var querydetalle = from p in Context.DetalleRequerimientos.Include("EventoEnsayo")
+                               select p;
+
+            querydetalle = from p in querydetalle
+                           where p.EventoEnsayo.FechaInicio <= fechaini && p.EventoEnsayo.FechaFin >= fechafin
+                           select p;
+
+            return query.ToList();
+        }
     }
 }

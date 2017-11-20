@@ -8,6 +8,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Interfaces
     {
         Activo ObtenerActivoPorId(Int32 id);
         IEnumerable<Activo> ObtenerActivoPorCriterio(String criterio);
+        IEnumerable<Activo> ObtenerActivoSinUsoPorFechas(DateTime fechaini, DateTime fechafin);
 
         void GuardarActivo(Activo activo);
         void ModificarActivo(Activo activo);
