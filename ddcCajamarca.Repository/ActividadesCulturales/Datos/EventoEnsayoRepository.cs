@@ -74,8 +74,8 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             }
             else
             {
-                var fechainirest = fechaIni.AddDays(-5);
-                var fechainipost = fechaIni.AddDays(5);
+                var fechainirest = fechaIni.AddDays(0);
+                var fechainipost = fechaIni.AddDays(2);
                 query = from p in query
                         where p.FechaInicio <= fechaIni && p.FechaFin >= fechaIni || p.FechaInicio >= fechainirest && p.FechaFin <= fechainipost
                         select p;

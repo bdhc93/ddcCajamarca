@@ -23,6 +23,74 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult ValidadFechaNuevo(Int32 idAmbientes, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin)
+        {
+            var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"));
+
+            DateTime FechaIniFind;
+            DateTime FechaFinFind;
+
+            if (opcTodoDia)
+            {
+                FechaIniFind = DateTime.Parse(FechaIni);
+                FechaFinFind = DateTime.Parse(FechaIni);
+            }
+            else
+            {
+                FechaIniFind = DateTime.Parse(FechaIni + " " + HoraIni);
+                FechaFinFind = DateTime.Parse(FechaFin + " " + HoraFin);
+            }
+
+            var encontrado = false;
+
+            foreach (var item in eventos)
+            {
+                if (item.EventoEnsayo.IdAmbiente == idAmbientes)
+                {
+                    if (item.EventoEnsayo.TodoDia)
+                    {
+                        encontrado = true;
+                        break;
+                    }
+                    else
+                    {
+                        if (item.FechaInicio.Hour <= FechaFinFind.Hour && item.FechaFin.Hour >= FechaIniFind.Hour)
+                        {
+                            if (item.FechaInicio.Hour == FechaFinFind.Hour)
+                            {
+                                if (item.FechaInicio.Minute < FechaFinFind.Minute)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                            }
+                            else if (item.FechaFin.Hour == FechaIniFind.Hour)
+                            {
+                                if (item.FechaFin.Minute > FechaIniFind.Minute + 1)
+                                {
+                                    encontrado = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                encontrado = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (encontrado)
+            {
+                ViewBag.MSG = "ND";
+            }
+
+            return PartialView("_Mensaje");
+        }
+
+        [HttpGet]
         public ActionResult NuevoRegistro(Int32 idAmbientes, String OpcionEvento, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin)
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -190,67 +258,7 @@ namespace ddcCajamarca.Web.Controllers
                     eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
                 }
 
-                //if (evento.FechaInicio.Month == evento.FechaFin.Month)
-                //{
-                //    var fechainiguard = evento.FechaInicio;
-
-                //    for (int i = 0; i < dias; i++)
-                //    {
-                //        EventoEnsayo varios = new EventoEnsayo {
-                //            IdAmbiente = evento.IdAmbiente,
-                //            NombreActividad = evento.NombreActividad.ToUpper(),
-                //            InstitucionEncargada = evento.InstitucionEncargada.ToUpper(),
-                //            InformacionAdicional = evento.InformacionAdicional.ToUpper(),
-                //            TodoDia = opcTodoDia,
-                //            FechaInicio = DateTime.Parse(FechaInicio),
-                //            FechaFin = DateTime.Parse(FechaFin),
-                //            FechaRegistro = DateTime.Today,
-                //            Evento = Eventotipo
-                //        };
-
-                //        if (!String.IsNullOrEmpty(arryreq))
-                //        {
-                //            var encontrado = false;
-
-                //            String[] requerimientos = arryreq.Split(',');
-
-                //            foreach (var item in evento.DetalleRequerimientos)
-                //            {
-                //                foreach (var itemreq in requerimientos)
-                //                {
-                //                    if (item.IdActivo == Int32.Parse(itemreq))
-                //                    {
-                //                        encontrado = true;
-                //                        break;
-                //                    }
-                //                }
-
-                //                if (encontrado)
-                //                {
-                //                    DetalleRequerimiento agregardet = new DetalleRequerimiento { IdActivo = item.IdActivo, Cantidad = item.Cantidad, FechaRegistro = DateTime.Today };
-
-                //                    varios.DetalleRequerimientos.Add(agregardet);
-                //                    encontrado = false;
-                //                }
-                //            }
-                //        }
-
-                //        varios.FechaInicio = new DateTime(eventoguardar.FechaInicio.Year, eventoguardar.FechaInicio.Month, fechainiguard.Day + i, eventoguardar.FechaInicio.Hour, eventoguardar.FechaInicio.Minute, eventoguardar.FechaInicio.Millisecond);
-                //        varios.FechaFin = new DateTime(eventoguardar.FechaFin.Year, eventoguardar.FechaFin.Month, fechainiguard.Day + i, eventoguardar.FechaFin.Hour, eventoguardar.FechaFin.Minute, eventoguardar.FechaFin.Millisecond);
-
-                //        eventoEnsayoService.GuardarEventoEnsayo(varios);
-
-                //        //foreach (var item in eventoguardar.DetalleRequerimientos)
-                //        //{
-                //        //    item.Id = 0;
-                //        //    item.IdEventoEnsayo = 0;
-                //        //}
-                //        //eventoguardar.Id = 0;
-                //    }
-                //}
             }
-
-            //eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
 
             return Redirect(Url.Action("Calendario"));
         }
@@ -339,148 +347,9 @@ namespace ddcCajamarca.Web.Controllers
 
             eventoEnsayoService.ModificarEventoEnsayo(eventoguardar);
 
-            //if (opcTodoDia)
-            //{
-            //    DetalleHorasEvento detallehora = new DetalleHorasEvento
-            //    {
-            //        FechaInicio = DateTime.Parse(FechaInicio),
-            //        FechaFin = DateTime.Parse(FechaFin)
-            //    };
-
-            //    eventoguardar.DetalleHorasEventos.Add(detallehora);
-
-            //    eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
-            //}
-            //else
-            //{
-            //    var dias = (eventoguardar.FechaFin.Day - eventoguardar.FechaInicio.Day) + 1;
-
-            //    if (evento.FechaInicio.Month == evento.FechaFin.Month)
-            //    {
-            //        var fechainiguard = eventoguardar.FechaInicio;
-            //        var fechafinguard = eventoguardar.FechaFin;
-
-            //        for (int i = 0; i < dias; i++)
-            //        {
-            //            DetalleHorasEvento detallehora = new DetalleHorasEvento
-            //            {
-            //                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-            //                FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-            //            };
-
-            //            fechainiguard = fechainiguard.AddDays(1);
-
-            //            eventoguardar.DetalleHorasEventos.Add(detallehora);
-            //        }
-
-            //        eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
-            //    }
-            //    else
-            //    {
-            //        var fechainiguard = eventoguardar.FechaInicio;
-            //        var fechafinguard = eventoguardar.FechaFin;
-
-            //        for (int i = 0; i < 90; i++)
-            //        {
-            //            DetalleHorasEvento detallehora = new DetalleHorasEvento
-            //            {
-            //                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-            //                FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-            //            };
-
-            //            eventoguardar.DetalleHorasEventos.Add(detallehora);
-
-            //            if (fechainiguard >= DateTime.Parse(FechaFin))
-            //            {
-            //                break;
-            //            }
-            //            else
-            //            {
-            //                fechainiguard = fechainiguard.AddDays(1);
-            //            }
-            //        }
-
-            //        eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
-            //    }
-
-            //}
 
             return Redirect(Url.Action("Calendario"));
         }
-
-        //[HttpGet]
-        //public ActionResult Calendario()
-        //{
-        //    ViewBag.FechaHoy = FechaHoy();
-
-        //    ViewBag.Ambientes = ambienteService.ObtenerAmbientePorCriterio("");
-
-        //    var Eventos = eventoEnsayoService.ObtenerEventoEnsayoPorCriterio("");
-
-        //    var tamb = Eventos.LongCount();
-
-        //    var contador = 0;
-
-        //    var titulo = new String[tamb];
-        //    var idEvento = new Int32[tamb];
-        //    var inicio = new DateTime[tamb];
-        //    var fin = new DateTime[tamb];
-        //    var tododia = new Boolean[tamb];
-        //    var color = new String[tamb];
-        //    var descripcion = new String[tamb];
-
-        //    foreach (var item in Eventos)
-        //    {
-        //        var detallerequerimientos = "";
-
-        //        foreach (var itemreq in item.DetalleRequerimientos)
-        //        {
-        //            detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
-        //        }
-
-        //        idEvento[contador] = item.Id;
-
-        //        if (item.Evento)
-        //        {
-        //            titulo[contador] = item.Ambiente.Nombre + ": " + item.NombreActividad + " - " + item.InstitucionEncargada;
-        //        }
-        //        else
-        //        {
-        //            titulo[contador] = item.Ambiente.Nombre + ": ENSAYO - " + item.NombreActividad + " - " + item.InstitucionEncargada;
-        //        }
-
-
-        //        if (item.FechaFin.Date != item.FechaInicio.Date)
-        //        {
-        //            inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //            fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //        }
-        //        else
-        //        {
-        //            //tododia[contador] = item.TodoDia;
-        //            inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-        //            fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-        //            //color[contador] = item.Ambiente.ColorNombre;
-        //            //descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-        //        }
-
-        //        tododia[contador] = item.TodoDia;
-        //        color[contador] = item.Ambiente.ColorNombre;
-        //        descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.InformacionAdicional;
-
-        //        contador++;
-        //    }
-
-        //    ViewBag.titulo = titulo;
-        //    ViewBag.IdEvento = idEvento;
-        //    ViewBag.inicio = inicio;
-        //    ViewBag.fin = fin;
-        //    ViewBag.tododia = tododia;
-        //    ViewBag.color = color;
-        //    ViewBag.descripcion = descripcion;
-
-        //    return View();
-        //}
 
         [HttpGet]
         public ActionResult Calendario()
@@ -1051,9 +920,9 @@ namespace ddcCajamarca.Web.Controllers
                     }
                 }
             }
-            
+
             ViewBag.detalle = matriz;
-            
+            ViewBag.salas = salas.Count();
 
             return View(result);
         }
@@ -1171,11 +1040,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Day + "/0" + DateTime.Now.Month + "/" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Day + "/0" + DateTime.Now.Month + "/" + DateTime.Now.Year;
                 }
 
             }
@@ -1183,11 +1052,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year;
                 }
             }
 

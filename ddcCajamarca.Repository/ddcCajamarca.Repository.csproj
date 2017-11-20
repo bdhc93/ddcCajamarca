@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Directorio.sql" />
+    <Content Include="Data\Eventos.sql" />
     <Content Include="Data\Procedimientos.sql" />
   </ItemGroup>
   <ItemGroup />

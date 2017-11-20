@@ -53,64 +53,63 @@
                 </div>
 
                 <div class="ibox-content">
-                    <form action="@Url.Action("NuevoRegistro", "AgendaCultural")" method="get">
-                        <div class="form-group col-lg-6">
-                            <label class="control-label">Seleccionar</label>
-                            @Html.DropDownList("idAmbientes", Ambientes, "--Seleccionar--", new { @class = "form-control" })
+                    <div class="form-group col-lg-6">
+                        <label class="control-label">Seleccionar</label>
+                        @Html.DropDownList("idAmbientes", Ambientes, "--Seleccionar--", new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label class="control-label">Seleccionar</label>
+                        <select class="form-control" id="idopcion" name="OpcionEvento">
+                            <option>Evento</option>
+                            <option>Ensayo</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-6" id="calendario">
+                        <label>Fecha Inicio</label>
+                        <div class="input-group date">
+                            <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label class="control-label">Seleccionar</label>
-                            <select class="form-control" id="idopcion" name="OpcionEvento">
-                                <option>Evento</option>
-                                <option>Ensayo</option>
-                            </select>
+                    </div>
+                    <div class="form-group col-lg-6" id="calendario2">
+                        <label>Fecha Fin</label>
+                        <div class="input-group date">
+                            <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
-                        <div class="form-group col-lg-6" id="calendario">
-                            <label>Fecha Inicio</label>
-                            <div class="input-group date">
-                                <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-6" id="calendario2">
-                            <label>Fecha Fin</label>
-                            <div class="input-group date">
-                                <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="form-group col-sm-2">
-                            <label>Todo el día</label>
-                            <div class="input-group">
-                                <input id="TodoDia" type="checkbox" class="js-switch" />
-                            </div>
+                    <div class="form-group col-sm-2">
+                        <label>Todo el día</label>
+                        <div class="input-group">
+                            <input id="TodoDia" type="checkbox" class="js-switch" />
                         </div>
+                    </div>
 
-                        <div class="form-group col-sm-5">
-                            <label>Hora Incio</label>
-                            <div class="input-group clockpicker" data-autoclose="true">
-                                <input type="text" id="horaini" name="HoraIni" class="form-control" value="09:30">
-                                <span class="input-group-addon">
-                                    <span class="fa fa-clock-o"></span>
-                                </span>
-                            </div>
+                    <div class="form-group col-sm-5">
+                        <label>Hora Incio</label>
+                        <div class="input-group clockpicker" data-autoclose="true">
+                            <input type="text" id="horaini" name="HoraIni" class="form-control" value="09:30">
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
                         </div>
-                        <div class="form-group col-sm-5">
-                            <label>Hora Fin</label>
-                            <div class="input-group clockpicker" data-autoclose="true">
-                                <input type="text" id="horafin" name="HoraFin" class="form-control" value="12:00">
-                                <span class="input-group-addon">
-                                    <span class="fa fa-clock-o"></span>
-                                </span>
-                            </div>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label>Hora Fin</label>
+                        <div class="input-group clockpicker" data-autoclose="true">
+                            <input type="text" id="horafin" name="HoraFin" class="form-control" value="12:00">
+                            <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                            </span>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label>*Todos los campos son obligatorios para la creación del evento.</label>
-                        </div>
-                        <div class="text-right">
-                            <input hidden type="text" name="opcTodoDia" id="opcTodoDia" value="false" />
-                            <button class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" disabled type="submit"><strong>Nuevo</strong></button>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>*Todos los campos son obligatorios para la creación del evento.</label>
+                    </div>
+                    <div class="text-right">
+                        <input hidden type="text" name="opcTodoDia" id="opcTodoDia" value="false" />
+                        <button class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" disabled onclick="nuevoregistro()"><strong>Nuevo</strong></button>
+                        @*<a href="#" class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" onclick="nuevoregistro()">Nuevo</a>*@
+                    </div>
                 </div>
 
             </div>
@@ -163,6 +162,7 @@
     @Styles.Render("~/plugins/switcheryStyles")
     @Styles.Render("~/Scripts/plugins/jquery-qtip/jqueryqtipStyles")
     @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/toastrStyles")
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
@@ -173,17 +173,50 @@
     @Scripts.Render("~/plugins/dataPicker")
     @Scripts.Render("~/plugins/switchery")
     @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/toastr")
 
     <script type="text/javascript">
 
         function modificarregistro() {
-            //$.get("ModificarRegistro", {
-            //    idMod: $('#txtIdMod').val(),
-            //    IdModDet: $('#txtIdModDetalle').val(),
-            //    todo: $('#InfoTodo').val()
-            //});
             window.location.href = "ModificarRegistro?idMod=" + $('#txtIdMod').val() + "&IdModDet=" + $('#txtIdModDetalle').val() + "&todo=" + $('#InfoTodo').val();
         };
+
+        function nuevoregistro() {
+
+            $.get("ValidadFechaNuevo", {
+                'idAmbientes': $('#idAmbientes').val(),
+                'FechaIni': $('#FechaIni').val(),
+                'FechaFin': $('#FechaFin').val(),
+                'HoraIni': $('#horaini').val(),
+                'HoraFin': $('#horafin').val(),
+                'opcTodoDia': $('#opcTodoDia').val()
+            })
+                .done(function (response) {
+                    $('#Detalle').html(response);
+                    if (msg == 'ND') {
+                        toastr.error('No se puede ingresar.', 'Incorrecto.');
+                    } else {
+                        //toastr.success('Activo añadido.', 'Correcto.');
+                        window.location.href = "NuevoRegistro?idAmbientes=" + $('#idAmbientes').val()
+                            + "&OpcionEvento=" + $('#idopcion').val()
+                            + "&FechaIni=" + $('#FechaIni').val()
+                            + "&FechaFin=" + $('#FechaFin').val()
+                            + "&HoraIni=" + $('#horaini').val()
+                            + "&HoraFin=" + $('#horafin').val()
+                            + "&opcTodoDia=" + $('#opcTodoDia').val();
+                    }
+                });
+
+            //window.location.href = "NuevoRegistro?idAmbientes=" + $('#idAmbientes').val()
+            //    + "&OpcionEvento=" + $('#idopcion').val()
+            //    + "&FechaIni=" + $('#FechaIni').val()
+            //    + "&FechaFin=" + $('#FechaFin').val()
+            //    + "&HoraIni=" + $('#horaini').val()
+            //    + "&HoraFin=" + $('#horafin').val()
+            //    + "&opcTodoDia=" + $('#opcTodoDia').val();
+
+
+        }
 
         function abrirmodalelim() {
             //$('#modal_modificar').modal('toggle');
@@ -198,7 +231,7 @@
                 closeOnConfirm: false,
                 closeOnCancel: true
             },
-                
+
             function () {
 
                 $.get("EliminarEventoEnsayo", { idelim: $('#txtIdMod').val(), idelimdet: $('#txtIdModDetalle').val(), todo: $('#InfoTodo').val() }).done(function (data) {
@@ -232,10 +265,29 @@
 
             var idAmbiente = $('#idAmbientes').val();
 
+            if ($('#idAmbientes').val() == "") {
+                document.getElementById("btnnuevo").disabled = true;
+                console.log(true);
+            } else {
+                document.getElementById("btnnuevo").disabled = false;
+                console.log(false);
+            }
+
             $.get("MostrarCalendario", { 'idAmbiente': idAmbiente })
                 .done(function (resultado) {
                     $("#calendarioporsala").html(resultado);
                 })
+        });
+
+        $("#horaini").change(function (e) {
+            $("#horafin").val($("#horaini").val());
+        });
+
+        $("#horafin").change(function (e) {
+            //$("#horafin").val($("#horaini").val());
+            //var hourini = Date.parse($("#horaini").val());
+            //var hourfin = Date.parse($("#horafin").val());
+            //console.log(hourini + " - " + hourini);
         });
 
         var elem = document.querySelector('.js-switch');
@@ -277,14 +329,6 @@
             //$('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
         });
 
-        $('#idAmbientes').change(function () {
-            if ($('#idAmbientes').val() == "") {
-                document.getElementById("btnnuevo").disabled = true;
-            } else {
-                document.getElementById("btnnuevo").disabled = false;
-            }
-        });
-
         $('#TodoDia').change(function () {
             if ($(this).is(":checked")) {
                 document.getElementById("horaini").disabled = true;
@@ -322,7 +366,7 @@
                         style: 'qtip-light',
                         position: {
                             target: 'mouse', // Sige Movimiento Mouse
-                            adjust: { x: 5, y: 5 } 
+                            adjust: { x: 5, y: 5 }
                         }
                     });
                 },
@@ -331,7 +375,7 @@
                     //console.log(ideve.eventoId);
                     //$(this).css('border-color', 'red');
                     //
-                    
+
                     $.get("OBtenerEventoPorId", { 'Id': ideve.eventoId })
                         .done(function (response) {
                             $('#Detalle_Modificar').html(response);
@@ -361,14 +405,14 @@
                     $('#calendar').fullCalendar('changeView', 'agendaDay', date.format());
                 }
             });
-            
+
         var tituloeventos = JSON.parse('@Html.Raw(tituloeventos)');
         var inicioeventos = JSON.parse('@Html.Raw(inicioeventos)');
         var fineventos = JSON.parse('@Html.Raw(fineventos)');
         var tododiaeventos = JSON.parse('@Html.Raw(tododiaeventos)');
         var coloreventos = JSON.parse('@Html.Raw(coloreventos)');
         var descripcioneventos = JSON.parse('@Html.Raw(descripcioneventos)');
-        var idEventos = JSON.parse('@Html.Raw(idEventos)'); 
+        var idEventos = JSON.parse('@Html.Raw(idEventos)');
 
         tituloeventos.forEach(function (entry, index) {
 
@@ -382,7 +426,7 @@
                 allDay: tododiaeventos[index],
                 color: coloreventos[index],
                 description: descripcioneventos[index],
-                data: function () { 
+                data: function () {
                     return {
                         eventoId: idEventos[index],
                     };
@@ -392,7 +436,7 @@
         });
 
         });
-        
+
 
     </script>
 }
