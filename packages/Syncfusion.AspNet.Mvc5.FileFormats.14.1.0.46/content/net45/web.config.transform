@@ -1,0 +1,30 @@
+<configuration>
+	<system.web>
+		<httpHandlers>
+			<add verb="*" path="captimage.axd" type="Syncfusion.JavaScript.ImageHandler, Syncfusion.EJ, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+		</httpHandlers>
+		<compilation>
+			<assemblies>
+				<add assembly="Syncfusion.DocToPDFConverter.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.ExcelToPDFConverter.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.PresentationToPDFConverter.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.HtmlConverter.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.OfficeChartToImageConverter.WPF, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.ExcelChartToImageConverter.WPF, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.SfChart.WPF, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.Shared.WPF, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+</assemblies>
+		</compilation>
+		<pages>
+			<namespaces>
+			</namespaces>
+		</pages>
+	</system.web>
+	<system.webServer>
+		<validation validateIntegratedModeConfiguration="false"/>
+		<modules runAllManagedModulesForAllRequests="true"/>
+		<handlers>
+			<add verb="*" path="captimage.axd" name="syncfusion_generatetools" type="Syncfusion.JavaScript.ImageHandler, Syncfusion.EJ, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+		</handlers>
+	</system.webServer>
+</configuration>

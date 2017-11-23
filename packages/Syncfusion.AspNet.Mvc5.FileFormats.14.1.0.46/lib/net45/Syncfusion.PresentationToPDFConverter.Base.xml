@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Syncfusion.PresentationToPdfConverter.Base</name>
+    </assembly>
+    <members>
+        <member name="M:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverter.Convert(Syncfusion.Presentation.IPresentation)">
+            <summary>
+            Converts the Presentation to PDF document.
+            </summary>
+            <param name="presentation">Represents the presentation instance.</param>
+            <returns>pdfdcoument instance</returns>
+        </member>
+        <member name="M:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverter.Convert(Syncfusion.Presentation.IPresentation,Syncfusion.PresentationToPdfConverter.PresentationToPdfConverterSettings)">
+            <summary>
+            Converts the Presentation to PDF document.
+            </summary>
+            <param name="presentation">Represents the presentation instance.</param>
+            <param name="settings">Represents the converter settings instance.</param>
+            <returns>pdfdcoument instance</returns>
+        </member>
+        <member name="M:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverter.Convert(Syncfusion.Presentation.ISlide)">
+            <summary>
+            Converts the Slide to PDF document.
+            </summary>
+            <param name="slide">Represents the slide instance.</param>
+            <returns>pdfdcoument instance</returns>
+        </member>
+        <member name="T:Syncfusion.PresentationToPdfConverter.SlidesPerPage">
+            <summary>
+            Specifies the Slides per page
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.One">
+            <summary>
+            Specifies the one Slide per page.
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.Two">
+            <summary>
+            Specifies the two Slides per page.
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.Three">
+            <summary>
+            Specifies the three Slides per page.
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.Four">
+            <summary>
+            Specifies the four Slides per page.
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.Six">
+            <summary>
+            Specifies the six Slides per page.
+            </summary>
+        </member>
+        <member name="F:Syncfusion.PresentationToPdfConverter.SlidesPerPage.Nine">
+            <summary>
+            Specifies the nine Slides per page.
+            </summary>
+        </member>
+        <member name="M:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverterSettings.#ctor">
+            <summary>
+            Intialize the new instance of presentation to pdfConverter settings.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverterSettings.SlidesPerPage">
+            <summary>
+            Gets or Sets the slides per page
+            </summary>
+        </member>
+        <member name="P:Syncfusion.PresentationToPdfConverter.PresentationToPdfConverterSettings.ShowHiddenSlides">
+            <summary>
+            Indicates whether to export hidden slides or not.
+            </summary>
+        </member>
+    </members>
+</doc>

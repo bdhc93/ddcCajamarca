@@ -1,0 +1,27 @@
+<configuration>
+	<system.web>
+		<httpHandlers>
+			<add verb="*" path="captimage.axd" type="Syncfusion.JavaScript.ImageHandler, Syncfusion.EJ, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+		</httpHandlers>
+		<compilation>
+			<assemblies>
+				<add assembly="Syncfusion.Compression.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.XlsIO.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.Pdf.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.DocIO.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+				<add assembly="Syncfusion.OfficeChart.Base, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+</assemblies>
+		</compilation>
+		<pages>
+			<namespaces>
+			</namespaces>
+		</pages>
+	</system.web>
+	<system.webServer>
+		<validation validateIntegratedModeConfiguration="false"/>
+		<modules runAllManagedModulesForAllRequests="true"/>
+		<handlers>
+			<add verb="*" path="captimage.axd" name="syncfusion_generatetools" type="Syncfusion.JavaScript.ImageHandler, Syncfusion.EJ, Version=14.1450.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89"/>
+		</handlers>
+	</system.webServer>
+</configuration>

@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Syncfusion.XlsIO;
 using System.Web.Mvc;
 using ddcCajamarca.Services.ActividadesCulturales.Interfaces;
 using ddcCajamarca.Models;
@@ -881,25 +882,21 @@ namespace ddcCajamarca.Web.Controllers
         [HttpGet]
         public ActionResult ReporteActividadesCulturales()
         {
+            ViewBag.FechaHoy = FechaHoy();
+
             var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Today, DateTime.Today.AddDays(5));
-
-            List<DetalleHorasEvento> dia1 = new List<DetalleHorasEvento>();
-            List<DetalleHorasEvento> dia2 = new List<DetalleHorasEvento>();
-            List<DetalleHorasEvento> dia3 = new List<DetalleHorasEvento>();
-            List<DetalleHorasEvento> dia4 = new List<DetalleHorasEvento>();
-            List<DetalleHorasEvento> dia5 = new List<DetalleHorasEvento>();
-
+            
             var salas = ambienteService.ObtenerAmbientePorCriterio("");
-
-            var arraysalas = new String[salas.Count()];
-            var arraydetallesalas = new String[6];
+            
             var contsalas = 0;
 
             var matriz = new String[salas.Count(), 6];
+            var matriz2 = new String[salas.Count(), 6];
 
             foreach (var item in salas)
             {
                 matriz[contsalas, 0] = item.Nombre;
+                matriz2[contsalas, 0] = item.Nombre;
                 contsalas++;
             }
 
@@ -913,37 +910,222 @@ namespace ddcCajamarca.Web.Controllers
                         {
                             //dia1.Add(item);
                             matriz[i, 1] = matriz[i, 1] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                            matriz2[i, 1] = matriz2[i, 1] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(1).Day)
                         {
                             //dia2.Add(item);
                             matriz[i, 2] = matriz[i, 2] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                            matriz2[i, 2] = matriz2[i, 2] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(2).Day)
                         {
                             //dia3.Add(item);
                             matriz[i, 3] = matriz[i, 3] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                            matriz2[i, 3] = matriz2[i, 3] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(3).Day)
                         {
                             //dia4.Add(item);
                             matriz[i, 4] = matriz[i, 4] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                            matriz2[i, 4] = matriz2[i, 4] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(4).Day)
                         {
                             //dia5.Add(item);
                             matriz[i, 5] = matriz[i, 5] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
+                            matriz2[i, 5] = matriz2[i, 5] + "Actividad:  " + item.EventoEnsayo.NombreActividad + "\n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                     }
                 }
             }
+            
+
+            //using (ExcelEngine excelEngine = new ExcelEngine())
+            //{
+            //    //Set the default application version as Excel 2016.
+            //    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
+
+            //    //Create a workbook with a worksheet.
+            //    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+
+            //    //Access first worksheet from the workbook instance.
+            //    IWorksheet worksheet = workbook.Worksheets[0];
+
+            //    worksheet.Range["B1:F1"].ColumnWidth = 40;
+
+            //    //worksheet.Range["A1:C1"].AutofitColumns();
+
+            //    //worksheet.Range["A2:A5"].AutofitRows();
+
+            //    //Insert sample text into cell “A1”.
+            //    //worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
+
+            //    worksheet.Range["A1"].Text = matriz2[9, 0];
+            //    worksheet.Range["B1"].Text = matriz2[9, 1];
+            //    worksheet.Range["C1"].Text = matriz2[9, 2];
+            //    worksheet.Range["D1"].Text = matriz2[9, 3];
+            //    worksheet.Range["E1"].Text = matriz2[9, 4];
+            //    worksheet.Range["F1"].Text = matriz2[9, 5];
+
+            //    worksheet.Range["A1"].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+
+            //    worksheet.Range["B1:F1"].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
+
+            //    //Save the workbook to disk in xlsx format.
+            //    workbook.SaveAs("Sample.xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
+            //}
 
             ViewBag.detalle = matriz;
             ViewBag.salas = salas.Count();
+            ViewBag.nombresalas = salas;
 
             return View(result);
         }
 
+        [HttpPost]
+        public ActionResult GenerateDocument(String FechaIni, String FechaFin, String[] salas, String Formato)
+        {
+            if (Formato == "Excel")
+            {
+                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"));
+
+                var ambientes = ambienteService.ObtenerAmbientePorCriterio("");
+
+                var contsalas = 0;
+
+                var matriz = new String[salas.Count(), 6];
+
+                foreach (var item in ambientes)
+                {
+                    for (int i = 0; i < salas.Count(); i++)
+                    {
+                        if (item.Id == Int32.Parse(salas[i]))
+                        {
+                            matriz[contsalas, 0] = item.Nombre;
+                            contsalas++;
+                            break;
+                        }
+                    }
+                }
+
+                foreach (var item in result)
+                {
+                    for (int i = 0; i < salas.Count(); i++)
+                    {
+                        if (item.EventoEnsayo.Ambiente.Nombre == matriz[i, 0])
+                        {
+                            if (item.FechaInicio.Day == DateTime.Parse(FechaIni).Day)
+                            {
+                                matriz[i, 1] = matriz[i, 1] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                            }
+                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(1).Day)
+                            {
+                                matriz[i, 2] = matriz[i, 2] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                            }
+                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(2).Day)
+                            {
+                                matriz[i, 3] = matriz[i, 3] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                            }
+                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(3).Day)
+                            {
+                                matriz[i, 4] = matriz[i, 4] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                            }
+                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(4).Day)
+                            {
+                                matriz[i, 5] = matriz[i, 5] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                            }
+                        }
+                    }
+                }
+
+                using (ExcelEngine excelEngine = new ExcelEngine())
+                {
+                    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
+                    
+                    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+                    
+                    IWorksheet worksheet = workbook.Worksheets[0];
+
+                    worksheet.Range["B1:F1"].ColumnWidth = 40;
+
+                    //worksheet.Range["A1:C1"].AutofitColumns();
+
+                    //worksheet.Range["A2:A5"].AutofitRows();
+
+                    //Insert sample text into cell “A1”.
+                    //worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
+
+                    for (int i = 0; i < contsalas; i++)
+                    {
+                        worksheet.Range["A" + (i + 2)].Text = matriz[i, 0];
+                        worksheet.Range["B" + (i + 2)].Text = matriz[i, 1];
+                        worksheet.Range["C" + (i + 2)].Text = matriz[i, 2];
+                        worksheet.Range["D" + (i + 2)].Text = matriz[i, 3];
+                        worksheet.Range["E" + (i + 2)].Text = matriz[i, 4];
+                        worksheet.Range["F" + (i + 2)].Text = matriz[i, 5];
+                        worksheet.Range["A" + (i + 2) + ":I" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
+                        worksheet.Range["A" + (i + 2) + ":I" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+                    }
+
+                    worksheet.Range["A1"].Text = "Sala";
+                    worksheet.Range["B1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 0);
+                    worksheet.Range["C1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 1);
+                    worksheet.Range["D1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 2);
+                    worksheet.Range["E1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 3);
+                    worksheet.Range["F1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 4);
+
+                    worksheet.Range["A1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["B1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["C1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["D1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["E1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["F1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+
+                    worksheet.Range["A1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["B1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["C1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["D1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["E1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["F1"].BorderAround(ExcelLineStyle.Medium);
+
+                    for (int i = 0; i < contsalas; i++)
+                    {
+                        worksheet.Range["A" + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["A" + (i + 2)].WrapText = true;
+                        worksheet.Range["B" + (i + 2)+ ":F1" + (i + 1)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
+                    }
+                    
+                    worksheet.PageSetup.Orientation = ExcelPageOrientation.Landscape;
+
+                    //Save the workbook to disk in xlsx format.
+                    workbook.SaveAs("ReporteActividades"+DateTime.Today.Day+"-"+DateTime.Today.Month + "-"+ DateTime.Today.Year + ".xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
+                }
+
+
+
+                ////Create an instance of ExcelEngine.
+                //using (ExcelEngine excelEngine = new ExcelEngine())
+                //{
+                //    //Set the default application version as Excel 2016.
+                //    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
+
+                //    //Create a workbook with a worksheet.
+                //    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+
+                //    //Access first worksheet from the workbook instance.
+                //    IWorksheet worksheet = workbook.Worksheets[0];
+
+                //    //Insert sample text into cell “A1”.
+                //    worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
+
+                //    //Save the workbook to disk in xlsx format.
+                //    workbook.SaveAs("Sample.xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
+                //}
+            }
+
+            return View();
+        }
 
         private string DataEventosAutocomplete(DateTime Fechaini, DateTime FechaFin)
         {
@@ -963,91 +1145,41 @@ namespace ddcCajamarca.Web.Controllers
             return eventosarray;
         }
 
-        //private static string ObtenerCodigoColor(string color)
-        //{
-        //    if (color == "Azul")
-        //    {
-        //        color = "#2591F6";
-        //    }
-        //    else if (color == "Amarillo")
-        //    {
-        //        color = "#EAE54E";
-        //    }
-        //    else if (color == "Berenjena")
-        //    {
-        //        color = "#5D0560";
-        //    }
-        //    else if (color == "Celeste")
-        //    {
-        //        color = "#66C4E5";
-        //    }
-        //    else if (color == "Chicle")
-        //    {
-        //        color = "#F5D4F4";
-        //    }
-        //    else if (color == "Cielo")
-        //    {
-        //        color = "#27F8F5";
-        //    }
-        //    else if (color == "Ciruela")
-        //    {
-        //        color = "#A023A4";
-        //    }
-        //    else if (color == "Fresa")
-        //    {
-        //        color = "#F31ADE";
-        //    }
-        //    else if (color == "Limon")
-        //    {
-        //        color = "#F4DA18";
-        //    }
-        //    else if (color == "Orquidea")
-        //    {
-        //        color = "#8D7CCA";
-        //    }
-        //    else if (color == "Musgo")
-        //    {
-        //        color = "#337352";
-        //    }
-        //    else if (color == "Magenta")
-        //    {
-        //        color = "#C352D4";
-        //    }
-        //    else if (color == "Morado")
-        //    {
-        //        color = "#F00C82";
-        //    }
-        //    else if (color == "Naranja")
-        //    {
-        //        color = "#E79742";
-        //    }
-        //    else if (color == "Rosa")
-        //    {
-        //        color = "#EE79E3";
-        //    }
-        //    else if (color == "Rojo")
-        //    {
-        //        color = "#FF0000";
-        //    }
-        //    else if (color == "Rojo Oscuro")
-        //    {
-        //        color = "#8A0808";
-        //    }
-        //    else if (color == "Trebol")
-        //    {
-        //        color = "#397402";
-        //    }
-        //    else if (color == "Verde")
-        //    {
-        //        color = "#50B258";
-        //    }
-        //    else
-        //    {
-        //        color = "#2591F6";
-        //    }
+        private string OBtenerNombreDia(DateTime fecha, Int32 diaextra)
+        {
+            var dia = fecha.AddDays(diaextra).DayOfWeek;
+            var diaespañol = "";
 
-        //    return color;
-        //}
+            switch (dia)
+            {
+                case DayOfWeek.Sunday:
+                    diaespañol = "Domingo";
+                    break;
+                case DayOfWeek.Monday:
+                    diaespañol = "Lunes";
+                    break;
+                case DayOfWeek.Tuesday:
+                    diaespañol = "Martes";
+                    break;
+                case DayOfWeek.Wednesday:
+                    diaespañol = "Miercoles";
+                    break;
+                case DayOfWeek.Thursday:
+                    diaespañol = "Jueves";
+                    break;
+                case DayOfWeek.Friday:
+                    diaespañol = "Viernes";
+                    break;
+                case DayOfWeek.Saturday:
+                    diaespañol = "Sabado";
+                    break;
+                default:
+                    diaespañol = "";
+                    break;
+            }
+
+            return diaespañol + " " + fecha.Day + " /" + fecha.Month + " /" + fecha.Year;
+        }
 
         private string FechaHoy()
         {
