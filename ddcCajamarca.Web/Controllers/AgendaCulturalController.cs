@@ -1044,10 +1044,10 @@ namespace ddcCajamarca.Web.Controllers
                     excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
                     
                     IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
-                    
-                    IWorksheet worksheet = workbook.Worksheets[0];
 
-                    worksheet.Range["B1:F1"].ColumnWidth = 40;
+                    IWorksheet worksheet = workbook.Worksheets[0];
+                    worksheet.Name = "DDC-Cajamarca";
+                    worksheet.Range["B1:F1"].ColumnWidth = 25;
 
                     //worksheet.Range["A1:C1"].AutofitColumns();
 
@@ -1059,13 +1059,20 @@ namespace ddcCajamarca.Web.Controllers
                     for (int i = 0; i < contsalas; i++)
                     {
                         worksheet.Range["A" + (i + 2)].Text = matriz[i, 0];
+                        worksheet.Range["A" + (i + 2)].CellStyle.Font.Bold = true;
                         worksheet.Range["B" + (i + 2)].Text = matriz[i, 1];
                         worksheet.Range["C" + (i + 2)].Text = matriz[i, 2];
                         worksheet.Range["D" + (i + 2)].Text = matriz[i, 3];
                         worksheet.Range["E" + (i + 2)].Text = matriz[i, 4];
                         worksheet.Range["F" + (i + 2)].Text = matriz[i, 5];
-                        worksheet.Range["A" + (i + 2) + ":I" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
-                        worksheet.Range["A" + (i + 2) + ":I" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+                        worksheet.Range["A" + (i + 2) + ":F" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
+                        worksheet.Range["A" + (i + 2) + ":F" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+                        
+                        worksheet.Range["B" + (i + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["C" + (i + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["D" + (i + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["E" + (i + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["F" + (i + 2)].CellStyle.Font.Size = 8;
                     }
 
                     worksheet.Range["A1"].Text = "Sala";
@@ -1089,6 +1096,13 @@ namespace ddcCajamarca.Web.Controllers
                     worksheet.Range["E1"].BorderAround(ExcelLineStyle.Medium);
                     worksheet.Range["F1"].BorderAround(ExcelLineStyle.Medium);
 
+                    worksheet.Range["A1"].CellStyle.Font.Bold = true;
+                    worksheet.Range["B1"].CellStyle.Font.Bold = true;
+                    worksheet.Range["C1"].CellStyle.Font.Bold = true;
+                    worksheet.Range["D1"].CellStyle.Font.Bold = true;
+                    worksheet.Range["E1"].CellStyle.Font.Bold = true;
+                    worksheet.Range["F1"].CellStyle.Font.Bold = true;
+
                     for (int i = 0; i < contsalas; i++)
                     {
                         worksheet.Range["A" + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
@@ -1097,6 +1111,12 @@ namespace ddcCajamarca.Web.Controllers
                     }
                     
                     worksheet.PageSetup.Orientation = ExcelPageOrientation.Landscape;
+                    worksheet.PageSetup.LeftMargin = 0.2519685;
+                    worksheet.PageSetup.RightMargin = 0.2519685;
+                    worksheet.PageSetup.TopMargin = 0.2519685;
+                    worksheet.PageSetup.BottomMargin = 0.2519685;
+                    worksheet.PageSetup.HeaderMargin = 0.2992126;
+                    worksheet.PageSetup.FooterMargin = 0.2992126;
 
                     //Save the workbook to disk in xlsx format.
                     workbook.SaveAs("ReporteActividades"+DateTime.Today.Day+"-"+DateTime.Today.Month + "-"+ DateTime.Today.Year + ".xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
