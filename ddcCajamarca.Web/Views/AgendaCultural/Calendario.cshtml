@@ -4,13 +4,15 @@
 
     var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
 
-    var tituloeventos = jss.Serialize(ViewBag.titulo);
-    var inicioeventos = jss.Serialize(ViewBag.inicio);
-    var fineventos = jss.Serialize(ViewBag.fin);
-    var tododiaeventos = jss.Serialize(ViewBag.tododia);
-    var coloreventos = jss.Serialize(ViewBag.color);
-    var descripcioneventos = jss.Serialize(ViewBag.descripcion);
-    var idEventos = jss.Serialize(ViewBag.idEvento);
+    //var tituloeventos = jss.Serialize(ViewBag.titulo);
+    //var inicioeventos = jss.Serialize(ViewBag.inicio);
+    //var fineventos = jss.Serialize(ViewBag.fin);
+    //var tododiaeventos = jss.Serialize(ViewBag.tododia);
+    //var coloreventos = jss.Serialize(ViewBag.color);
+    //var descripcioneventos = jss.Serialize(ViewBag.descripcion);
+    //var idEventos = jss.Serialize(ViewBag.idEvento);
+
+    var EventosJSON = jss.Serialize(ViewBag.Eventos);
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -358,8 +360,9 @@
                 },
                 editable: false,
                 droppable: true,
-                events: [
-                ],
+                //events: [],
+                //events: "http://localhost/ddcCajamarca.Web/AgendaCultural/DataEventosJSON",
+                events: JSON.parse('@Html.Raw(EventosJSON)'),
                 eventRender: function (event, element) {
                     element.qtip({
                         content: event.description,
@@ -371,12 +374,12 @@
                     });
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    var ideve = calEvent.data(x)
-                    //console.log(ideve.eventoId);
+                    var ideve = calEvent.data;
+                    //console.log(calEvent.data);
                     //$(this).css('border-color', 'red');
                     //
 
-                    $.get("OBtenerEventoPorId", { 'Id': ideve.eventoId })
+                    $.get("OBtenerEventoPorId", { 'Id': ideve })
                         .done(function (response) {
                             $('#Detalle_Modificar').html(response);
                             $('#modal_modificar').modal('show');
@@ -406,7 +409,8 @@
                 }
             });
 
-        var tituloeventos = JSON.parse('@Html.Raw(tituloeventos)');
+
+        @*var tituloeventos = JSON.parse('@Html.Raw(tituloeventos)');
         var inicioeventos = JSON.parse('@Html.Raw(inicioeventos)');
         var fineventos = JSON.parse('@Html.Raw(fineventos)');
         var tododiaeventos = JSON.parse('@Html.Raw(tododiaeventos)');
@@ -432,8 +436,8 @@
                     };
                 }
             };
-            $('#calendar').fullCalendar('renderEvent', myevento, true);
-        });
+            //$('#calendar').fullCalendar('renderEvent', myevento, true);
+        });*@
 
         });
 

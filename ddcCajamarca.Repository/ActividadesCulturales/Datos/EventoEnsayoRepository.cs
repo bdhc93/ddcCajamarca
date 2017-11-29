@@ -161,7 +161,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
                     where p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin
                     select p;
 
-            return query.ToList();
+            return query.OrderBy(p => p.FechaInicio).ToList();
         }
     }
 }

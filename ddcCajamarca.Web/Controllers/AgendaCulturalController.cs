@@ -124,8 +124,6 @@ namespace ddcCajamarca.Web.Controllers
 
             ViewBag.IdAmbiente = idAmbientes;
             ViewBag.Ambiente = ambienteService.ObtenerAmbientePorId(idAmbientes).NombreMostrar;
-            //ViewBag.Activos = activoService.ObtenerActivoPorCriterio("");
-
             ViewBag.EventosAuto = DataEventosAutocomplete(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin));
 
             return View();
@@ -260,10 +258,8 @@ namespace ddcCajamarca.Web.Controllers
                             fechainiguard = fechainiguard.AddDays(1);
                         }
                     }
-
                     eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
                 }
-
             }
 
             return Redirect(Url.Action("Calendario"));
@@ -369,20 +365,126 @@ namespace ddcCajamarca.Web.Controllers
 
             var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(0, false);
 
-            var tamb = Eventos.LongCount();
+            //var tamb = Eventos.LongCount();
 
-            var contador = 0;
+            //var contador = 0;
 
-            var titulo = new String[tamb];
-            var idEvento = new Int32[tamb];
-            var inicio = new DateTime[tamb];
-            var fin = new DateTime[tamb];
-            var tododia = new Boolean[tamb];
-            var color = new String[tamb];
-            var descripcion = new String[tamb];
+            //var titulo = new String[tamb];
+            //var idEvento = new Int32[tamb];
+            //var inicio = new DateTime[tamb];
+            //var fin = new DateTime[tamb];
+            //var tododia = new Boolean[tamb];
+            //var color = new String[tamb];
+            //var descripcion = new String[tamb];
+
+            //foreach (var item in Eventos)
+            //{
+            //    var detallerequerimientos = "";
+
+            //    foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
+            //    {
+            //        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+            //    }
+
+            //    idEvento[contador] = item.Id;
+
+            //    if (item.EventoEnsayo.Evento)
+            //    {
+            //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+            //    }
+            //    else
+            //    {
+            //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+            //    }
+
+            //    if (item.FechaFin.Date != item.FechaInicio.Date)
+            //    {
+            //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+            //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+            //    }
+            //    else
+            //    {
+            //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+            //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+            //    }
+
+            //    tododia[contador] = item.EventoEnsayo.TodoDia;
+            //    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
+            //    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
+
+            //    contador++;
+            //}
+
+            //ViewBag.titulo = titulo;
+            //ViewBag.IdEvento = idEvento;
+            //ViewBag.inicio = inicio;
+            //ViewBag.fin = fin;
+            //ViewBag.tododia = tododia;
+            //ViewBag.color = color;
+            //ViewBag.descripcion = descripcion;
+
+            List<EventoCalendar> datos = new List<EventoCalendar>();
 
             foreach (var item in Eventos)
             {
+                var titulos = "";
+                var inicios = "";
+                var fines = "";
+
+                if (item.EventoEnsayo.Evento)
+                {
+                    titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                }
+                else
+                {
+                    titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                }
+                if (item.FechaFin.Date != item.FechaInicio.Date)
+                {
+                    if (item.FechaInicio.Day < 10)
+                    {
+                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                        if (item.FechaFin.AddDays(1).Day > 9)
+                        {
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        
+                    }
+                    else
+                    {
+                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                        if (item.FechaFin.AddDays(1).Day > 9)
+                        {
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    if (item.FechaInicio.Day < 10)
+                    {
+                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                        fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                    }
+                    else
+                    {
+                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                        fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+
+                    }
+                }
+
                 var detallerequerimientos = "";
 
                 foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
@@ -390,42 +492,20 @@ namespace ddcCajamarca.Web.Controllers
                     detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
                 }
 
-                idEvento[contador] = item.Id;
-
-                if (item.EventoEnsayo.Evento)
+                EventoCalendar x = new EventoCalendar
                 {
-                    titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                }
-                else
-                {
-                    titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                }
-
-                if (item.FechaFin.Date != item.FechaInicio.Date)
-                {
-                    inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                    fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                }
-                else
-                {
-                    inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                    fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                }
-
-                tododia[contador] = item.EventoEnsayo.TodoDia;
-                color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
-                descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
-
-                contador++;
+                    title = titulos,
+                    start = inicios,
+                    end = fines,
+                    allDay = item.EventoEnsayo.TodoDia,
+                    color = item.EventoEnsayo.Ambiente.ColorNombre,
+                    description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                    data = item.IdEventoEnsayo
+                };
+                datos.Add(x);
             }
 
-            ViewBag.titulo = titulo;
-            ViewBag.IdEvento = idEvento;
-            ViewBag.inicio = inicio;
-            ViewBag.fin = fin;
-            ViewBag.tododia = tododia;
-            ViewBag.color = color;
-            ViewBag.descripcion = descripcion;
+            ViewBag.Eventos = datos;
 
             return View();
         }
@@ -440,21 +520,69 @@ namespace ddcCajamarca.Web.Controllers
                 id = Int32.Parse(idAmbiente);
 
                 var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(id, false);
-
-                var tamb = Eventos.LongCount();
-
-                var contador = 0;
-
-                var titulo = new String[tamb];
-                var idEvento = new Int32[tamb];
-                var inicio = new DateTime[tamb];
-                var fin = new DateTime[tamb];
-                var tododia = new Boolean[tamb];
-                var color = new String[tamb];
-                var descripcion = new String[tamb];
+                
+                List<EventoCalendar> datos = new List<EventoCalendar>();
 
                 foreach (var item in Eventos)
                 {
+                    var titulos = "";
+                    var inicios = "";
+                    var fines = "";
+
+                    if (item.EventoEnsayo.Evento)
+                    {
+                        titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    }
+                    else
+                    {
+                        titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    }
+                    if (item.FechaFin.Date != item.FechaInicio.Date)
+                    {
+                        if (item.FechaInicio.Day < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (item.FechaInicio.Day < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+
+                        }
+                    }
+
                     var detallerequerimientos = "";
 
                     foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
@@ -462,42 +590,20 @@ namespace ddcCajamarca.Web.Controllers
                         detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
                     }
 
-                    idEvento[contador] = item.Id;
-
-                    if (item.EventoEnsayo.Evento)
+                    EventoCalendar x = new EventoCalendar
                     {
-                        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                    }
-                    else
-                    {
-                        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                    }
-
-                    if (item.FechaFin.Date != item.FechaInicio.Date)
-                    {
-                        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                    }
-                    else
-                    {
-                        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                    }
-
-                    tododia[contador] = item.EventoEnsayo.TodoDia;
-                    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
-                    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
-
-                    contador++;
+                        title = titulos,
+                        start = inicios,
+                        end = fines,
+                        allDay = item.EventoEnsayo.TodoDia,
+                        color = item.EventoEnsayo.Ambiente.ColorNombre,
+                        description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                        data = item.IdEventoEnsayo
+                    };
+                    datos.Add(x);
                 }
 
-                ViewBag.IdEvento = idEvento;
-                ViewBag.titulo = titulo;
-                ViewBag.inicio = inicio;
-                ViewBag.fin = fin;
-                ViewBag.tododia = tododia;
-                ViewBag.color = color;
-                ViewBag.descripcion = descripcion;
+                ViewBag.Eventos = datos;
 
                 return PartialView("_MostrarCalendario");
             }
@@ -505,20 +611,126 @@ namespace ddcCajamarca.Web.Controllers
             {
                 var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(0, false);
 
-                var tamb = Eventos.LongCount();
+                //var tamb = Eventos.LongCount();
 
-                var contador = 0;
+                //var contador = 0;
 
-                var titulo = new String[tamb];
-                var idEvento = new Int32[tamb];
-                var inicio = new DateTime[tamb];
-                var fin = new DateTime[tamb];
-                var tododia = new Boolean[tamb];
-                var color = new String[tamb];
-                var descripcion = new String[tamb];
+                //var titulo = new String[tamb];
+                //var idEvento = new Int32[tamb];
+                //var inicio = new DateTime[tamb];
+                //var fin = new DateTime[tamb];
+                //var tododia = new Boolean[tamb];
+                //var color = new String[tamb];
+                //var descripcion = new String[tamb];
+
+                //foreach (var item in Eventos)
+                //{
+                //    var detallerequerimientos = "";
+
+                //    foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
+                //    {
+                //        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+                //    }
+
+                //    idEvento[contador] = item.Id;
+
+                //    if (item.EventoEnsayo.Evento)
+                //    {
+                //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                //    }
+                //    else
+                //    {
+                //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                //    }
+
+                //    if (item.FechaFin.Date != item.FechaInicio.Date)
+                //    {
+                //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+                //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+                //    }
+                //    else
+                //    {
+                //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+                //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+                //    }
+
+                //    tododia[contador] = item.EventoEnsayo.TodoDia;
+                //    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
+                //    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
+
+                //    contador++;
+                //}
+
+                //ViewBag.IdEvento = idEvento;
+                //ViewBag.titulo = titulo;
+                //ViewBag.inicio = inicio;
+                //ViewBag.fin = fin;
+                //ViewBag.tododia = tododia;
+                //ViewBag.color = color;
+                //ViewBag.descripcion = descripcion;
+
+                List<EventoCalendar> datos = new List<EventoCalendar>();
 
                 foreach (var item in Eventos)
                 {
+                    var titulos = "";
+                    var inicios = "";
+                    var fines = "";
+
+                    if (item.EventoEnsayo.Evento)
+                    {
+                        titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    }
+                    else
+                    {
+                        titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    }
+                    if (item.FechaFin.Date != item.FechaInicio.Date)
+                    {
+                        if (item.FechaInicio.Day < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (item.FechaInicio.Day < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+
+                        }
+                    }
+
                     var detallerequerimientos = "";
 
                     foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
@@ -526,42 +738,20 @@ namespace ddcCajamarca.Web.Controllers
                         detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
                     }
 
-                    idEvento[contador] = item.Id;
-
-                    if (item.EventoEnsayo.Evento)
+                    EventoCalendar x = new EventoCalendar
                     {
-                        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                    }
-                    else
-                    {
-                        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                    }
-
-                    if (item.FechaFin.Date != item.FechaInicio.Date)
-                    {
-                        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                    }
-                    else
-                    {
-                        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                    }
-
-                    tododia[contador] = item.EventoEnsayo.TodoDia;
-                    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
-                    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
-
-                    contador++;
+                        title = titulos,
+                        start = inicios,
+                        end = fines,
+                        allDay = item.EventoEnsayo.TodoDia,
+                        color = item.EventoEnsayo.Ambiente.ColorNombre,
+                        description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                        data = item.IdEventoEnsayo
+                    };
+                    datos.Add(x);
                 }
 
-                ViewBag.IdEvento = idEvento;
-                ViewBag.titulo = titulo;
-                ViewBag.inicio = inicio;
-                ViewBag.fin = fin;
-                ViewBag.tododia = tododia;
-                ViewBag.color = color;
-                ViewBag.descripcion = descripcion;
+                ViewBag.Eventos = datos;
 
                 return PartialView("_MostrarCalendario");
             }
@@ -631,9 +821,7 @@ namespace ddcCajamarca.Web.Controllers
                 {
                     aforo = "0";
                 }
-
-                //color = ObtenerCodigoColor(color);
-
+                
                 ViewBag.msg = "G1";
 
                 Ambiente amb = new Ambiente { Nombre = Nombre.ToUpper(), Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
@@ -812,11 +1000,12 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult OBtenerEventoPorId(Int32 Id)
+        public ActionResult OBtenerEventoPorId(String Id)
         {
+            var id = Int32.Parse(Id);
             try
             {
-                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorIdEvento(Id);
+                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorIdEvento(id);
                 return PartialView("_OBtenerEventoPorId", result);
             }
             catch (Exception)
@@ -830,8 +1019,6 @@ namespace ddcCajamarca.Web.Controllers
         {
             try
             {
-                //color = ObtenerCodigoColor(color);
-
                 if (String.IsNullOrEmpty(aforo))
                 {
                     aforo = "0";
@@ -908,73 +1095,32 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         if (item.FechaInicio.Day == DateTime.Today.AddDays(0).Day)
                         {
-                            //dia1.Add(item);
                             matriz[i, 1] = matriz[i, 1] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
                             matriz2[i, 1] = matriz2[i, 1] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(1).Day)
                         {
-                            //dia2.Add(item);
                             matriz[i, 2] = matriz[i, 2] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
                             matriz2[i, 2] = matriz2[i, 2] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(2).Day)
                         {
-                            //dia3.Add(item);
                             matriz[i, 3] = matriz[i, 3] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
                             matriz2[i, 3] = matriz2[i, 3] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(3).Day)
                         {
-                            //dia4.Add(item);
                             matriz[i, 4] = matriz[i, 4] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
                             matriz2[i, 4] = matriz2[i, 4] + "Actividad:  " + item.EventoEnsayo.NombreActividad + " \n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                         else if (item.FechaInicio.Day == DateTime.Today.AddDays(4).Day)
                         {
-                            //dia5.Add(item);
                             matriz[i, 5] = matriz[i, 5] + "<b>Actividad:  " + item.EventoEnsayo.NombreActividad + " </b> <br />Encargado: " + item.EventoEnsayo.InstitucionEncargada + " <br /> Hora Inicio: " + item.HoraInicioMostrar + " <br /> Hora Fin: " + item.HoraFinMostrar + "<br /> ";
                             matriz2[i, 5] = matriz2[i, 5] + "Actividad:  " + item.EventoEnsayo.NombreActividad + "\n Encargado: " + item.EventoEnsayo.InstitucionEncargada + " \n Hora Inicio: " + item.HoraInicioMostrar + " \n Hora Fin: " + item.HoraFinMostrar + "\n ";
                         }
                     }
                 }
             }
-            
-
-            //using (ExcelEngine excelEngine = new ExcelEngine())
-            //{
-            //    //Set the default application version as Excel 2016.
-            //    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
-
-            //    //Create a workbook with a worksheet.
-            //    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
-
-            //    //Access first worksheet from the workbook instance.
-            //    IWorksheet worksheet = workbook.Worksheets[0];
-
-            //    worksheet.Range["B1:F1"].ColumnWidth = 40;
-
-            //    //worksheet.Range["A1:C1"].AutofitColumns();
-
-            //    //worksheet.Range["A2:A5"].AutofitRows();
-
-            //    //Insert sample text into cell “A1”.
-            //    //worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
-
-            //    worksheet.Range["A1"].Text = matriz2[9, 0];
-            //    worksheet.Range["B1"].Text = matriz2[9, 1];
-            //    worksheet.Range["C1"].Text = matriz2[9, 2];
-            //    worksheet.Range["D1"].Text = matriz2[9, 3];
-            //    worksheet.Range["E1"].Text = matriz2[9, 4];
-            //    worksheet.Range["F1"].Text = matriz2[9, 5];
-
-            //    worksheet.Range["A1"].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
-
-            //    worksheet.Range["B1:F1"].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
-
-            //    //Save the workbook to disk in xlsx format.
-            //    workbook.SaveAs("Sample.xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
-            //}
 
             ViewBag.detalle = matriz;
             ViewBag.salas = salas.Count();
@@ -988,13 +1134,23 @@ namespace ddcCajamarca.Web.Controllers
         {
             if (Formato == "Excel")
             {
-                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"));
+                var Fechainicial = DateTime.Parse(FechaIni);
+                var Fechafinal = DateTime.Parse(FechaFin);
+
+                var dias = Int32.Parse((Fechafinal - Fechainicial).TotalDays + "") + 1;
+
+                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59));
 
                 var ambientes = ambienteService.ObtenerAmbientePorCriterio("");
 
                 var contsalas = 0;
 
-                var matriz = new String[salas.Count(), 6];
+                if (dias > 31)
+                {
+                    dias = 31;
+                }
+
+                var matriz = new String[salas.Count(), dias + 1];
 
                 foreach (var item in ambientes)
                 {
@@ -1015,25 +1171,20 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         if (item.EventoEnsayo.Ambiente.Nombre == matriz[i, 0])
                         {
-                            if (item.FechaInicio.Day == DateTime.Parse(FechaIni).Day)
+                            for (int j = 0; j < dias; j++)
                             {
-                                matriz[i, 1] = matriz[i, 1] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
-                            }
-                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(1).Day)
-                            {
-                                matriz[i, 2] = matriz[i, 2] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
-                            }
-                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(2).Day)
-                            {
-                                matriz[i, 3] = matriz[i, 3] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
-                            }
-                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(3).Day)
-                            {
-                                matriz[i, 4] = matriz[i, 4] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
-                            }
-                            else if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(4).Day)
-                            {
-                                matriz[i, 5] = matriz[i, 5] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \nHora Inicio: " + item.HoraInicioMostrar + " \nHora Fin: " + item.HoraFinMostrar + "\n";
+                                if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(j).Day)
+                                {
+                                    if (item.EventoEnsayo.Evento)
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                    }
+                                    else
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "Ensayo: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                    }
+                                    
+                                }
                             }
                         }
                     }
@@ -1047,69 +1198,46 @@ namespace ddcCajamarca.Web.Controllers
 
                     IWorksheet worksheet = workbook.Worksheets[0];
                     worksheet.Name = "DDC-Cajamarca";
-                    worksheet.Range["B1:F1"].ColumnWidth = 25;
-
-                    //worksheet.Range["A1:C1"].AutofitColumns();
-
-                    //worksheet.Range["A2:A5"].AutofitRows();
-
-                    //Insert sample text into cell “A1”.
-                    //worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
-
+                    worksheet.Range["B1:" + OBtenerNombreCelda(dias+1) + "1"].ColumnWidth = 21;
+                    
                     for (int i = 0; i < contsalas; i++)
                     {
-                        worksheet.Range["A" + (i + 2)].Text = matriz[i, 0];
+                        for (int j = 0; j < dias + 1; j++)
+                        {
+                            worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].Text = matriz[i, j];
+                            worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.Font.Size = 8;
+                            worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                            worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        }
+
                         worksheet.Range["A" + (i + 2)].CellStyle.Font.Bold = true;
-                        worksheet.Range["B" + (i + 2)].Text = matriz[i, 1];
-                        worksheet.Range["C" + (i + 2)].Text = matriz[i, 2];
-                        worksheet.Range["D" + (i + 2)].Text = matriz[i, 3];
-                        worksheet.Range["E" + (i + 2)].Text = matriz[i, 4];
-                        worksheet.Range["F" + (i + 2)].Text = matriz[i, 5];
-                        worksheet.Range["A" + (i + 2) + ":F" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
-                        worksheet.Range["A" + (i + 2) + ":F" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+                        worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
+                        worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
                         
-                        worksheet.Range["B" + (i + 2)].CellStyle.Font.Size = 8;
-                        worksheet.Range["C" + (i + 2)].CellStyle.Font.Size = 8;
-                        worksheet.Range["D" + (i + 2)].CellStyle.Font.Size = 8;
-                        worksheet.Range["E" + (i + 2)].CellStyle.Font.Size = 8;
-                        worksheet.Range["F" + (i + 2)].CellStyle.Font.Size = 8;
                     }
-
+                    
                     worksheet.Range["A1"].Text = "Sala";
-                    worksheet.Range["B1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 0);
-                    worksheet.Range["C1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 1);
-                    worksheet.Range["D1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 2);
-                    worksheet.Range["E1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 3);
-                    worksheet.Range["F1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), 4);
-
                     worksheet.Range["A1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                    worksheet.Range["B1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                    worksheet.Range["C1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                    worksheet.Range["D1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                    worksheet.Range["E1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-                    worksheet.Range["F1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
-
                     worksheet.Range["A1"].BorderAround(ExcelLineStyle.Medium);
-                    worksheet.Range["B1"].BorderAround(ExcelLineStyle.Medium);
-                    worksheet.Range["C1"].BorderAround(ExcelLineStyle.Medium);
-                    worksheet.Range["D1"].BorderAround(ExcelLineStyle.Medium);
-                    worksheet.Range["E1"].BorderAround(ExcelLineStyle.Medium);
-                    worksheet.Range["F1"].BorderAround(ExcelLineStyle.Medium);
-
                     worksheet.Range["A1"].CellStyle.Font.Bold = true;
-                    worksheet.Range["B1"].CellStyle.Font.Bold = true;
-                    worksheet.Range["C1"].CellStyle.Font.Bold = true;
-                    worksheet.Range["D1"].CellStyle.Font.Bold = true;
-                    worksheet.Range["E1"].CellStyle.Font.Bold = true;
-                    worksheet.Range["F1"].CellStyle.Font.Bold = true;
 
+                    for (int i = 0; i < dias; i++)
+                    {
+                        worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), i);
+                        worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].BorderAround(ExcelLineStyle.Medium);
+                        worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].CellStyle.Font.Bold = true;
+                    }
+                    
                     for (int i = 0; i < contsalas; i++)
                     {
                         worksheet.Range["A" + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
                         worksheet.Range["A" + (i + 2)].WrapText = true;
-                        worksheet.Range["B" + (i + 2)+ ":F1" + (i + 1)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
+                        worksheet.Range["B" + (i + 2)+ ":" + OBtenerNombreCelda(dias + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
                     }
                     
+                    worksheet.PageSetup.PrintTitleColumns = "$1:$1";
+
                     worksheet.PageSetup.Orientation = ExcelPageOrientation.Landscape;
                     worksheet.PageSetup.LeftMargin = 0.2519685;
                     worksheet.PageSetup.RightMargin = 0.2519685;
@@ -1121,31 +1249,157 @@ namespace ddcCajamarca.Web.Controllers
                     //Save the workbook to disk in xlsx format.
                     workbook.SaveAs("ReporteActividades"+DateTime.Today.Day+"-"+DateTime.Today.Month + "-"+ DateTime.Today.Year + ".xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
                 }
-
-
-
-                ////Create an instance of ExcelEngine.
-                //using (ExcelEngine excelEngine = new ExcelEngine())
-                //{
-                //    //Set the default application version as Excel 2016.
-                //    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
-
-                //    //Create a workbook with a worksheet.
-                //    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
-
-                //    //Access first worksheet from the workbook instance.
-                //    IWorksheet worksheet = workbook.Worksheets[0];
-
-                //    //Insert sample text into cell “A1”.
-                //    worksheet.Range["A1"].Text = "Hello " + "\n" + " World";
-
-                //    //Save the workbook to disk in xlsx format.
-                //    workbook.SaveAs("Sample.xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
-                //}
             }
 
             return View();
         }
+
+        public class EventoCalendar
+        {
+            public string title { get; set; }
+            public string start { get; set; }
+            public string end { get; set; }
+            public bool allDay { get; set; }
+            public string color { get; set; }
+            public string description { get; set; }
+            public int data { get; set; }
+        };
+
+        //public JsonResult DataEventosJSON()
+        //{
+        //    var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(0, false);
+
+        //    //var tamb = Eventos.LongCount();
+
+        //    //var contador = 0;
+
+        //    //var titulo = new String[tamb];
+        //    //var idEvento = new Int32[tamb];
+        //    //var inicio = new DateTime[tamb];
+        //    //var fin = new DateTime[tamb];
+        //    //var tododia = new Boolean[tamb];
+        //    //var color = new String[tamb];
+        //    //var descripcion = new String[tamb];
+
+        //    //foreach (var item in Eventos)
+        //    //{
+        //    //    var detallerequerimientos = "";
+
+        //    //    foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
+        //    //    {
+        //    //        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+        //    //    }
+
+        //    //    idEvento[contador] = item.Id;
+
+        //    //    if (item.EventoEnsayo.Evento)
+        //    //    {
+        //    //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+        //    //    }
+
+        //    //    if (item.FechaFin.Date != item.FechaInicio.Date)
+        //    //    {
+        //    //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+        //    //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+        //    //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+        //    //    }
+
+        //    //    tododia[contador] = item.EventoEnsayo.TodoDia;
+        //    //    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
+        //    //    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
+
+        //    //    contador++;
+        //    //}
+
+        //    List<EventoCalendar> datos = new List<EventoCalendar>();
+
+        //    foreach (var item in Eventos)
+        //    {
+        //        var titulo = "";
+        //        var inicio = "";
+        //        var fin = "";
+
+        //        if (item.EventoEnsayo.Evento)
+        //        {
+        //            titulo = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+        //        }
+        //        else
+        //        {
+        //            titulo = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+        //        }
+        //        if (item.FechaFin.Date != item.FechaInicio.Date)
+        //        {
+        //            if (item.FechaInicio.Day < 9)
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+        //            }
+        //            else if (item.FechaInicio.Day == 9)
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+        //            }
+        //            else
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+        //            }
+
+                    
+        //            //inicio = item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond;
+        //            //fin = item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond;
+        //        }
+        //        else
+        //        {
+        //            if (item.FechaInicio.Day < 10)
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+        //            }
+        //            else if (item.FechaInicio.Day == 9)
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+        //            }
+        //            else
+        //            {
+        //                inicio = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+        //                fin = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+
+        //            }
+        //            //inicio = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
+        //            //fin = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
+        //        }
+
+        //        var detallerequerimientos = "";
+
+        //        foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
+        //        {
+        //            detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
+        //        }
+
+        //        EventoCalendar x = new EventoCalendar {
+        //            title = titulo,
+        //            start = inicio,
+        //            end = fin,
+        //            allDay = item.EventoEnsayo.TodoDia,
+        //            color = item.EventoEnsayo.Ambiente.ColorNombre,
+        //            description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+        //            id = item.IdEventoEnsayo
+        //        };
+        //        datos.Add(x);
+        //    }
+
+        //    return Json(datos, JsonRequestBehavior.AllowGet);
+        //}
 
         private string DataEventosAutocomplete(DateTime Fechaini, DateTime FechaFin)
         {
@@ -1165,10 +1419,117 @@ namespace ddcCajamarca.Web.Controllers
             return eventosarray;
         }
 
+        private string OBtenerNombreCelda(Int32 celda)
+        {
+            var nombrecelda = "";
+
+            switch (celda)
+            {
+                case 1:
+                    nombrecelda = "A";
+                    break;
+                case 2:
+                    nombrecelda = "B";
+                    break;
+                case 3:
+                    nombrecelda = "C";
+                    break;
+                case 4:
+                    nombrecelda = "D";
+                    break;
+                case 5:
+                    nombrecelda = "E";
+                    break;
+                case 6:
+                    nombrecelda = "F";
+                    break;
+                case 7:
+                    nombrecelda = "G";
+                    break;
+                case 8:
+                    nombrecelda = "H";
+                    break;
+                case 9:
+                    nombrecelda = "I";
+                    break;
+                case 10:
+                    nombrecelda = "J";
+                    break;
+                case 11:
+                    nombrecelda = "K";
+                    break;
+                case 12:
+                    nombrecelda = "L";
+                    break;
+                case 13:
+                    nombrecelda = "M";
+                    break;
+                case 14:
+                    nombrecelda = "N";
+                    break;
+                case 15:
+                    nombrecelda = "O";
+                    break;
+                case 16:
+                    nombrecelda = "P";
+                    break;
+                case 17:
+                    nombrecelda = "Q";
+                    break;
+                case 18:
+                    nombrecelda = "R";
+                    break;
+                case 19:
+                    nombrecelda = "S";
+                    break;
+                case 20:
+                    nombrecelda = "T";
+                    break;
+                case 21:
+                    nombrecelda = "U";
+                    break;
+                case 22:
+                    nombrecelda = "V";
+                    break;
+                case 23:
+                    nombrecelda = "W";
+                    break;
+                case 24:
+                    nombrecelda = "X";
+                    break;
+                case 25:
+                    nombrecelda = "Y";
+                    break;
+                case 26:
+                    nombrecelda = "Z";
+                    break;
+                case 27:
+                    nombrecelda = "AA";
+                    break;
+                case 28:
+                    nombrecelda = "AB";
+                    break;
+                case 29:
+                    nombrecelda = "AC";
+                    break;
+                case 30:
+                    nombrecelda = "AD";
+                    break;
+                case 31:
+                    nombrecelda = "AE";
+                    break;
+                default:
+                    break;
+            }
+
+            return nombrecelda;
+        }
+
         private string OBtenerNombreDia(DateTime fecha, Int32 diaextra)
         {
             var dia = fecha.AddDays(diaextra).DayOfWeek;
             var diaespañol = "";
+            fecha = fecha.AddDays(diaextra);
 
             switch (dia)
             {
