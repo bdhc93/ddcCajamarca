@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activo.cs" />
+    <Compile Include="AgendaCultural.cs" />
     <Compile Include="Ambiente.cs" />
     <Compile Include="DetalleHorasEvento.cs" />
     <Compile Include="DetalleRequerimiento.cs" />

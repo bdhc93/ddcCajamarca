@@ -333,6 +333,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Imagenes\EscudoPeru.ico" />
+    <Content Include="Imagenes\Escudo_nacional.png" />
+    <Content Include="Imagenes\Slide\1920x600.png" />
+    <Content Include="Imagenes\Slide\Slide1.png" />
+    <Content Include="Imagenes\Slide\Slide2.png" />
+    <Content Include="Images\1920x600.png" />
     <Content Include="Images\a1.jpg" />
     <Content Include="Images\a2.jpg" />
     <Content Include="Images\a3.jpg" />
@@ -1811,6 +1817,7 @@
     <Content Include="Views\AgendaCultural\ReporteActividadesCulturales.cshtml" />
     <Content Include="Views\AgendaCultural\_Mensaje.cshtml" />
     <Content Include="Views\AgendaCultural\DataEventosJSON.cshtml" />
+    <Content Include="Views\AgendaCultural\_BuscarEventoReporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

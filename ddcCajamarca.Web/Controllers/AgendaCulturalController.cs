@@ -1087,6 +1087,16 @@ namespace ddcCajamarca.Web.Controllers
                 contsalas++;
             }
 
+            var nombredias = new String[5];
+
+            for (int i = 0; i < 5; i++)
+            {
+                nombredias[i] = OBtenerNombreDia(DateTime.Today, i);
+            }
+
+            ViewBag.nombredias = nombredias;
+            ViewBag.contdias = nombredias.Count();
+
             foreach (var item in result)
             {
                 for (int i = 0; i < salas.Count(); i++)
@@ -1127,6 +1137,107 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.nombresalas = salas;
 
             return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult BuscarEventoReporte(String fechabuscar, String fechafinbuscar, String salas)
+        {
+            String[] sala = salas.Split(',');
+
+            var Fechainicial = DateTime.Parse(fechabuscar);
+            var Fechafinal = DateTime.Parse(fechafinbuscar);
+
+            var dias = Int32.Parse((Fechafinal - Fechainicial).TotalDays + "") + 1;
+
+            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59));
+
+            var ambientes = ambienteService.ObtenerAmbientePorCriterio("");
+
+            var contsalas = 0;
+
+            if (dias > 6)
+            {
+                dias = 6;
+            }
+
+            var nombredias = new String[dias];
+            
+            for (int i = 0; i < dias; i++)
+            {
+                nombredias[i] = OBtenerNombreDia(Fechainicial, i);
+            }
+
+            ViewBag.nombredias = nombredias;
+            ViewBag.contdias = nombredias.Count();
+
+            var matriz = new String[sala.Count(), dias + 1];
+
+            foreach (var item in ambientes)
+            {
+                for (int i = 0; i < sala.Count(); i++)
+                {
+                    if (item.Id == Int32.Parse(sala[i]))
+                    {
+                        matriz[contsalas, 0] = item.Nombre;
+                        contsalas++;
+                        break;
+                    }
+                }
+            }
+
+            foreach (var item in result)
+            {
+                for (int i = 0; i < sala.Count(); i++)
+                {
+                    if (item.EventoEnsayo.Ambiente.Nombre == matriz[i, 0])
+                    {
+                        var requerimientos = "";
+                        var contreq = item.EventoEnsayo.DetalleRequerimientos.Count;
+
+                        foreach (var req in item.EventoEnsayo.DetalleRequerimientos)
+                        {
+                            requerimientos = requerimientos + "<br />" + req.Activo.Nombre + ": " + req.Cantidad;
+                        }
+                        for (int j = 0; j < dias; j++)
+                        {
+                            if (item.FechaInicio.Day == DateTime.Parse(fechabuscar).AddDays(j).Day)
+                            {
+                                if (item.EventoEnsayo.Evento)
+                                {
+                                    if (contreq > 0)
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "<b>ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "</b> <br />ENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " <br />" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "<br />REQUERIMIENTOS: <br />" + requerimientos + "<br /><br />";
+                                    }
+                                    else
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "<b>ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "</b> <br />ENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " <br />" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "<br /><br />";
+                                    }
+                                }
+                                else
+                                {
+                                    if (contreq > 0)
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "<b>ENSAYO: " + item.EventoEnsayo.NombreActividad + "</b> <br />ENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " <br />" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "<br />REQUERIMIENTOS:" + requerimientos + "<br /><br />";
+                                    }
+                                    else
+                                    {
+                                        matriz[i, j + 1] = matriz[i, j + 1] + "<b>ENSAYO: " + item.EventoEnsayo.NombreActividad + "</b> <br />ENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " <br />" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "<br /><br />";
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            ViewBag.detalle = matriz;
+            ViewBag.salas = sala.Count();
+            ViewBag.fechabuscar = fechabuscar;
+            
+
+            return PartialView("_BuscarEventoReporte");
         }
 
         [HttpPost]
@@ -1171,17 +1282,39 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         if (item.EventoEnsayo.Ambiente.Nombre == matriz[i, 0])
                         {
+                            var requerimientos = "";
+                            var contreq = item.EventoEnsayo.DetalleRequerimientos.Count;
+
+                            foreach (var req in item.EventoEnsayo.DetalleRequerimientos)
+                            {
+                                requerimientos = requerimientos + "\n" + req.Activo.Nombre + ": " + req.Cantidad;
+                            }
                             for (int j = 0; j < dias; j++)
                             {
                                 if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(j).Day)
                                 {
                                     if (item.EventoEnsayo.Evento)
                                     {
-                                        matriz[i, j + 1] = matriz[i, j + 1] + "Actividad: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                        if (contreq > 0)
+                                        {
+                                            matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                        }
+                                        else
+                                        {
+                                            matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                        }
                                     }
                                     else
                                     {
-                                        matriz[i, j + 1] = matriz[i, j + 1] + "Ensayo: " + item.EventoEnsayo.NombreActividad + "\nEncargado: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                        if (contreq > 0)
+                                        {
+                                            matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                        }
+                                        else
+                                        {
+                                            matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                        }
+                                        
                                     }
                                     
                                 }
@@ -1235,7 +1368,8 @@ namespace ddcCajamarca.Web.Controllers
                         worksheet.Range["A" + (i + 2)].WrapText = true;
                         worksheet.Range["B" + (i + 2)+ ":" + OBtenerNombreCelda(dias + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
                     }
-                    
+
+                    worksheet.Range["B2"].FreezePanes();
                     worksheet.PageSetup.PrintTitleColumns = "$1:$1";
 
                     worksheet.PageSetup.Orientation = ExcelPageOrientation.Landscape;
@@ -1518,7 +1652,11 @@ namespace ddcCajamarca.Web.Controllers
                 case 31:
                     nombrecelda = "AE";
                     break;
+                case 32:
+                    nombrecelda = "AF";
+                    break;
                 default:
+                    nombrecelda = "AG";
                     break;
             }
 
