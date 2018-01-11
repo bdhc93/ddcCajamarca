@@ -556,7 +556,7 @@ namespace ddcCajamarca.Web.Controllers
                     allDay = item.EventoEnsayo.TodoDia,
                     color = item.EventoEnsayo.Ambiente.ColorNombre,
                     description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
-                    data = item.IdEventoEnsayo
+                    data = item.Id
                 };
                 datos.Add(x);
             }
@@ -710,7 +710,7 @@ namespace ddcCajamarca.Web.Controllers
                         allDay = item.EventoEnsayo.TodoDia,
                         color = item.EventoEnsayo.Ambiente.ColorNombre,
                         description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
-                        data = item.IdEventoEnsayo
+                        data = item.Id
                     };
                     datos.Add(x);
                 }
