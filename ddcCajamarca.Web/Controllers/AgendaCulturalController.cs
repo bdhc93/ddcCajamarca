@@ -439,49 +439,105 @@ namespace ddcCajamarca.Web.Controllers
                 {
                     titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
                 }
+
                 if (item.FechaFin.Date != item.FechaInicio.Date)
                 {
                     if (item.FechaInicio.Day < 10)
                     {
-                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                        if (item.FechaFin.AddDays(1).Day > 9)
+                        if (item.FechaInicio.Month < 10)
                         {
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                         }
                         else
                         {
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                         }
-                        
+
+                        if (item.FechaFin.AddDays(1).Day > 9)
+                        {
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                        }
+                        else
+                        {
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                        }
                     }
                     else
                     {
-                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                        if (item.FechaFin.AddDays(1).Day > 9)
+                        if (item.FechaInicio.Month < 10)
                         {
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                         }
                         else
                         {
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                         }
-                        
+
+                        if (item.FechaFin.AddDays(1).Day > 9)
+                        {
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                        }
+                        else
+                        {
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                            }
+                        }
                     }
                 }
                 else
                 {
                     if (item.FechaInicio.Day < 10)
                     {
-                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                        fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        if (item.FechaInicio.Month < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
                     }
                     else
                     {
-                        inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                        fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
-
+                        if (item.FechaInicio.Month < 10)
+                        {
+                            inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
+                        else
+                        {
+                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                        }
                     }
                 }
 
@@ -537,49 +593,105 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
                     }
+
                     if (item.FechaFin.Date != item.FechaInicio.Date)
                     {
                         if (item.FechaInicio.Day < 10)
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                            if (item.FechaFin.AddDays(1).Day > 9)
+                            if (item.FechaInicio.Month < 10)
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
                             else
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
-
+                            
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
+                            else
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
                         }
                         else
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                            if (item.FechaFin.AddDays(1).Day > 9)
+                            if (item.FechaInicio.Month < 10)
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
                             else
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
-
+                            
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
+                            else
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
                         }
                     }
                     else
                     {
                         if (item.FechaInicio.Day < 10)
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
                         }
                         else
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
-
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
                         }
                     }
 

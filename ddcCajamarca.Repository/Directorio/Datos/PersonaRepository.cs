@@ -49,7 +49,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
             var query = from p in Context.Personas select p;
 
             query = from p in query
-                    where p.FechaNacimiento.Month == DateTime.Today.Month && (p.FechaNacimiento.Day>(DateTime.Today.Day-5) && p.FechaNacimiento.Day < (DateTime.Today.Day + 5)) 
+                    where p.FechaNacimiento.Month == DateTime.Today.Month && (p.FechaNacimiento.Day>(DateTime.Today.Day-5) && p.FechaNacimiento.Day < (DateTime.Today.Day + 5)) && p.FechaNacimiento.Year != 0001
                     select p;
 
             return query.ToList();
