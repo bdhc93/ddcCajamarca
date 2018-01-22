@@ -335,7 +335,11 @@
     </Content>
     <Content Include="Imagenes\EscudoPeru.ico" />
     <Content Include="Imagenes\Escudo_nacional.png" />
+    <Content Include="Imagenes\Image1.png" />
+    <Content Include="Imagenes\Image2.png" />
+    <Content Include="Imagenes\Image3.png" />
     <Content Include="Imagenes\Slide\1920x600.png" />
+    <Content Include="Imagenes\Slide\Slide01.png" />
     <Content Include="Imagenes\Slide\Slide1.png" />
     <Content Include="Imagenes\Slide\Slide2.png" />
     <Content Include="Images\1920x600.png" />

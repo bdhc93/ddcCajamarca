@@ -239,25 +239,51 @@ namespace ddcCajamarca.Web.Controllers
                     var fechainiguard = eventoguardar.FechaInicio;
                     var fechafinguard = eventoguardar.FechaFin;
 
-                    for (int i = 0; i < 90; i++)
+                    if (Eventotipo)
                     {
-                        DetalleHorasEvento detallehora = new DetalleHorasEvento
+                        for (int i = 0; i < 90; i++)
                         {
-                            FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                            FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-                        };
+                            DetalleHorasEvento detallehora = new DetalleHorasEvento
+                            {
+                                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
+                                FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                            };
 
-                        eventoguardar.DetalleHorasEventos.Add(detallehora);
+                            eventoguardar.DetalleHorasEventos.Add(detallehora);
 
-                        if (fechainiguard >= DateTime.Parse(FechaFin))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            fechainiguard = fechainiguard.AddDays(1);
+                            if (fechainiguard >= DateTime.Parse(FechaFin))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                fechainiguard = fechainiguard.AddDays(1);
+                            }
                         }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 366; i++)
+                        {
+                            DetalleHorasEvento detallehora = new DetalleHorasEvento
+                            {
+                                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
+                                FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                            };
+
+                            eventoguardar.DetalleHorasEventos.Add(detallehora);
+
+                            if (fechainiguard >= DateTime.Parse(FechaFin))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                fechainiguard = fechainiguard.AddDays(1);
+                            }
+                        }
+                    }
+                    
                     eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
                 }
             }
@@ -430,14 +456,17 @@ namespace ddcCajamarca.Web.Controllers
                 var titulos = "";
                 var inicios = "";
                 var fines = "";
+                var titulopop = "";
 
                 if (item.EventoEnsayo.Evento)
                 {
                     titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    titulopop = "EVENTO: " + item.EventoEnsayo.NombreActividad;
                 }
                 else
                 {
                     titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                    titulopop = "ENSAYO: " + item.EventoEnsayo.NombreActividad;
                 }
 
                 if (item.FechaFin.Date != item.FechaInicio.Date)
@@ -555,7 +584,7 @@ namespace ddcCajamarca.Web.Controllers
                     end = fines,
                     allDay = item.EventoEnsayo.TodoDia,
                     color = item.EventoEnsayo.Ambiente.ColorNombre,
-                    description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                    description = "<b>" + titulopop + "</b> <br /> <b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
                     data = item.Id
                 };
                 datos.Add(x);
@@ -584,14 +613,17 @@ namespace ddcCajamarca.Web.Controllers
                     var titulos = "";
                     var inicios = "";
                     var fines = "";
+                    var titulopop = "";
 
                     if (item.EventoEnsayo.Evento)
                     {
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                        titulopop = "EVENTO: " + item.EventoEnsayo.NombreActividad;
                     }
                     else
                     {
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                        titulopop = "ENSAYO: " + item.EventoEnsayo.NombreActividad;
                     }
 
                     if (item.FechaFin.Date != item.FechaInicio.Date)
@@ -709,7 +741,7 @@ namespace ddcCajamarca.Web.Controllers
                         end = fines,
                         allDay = item.EventoEnsayo.TodoDia,
                         color = item.EventoEnsayo.Ambiente.ColorNombre,
-                        description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                        description = "<b>" + titulopop + "</b> <br /> Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
                         data = item.Id
                     };
                     datos.Add(x);
@@ -788,14 +820,17 @@ namespace ddcCajamarca.Web.Controllers
                     var titulos = "";
                     var inicios = "";
                     var fines = "";
+                    var titulopop = "";
 
                     if (item.EventoEnsayo.Evento)
                     {
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                        titulopop = "EVENTO: " + item.EventoEnsayo.NombreActividad;
                     }
                     else
                     {
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
+                        titulopop = "ENSAYO: " + item.EventoEnsayo.NombreActividad;
                     }
                     if (item.FechaFin.Date != item.FechaInicio.Date)
                     {
@@ -857,7 +892,7 @@ namespace ddcCajamarca.Web.Controllers
                         end = fines,
                         allDay = item.EventoEnsayo.TodoDia,
                         color = item.EventoEnsayo.Ambiente.ColorNombre,
-                        description = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                        description = "<b>"+ titulopop + "</b> <br />" + "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
                         data = item.IdEventoEnsayo
                     };
                     datos.Add(x);
