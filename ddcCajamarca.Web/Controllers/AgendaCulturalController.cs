@@ -7,6 +7,7 @@ using Syncfusion.XlsIO;
 using System.Web.Mvc;
 using ddcCajamarca.Services.ActividadesCulturales.Interfaces;
 using ddcCajamarca.Models;
+using System.Globalization;
 
 namespace ddcCajamarca.Web.Controllers
 {
@@ -92,9 +93,18 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult NuevoRegistro(Int32 idAmbientes, String OpcionEvento, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin)
+        public ActionResult NuevoRegistro(Int32 idAmbientes, String OpcionEvento, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin,
+            Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
             ViewBag.FechaHoy = FechaHoy();
+
+            ViewBag.cbLunes = cbLunes.ToString();
+            ViewBag.cbMartes = cbMartes.ToString();
+            ViewBag.cbMiercoles = cbMiercoles.ToString();
+            ViewBag.cbJueves = cbJueves.ToString();
+            ViewBag.cbViernes = cbViernes.ToString();
+            ViewBag.cbSabado = cbSabado.ToString();
+            ViewBag.cbDomingo = cbDomingo.ToString();
 
             if (OpcionEvento == "Evento")
             {
@@ -107,6 +117,7 @@ namespace ddcCajamarca.Web.Controllers
 
             ViewBag.FechaInicio = FechaIni;
             ViewBag.FechaFin = FechaFin;
+
             if (opcTodoDia)
             {
                 ViewBag.opcTodoDia = "True";
@@ -121,7 +132,7 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.HoraFin = HoraFin;
                 ViewBag.Activos = activoService.ObtenerActivoSinUsoPorFechas(DateTime.Parse(FechaIni + " " + HoraIni), DateTime.Parse(FechaFin + " " + HoraFin));
             }
-
+            
             ViewBag.IdAmbiente = idAmbientes;
             ViewBag.Ambiente = ambienteService.ObtenerAmbientePorId(idAmbientes).NombreMostrar;
             ViewBag.EventosAuto = DataEventosAutocomplete(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin));
@@ -130,7 +141,8 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo)
+        public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo,
+            Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
             EventoEnsayo eventoguardar;
 
@@ -221,15 +233,19 @@ namespace ddcCajamarca.Web.Controllers
 
                     for (int i = 0; i < dias; i++)
                     {
-                        DetalleHorasEvento detallehora = new DetalleHorasEvento
+                        if (ObtenerDiaSeleccionado(fechainiguard, cbLunes, cbMartes, cbMiercoles, cbJueves, cbViernes, cbSabado, cbDomingo))
                         {
-                            FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                            FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-                        };
+                            DetalleHorasEvento detallehora = new DetalleHorasEvento
+                            {
+                                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
+                                FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                            };
+
+                            eventoguardar.DetalleHorasEventos.Add(detallehora);
+                        }
 
                         fechainiguard = fechainiguard.AddDays(1);
 
-                        eventoguardar.DetalleHorasEventos.Add(detallehora);
                     }
 
                     eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
@@ -243,13 +259,16 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         for (int i = 0; i < 90; i++)
                         {
-                            DetalleHorasEvento detallehora = new DetalleHorasEvento
+                            if (ObtenerDiaSeleccionado(fechainiguard,cbLunes,cbMartes,cbMiercoles,cbJueves,cbViernes,cbSabado,cbDomingo))
                             {
-                                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                                FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-                            };
+                                DetalleHorasEvento detallehora = new DetalleHorasEvento
+                                {
+                                    FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
+                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                                };
 
-                            eventoguardar.DetalleHorasEventos.Add(detallehora);
+                                eventoguardar.DetalleHorasEventos.Add(detallehora);
+                            }
 
                             if (fechainiguard >= DateTime.Parse(FechaFin))
                             {
@@ -265,13 +284,16 @@ namespace ddcCajamarca.Web.Controllers
                     {
                         for (int i = 0; i < 366; i++)
                         {
-                            DetalleHorasEvento detallehora = new DetalleHorasEvento
+                            if (ObtenerDiaSeleccionado(fechainiguard, cbLunes, cbMartes, cbMiercoles, cbJueves, cbViernes, cbSabado, cbDomingo))
                             {
-                                FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                                FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
-                            };
+                                DetalleHorasEvento detallehora = new DetalleHorasEvento
+                                {
+                                    FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
+                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                                };
 
-                            eventoguardar.DetalleHorasEventos.Add(detallehora);
+                                eventoguardar.DetalleHorasEventos.Add(detallehora);
+                            }
 
                             if (fechainiguard >= DateTime.Parse(FechaFin))
                             {
@@ -1845,6 +1867,40 @@ namespace ddcCajamarca.Web.Controllers
             }
 
             return diaespañol + " " + fecha.Day + " /" + fecha.Month + " /" + fecha.Year;
+        }
+
+        private bool ObtenerDiaSeleccionado(DateTime fecha, Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
+        {
+            string descripcion = fecha.ToString("dddd", CultureInfo.CreateSpecificCulture("es-ES"));
+
+            switch (descripcion)
+            {
+                case "lunes":
+                    if (cbLunes){ return true; }
+                    break;
+                case "martes":
+                    if (cbMartes) { return true; }
+                    break;
+                case "miércoles":
+                    if (cbMiercoles) { return true; }
+                    break;
+                case "jueves":
+                    if (cbJueves) { return true; }
+                    break;
+                case "viernes":
+                    if (cbViernes) { return true; }
+                    break;
+                case "sábado":
+                    if (cbSabado) { return true; }
+                    break;
+                case "domingo":
+                    if (cbDomingo) { return true; }
+                    break;
+                default:
+                    break;
+            }
+
+            return false;
         }
 
         private string FechaHoy()
