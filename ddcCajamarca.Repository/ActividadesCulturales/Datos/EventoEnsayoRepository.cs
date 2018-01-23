@@ -95,7 +95,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
 
         public EventoEnsayo ObtenerEventoEnsayoPorId(int id)
         {
-            var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
+            var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleHorasEventos").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
                         where p.Id.Equals(id)
                         select p;
 

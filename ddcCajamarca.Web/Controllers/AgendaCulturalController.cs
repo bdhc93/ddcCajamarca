@@ -1850,7 +1850,7 @@ namespace ddcCajamarca.Web.Controllers
                     diaespañol = "Martes";
                     break;
                 case DayOfWeek.Wednesday:
-                    diaespañol = "Miercoles";
+                    diaespañol = "Miércoles";
                     break;
                 case DayOfWeek.Thursday:
                     diaespañol = "Jueves";
@@ -1859,7 +1859,7 @@ namespace ddcCajamarca.Web.Controllers
                     diaespañol = "Viernes";
                     break;
                 case DayOfWeek.Saturday:
-                    diaespañol = "Sabado";
+                    diaespañol = "Sábado";
                     break;
                 default:
                     diaespañol = "";

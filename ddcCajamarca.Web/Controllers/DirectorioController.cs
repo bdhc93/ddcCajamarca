@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ddcCajamarca.Services.Directorio.Interfaces;
 using ddcCajamarca.Models;
 using System.Drawing;
+using Syncfusion.XlsIO;
 
 namespace ddcCajamarca.Web.Controllers
 {
@@ -437,6 +438,156 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_Listar", result);
         }
+        
+        [HttpGet]
+        public ActionResult GenerateDocument(String criterio, Int32 IdOrBS, Int32 IdOcBS, Int32 IdPrBS, String Formato)
+        {
+            if (Formato == "Excel")
+            {
+                var result = personaService.ObtenerPersonaPorFiltro(criterio, IdOrBS, IdOcBS, IdPrBS);
+                
+                using (ExcelEngine excelEngine = new ExcelEngine())
+                {
+                    excelEngine.Excel.DefaultVersion = ExcelVersion.Excel2013;
+
+                    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+
+                    IWorksheet worksheet = workbook.Worksheets[0];
+                    worksheet.Name = "DDC-Cajamarca";
+                    worksheet.Range["A1:E1"].ColumnWidth = 27;
+
+                    //for (int i = 0; i < result.Count(); i++)
+                    //{
+                    //    for (int j = 0; j < 4 + 1; j++)
+                    //    {
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].Text = matriz[i, j];
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.Font.Size = 8;
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                    //    }
+
+                    //    worksheet.Range["A" + (i + 2)].CellStyle.Font.Bold = true;
+                    //    worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
+                    //    worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+
+                    //}
+
+                    //for (int i = 0; i < result.Count(); i++)
+                    //{
+                    //    for (int j = 0; j < 4 + 1; j++)
+                    //    {
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].Text = matriz[i, j];
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.Font.Size = 8;
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    //        worksheet.Range[OBtenerNombreCelda(j + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                    //    }
+
+                    //    worksheet.Range["A" + (i + 2)].CellStyle.Font.Bold = true;
+                    //    worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderAround(ExcelLineStyle.Medium);
+                    //    worksheet.Range["A" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + "" + (i + 2)].BorderInside(ExcelLineStyle.Medium);
+
+                    //}
+
+                    var cont = 0;
+
+                    foreach (var item in result)
+                    {
+                        worksheet.Range["A" + (cont + 2)].Text = item.NombreApellidos;
+                        worksheet.Range["A" + (cont + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["A" + (cont + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range["A" + (cont + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["A" + (cont + 2)].WrapText = true;
+
+                        worksheet.Range["B" + (cont + 2)].Text = item.OcupacionCultural.Nombre;
+                        worksheet.Range["B" + (cont + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["B" + (cont + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range["B" + (cont + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["B" + (cont + 2)].WrapText = true;
+
+                        worksheet.Range["C" + (cont + 2)].Text = item.Direccion;
+                        worksheet.Range["C" + (cont + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["C" + (cont + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range["C" + (cont + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["C" + (cont + 2)].WrapText = true;
+
+                        worksheet.Range["D" + (cont + 2)].Text = item.Telefono;
+                        worksheet.Range["D" + (cont + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["D" + (cont + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range["D" + (cont + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["D" + (cont + 2)].WrapText = true;
+
+                        worksheet.Range["E" + (cont + 2)].Text = item.Email;
+                        worksheet.Range["E" + (cont + 2)].CellStyle.Font.Size = 8;
+                        worksheet.Range["E" + (cont + 2)].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                        worksheet.Range["E" + (cont + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                        worksheet.Range["E" + (cont + 2)].WrapText = true;
+
+                        worksheet.Range["A" + (cont + 2)].CellStyle.Font.Bold = true;
+                        worksheet.Range["A" + (cont + 2) + ":" + "E" + (cont + 2)].BorderAround(ExcelLineStyle.Dashed);
+                        worksheet.Range["A" + (cont + 2) + ":" + "E" + (cont + 2)].BorderInside(ExcelLineStyle.Dashed);
+
+                        cont++;
+                    }
+
+                    worksheet.Range["A1"].Text = "NOMBRE";
+                    worksheet.Range["A1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["A1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["A1"].CellStyle.Font.Bold = true;
+
+                    worksheet.Range["B1"].Text = "OCUPACION CULTURAL";
+                    worksheet.Range["B1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["B1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["B1"].CellStyle.Font.Bold = true;
+
+                    worksheet.Range["C1"].Text = "DIRECCIÓN";
+                    worksheet.Range["C1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["C1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["C1"].CellStyle.Font.Bold = true;
+
+                    worksheet.Range["D1"].Text = "TELÉFONO";
+                    worksheet.Range["D1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["D1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["D1"].CellStyle.Font.Bold = true;
+
+                    worksheet.Range["E1"].Text = "EMAIL";
+                    worksheet.Range["E1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    worksheet.Range["E1"].BorderAround(ExcelLineStyle.Medium);
+                    worksheet.Range["E1"].CellStyle.Font.Bold = true;
+
+                    //for (int i = 0; i < dias; i++)
+                    //{
+                    //    worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].Text = OBtenerNombreDia(DateTime.Parse(FechaIni), i);
+                    //    worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter;
+                    //    worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].BorderAround(ExcelLineStyle.Medium);
+                    //    worksheet.Range[OBtenerNombreCelda(i + 2) + "1"].CellStyle.Font.Bold = true;
+                    //}
+
+                    //for (int i = 0; i < contsalas; i++)
+                    //{
+                    //    worksheet.Range["A" + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignCenter;
+                    //    worksheet.Range["A" + (i + 2)].WrapText = true;
+                    //    worksheet.Range["B" + (i + 2) + ":" + OBtenerNombreCelda(dias + 1) + (i + 2)].CellStyle.VerticalAlignment = ExcelVAlign.VAlignTop;
+                    //}
+
+                    worksheet.Range["B2"].FreezePanes();
+                    worksheet.PageSetup.PrintTitleColumns = "$1:$1";
+
+                    worksheet.PageSetup.Orientation = ExcelPageOrientation.Landscape;
+                    worksheet.PageSetup.LeftMargin = 0.2519685;
+                    worksheet.PageSetup.RightMargin = 0.2519685;
+                    worksheet.PageSetup.TopMargin = 0.2519685;
+                    worksheet.PageSetup.BottomMargin = 0.2519685;
+                    worksheet.PageSetup.HeaderMargin = 0.2992126;
+                    worksheet.PageSetup.FooterMargin = 0.2992126;
+
+                    //Save the workbook to disk in xlsx format.
+                    workbook.SaveAs("ReporteDirectorio" + DateTime.Today.Day + "-" + DateTime.Today.Month + "-" + DateTime.Today.Year + ".xlsx", HttpContext.ApplicationInstance.Response, ExcelDownloadType.Open);
+                }
+            }
+
+            return View();
+        }
+
 
         [HttpGet]
         public ActionResult BuscarExtra(String criterio, String idopcion)
@@ -658,6 +809,116 @@ namespace ddcCajamarca.Web.Controllers
             }
 
             return PartialView("_ModificarExtra");
+        }
+
+        private string OBtenerNombreCelda(Int32 celda)
+        {
+            var nombrecelda = "";
+
+            switch (celda)
+            {
+                case 1:
+                    nombrecelda = "A";
+                    break;
+                case 2:
+                    nombrecelda = "B";
+                    break;
+                case 3:
+                    nombrecelda = "C";
+                    break;
+                case 4:
+                    nombrecelda = "D";
+                    break;
+                case 5:
+                    nombrecelda = "E";
+                    break;
+                case 6:
+                    nombrecelda = "F";
+                    break;
+                case 7:
+                    nombrecelda = "G";
+                    break;
+                case 8:
+                    nombrecelda = "H";
+                    break;
+                case 9:
+                    nombrecelda = "I";
+                    break;
+                case 10:
+                    nombrecelda = "J";
+                    break;
+                case 11:
+                    nombrecelda = "K";
+                    break;
+                case 12:
+                    nombrecelda = "L";
+                    break;
+                case 13:
+                    nombrecelda = "M";
+                    break;
+                case 14:
+                    nombrecelda = "N";
+                    break;
+                case 15:
+                    nombrecelda = "O";
+                    break;
+                case 16:
+                    nombrecelda = "P";
+                    break;
+                case 17:
+                    nombrecelda = "Q";
+                    break;
+                case 18:
+                    nombrecelda = "R";
+                    break;
+                case 19:
+                    nombrecelda = "S";
+                    break;
+                case 20:
+                    nombrecelda = "T";
+                    break;
+                case 21:
+                    nombrecelda = "U";
+                    break;
+                case 22:
+                    nombrecelda = "V";
+                    break;
+                case 23:
+                    nombrecelda = "W";
+                    break;
+                case 24:
+                    nombrecelda = "X";
+                    break;
+                case 25:
+                    nombrecelda = "Y";
+                    break;
+                case 26:
+                    nombrecelda = "Z";
+                    break;
+                case 27:
+                    nombrecelda = "AA";
+                    break;
+                case 28:
+                    nombrecelda = "AB";
+                    break;
+                case 29:
+                    nombrecelda = "AC";
+                    break;
+                case 30:
+                    nombrecelda = "AD";
+                    break;
+                case 31:
+                    nombrecelda = "AE";
+                    break;
+                case 32:
+                    nombrecelda = "AF";
+                    break;
+                default:
+                    nombrecelda = "AG";
+                    break;
+            }
+
+            return nombrecelda;
         }
 
         private string FechaHoy()

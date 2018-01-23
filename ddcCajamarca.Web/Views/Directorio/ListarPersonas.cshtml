@@ -66,13 +66,13 @@
                     <div class="form-group col-lg-12">
                         <label class="control-label">Formato</label>
                         <div class="form-group col-lg-12 text-right">
-                            <select class="form-control" id="IdFormato" name="StudentGender">
-                                <option>PDF</option>
+                            <select class="form-control" id="IdFormato" name="IdFormato">
+                                @*<option>PDF</option>*@
                                 <option>Excel</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-12 text-right">
-                            <button type="button" class="btn btn-success btn-sm">Exportar</button>
+                            <button type="button" onclick="generarReporte()" class="btn btn-success btn-sm">Exportar</button>
                         </div>
 
                     </div>
@@ -162,7 +162,25 @@
     
     <script type="text/javascript">
 
-        
+        function generarReporte() {
+            var criterio = $('#txtBuscar').val();
+            var IdOrBS1 = $("#IdOrBS").val();
+            var IdOcBS1 = $("#IdOcBS").val();
+            var IdPrBS1 = $("#IdPrBS").val();
+            var IdFormato = $("#IdFormato").val();
+
+            if (IdOrBS1 == "") {
+                IdOrBS1 = "1";
+            }
+            if (IdOcBS1 == "") {
+                IdOcBS1 = "1";
+            }
+            if (IdPrBS1 == "") {
+                IdPrBS1 = "1";
+            }
+            
+            window.location.href = "GenerateDocument?criterio=" + criterio + "&IdOrBS=" + IdOrBS1 + "&IdOcBS=" + IdOcBS1 + "&IdPrBS=" + IdPrBS1 + "&Formato=" + IdFormato;
+        }
 
         function buscarCriterio() {
             var criterio = $('#txtBuscar').val();
