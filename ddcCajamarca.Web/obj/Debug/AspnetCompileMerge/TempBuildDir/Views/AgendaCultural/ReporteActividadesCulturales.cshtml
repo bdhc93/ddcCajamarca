@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Agenda Cultural";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Agenda Cultural</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Agenda Cultural
+            </li>
+            <li class="active">
+                <strong>Reporte Actividades</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <form action="@Url.Action("GenerateDocument", "AgendaCultural")" enctype="multipart/form-data" method="post">
+
+
+                <div class="col-sm-8 b-r">
+                    <div class="row">
+                        <div class="form-group col-lg-12"><h3>Filtros</h3></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <div class="form-group col-lg-6" id="calendario">
+                                <label>Fecha Inicio</label>
+                                <div class="input-group date">
+                                    <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6" id="calendario2">
+                                <label>Fecha Fin</label>
+                                <div class="input-group date">
+                                    <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label class="control-label">Salas</label>
+                                <select name="salas" id="salas" class="multipleopcionlista form-control" multiple="multiple">
+                                    @{
+                                        foreach (var item in @ViewBag.nombresalas)
+                                        {
+                                            <option value="@item.Id" selected>@item.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                *La vista previa muestra información maxima de 6 dias
+                                <div class="text-right">
+
+                                    <a href="#" class="btn btn-warning btn-sm" onclick="buscarCriterio()">VistaPrevia</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="form-group col-lg-12"><h3>Exportar Data</h3></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label class="control-label">Formato</label>
+                            <div class="form-group col-lg-12 text-right">
+                                <select class="form-control" id="IdFormato" name="Formato">
+                                    @*<option>PDF</option>*@
+                                    <option>Excel</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-12 text-right">
+                                <button type="submit" class="btn btn-success btn-sm">Exportar</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div id="detalleeventos">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sala/Patio</th>
+                                    @{
+                                        for (int i = 0; i < ViewBag.contdias; i++)
+                                        {
+                                            <th>@ViewBag.nombredias[i]</th>
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    for (int i = 0; i < @ViewBag.salas; i++)
+                                    {
+                                        <tr class="gradeX">
+                                            <td>@ViewBag.detalle[i, 0]</td>
+                                            @for (int j = 0; j < @ViewBag.contdias; j++)
+                                            {
+                                                <td>@Html.Raw(HttpUtility.HtmlDecode(@ViewBag.detalle[i, j + 1]))</td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Sala/Patio</th>
+                                    @{
+                                        for (int i = 0; i < ViewBag.contdias; i++)
+                                        {
+                                            <th>@ViewBag.nombredias[i]</th>
+                                        }
+                                    }
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+
+        $(".multipleopcionlista").select2();
+
+        $('#calendario .input-group.date').datepicker({
+            language: "es",
+            startView: 0,
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true,
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('#calendario2 .input-group.date').datepicker('setStartDate', minDate);
+        });
+
+        $('#FechaIni').change(function () {
+            $('#FechaFin').val($('#FechaIni').val());
+            //$('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
+        });
+
+        function buscarCriterio() {
+            var salasseleccionadas = "";
+            $("#salas").each(function () {
+                // Add $(this).val() to your list
+                salasseleccionadas = salasseleccionadas + $(this).val();
+                //console.log($(this).val());
+            });
+            $.get("BuscarEventoReporte", { 'fechabuscar': $('#FechaIni').val(), 'fechafinbuscar': $('#FechaFin').val(), 'salas': salasseleccionadas })
+                .done(function (response) {
+                    $('#detalleeventos').html(response);
+                });
+        }
+
+        //$('#calendario .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
+
+        $('#calendario2 .input-group.date').datepicker({
+            language: "es",
+            startView: 0,
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true,
+            format: 'dd/mm/yyyy'
+        }).on('changeDate', function (selected) {
+            //var minDate = new Date(selected.date.valueOf());
+            //$('#calendario .input-group.date').datepicker('setEndDate', minDate);
+        });
+
+        $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
+
+
+        $(document).ready(function () {
+
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'excel', title: 'ExampleFile' },
+                    { extend: 'pdf', title: 'ExampleFile' },
+
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+
+            });
+
+
+
+        });
+
+    </script>
+}

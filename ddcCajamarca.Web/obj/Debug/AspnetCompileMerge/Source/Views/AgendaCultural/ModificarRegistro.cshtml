@@ -1,0 +1,239 @@
+﻿
+@{
+    ViewBag.Title = "Agenda Cultural";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Agenda Cultural</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Agenda Cultural
+            </li>
+            <li class="active">
+                <strong>Modificar Registro</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h2>
+                    Formulario - Modificar Evento
+                </h2>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <form action="@Url.Action("ModificarRegistro", "AgendaCultural")" enctype="multipart/form-data" method="post">
+                        <div class="form-group col-lg-12">
+                            <div class="col-lg-9 b-r">
+                                <div class="form-group col-lg-6">
+                                    <label>Sala</label>
+                                    <input name="NombreAmbiente" readonly class="form-control" value="@Model.Ambiente.NombreMostrar" style="text-transform:uppercase;" required>
+                                    <input name="IdAmbiente" hidden value="@Model.IdAmbiente">
+                                    <input name="Id" hidden value="@Model.Id">
+                                    <input name="opcTodoDia" hidden value="@ViewBag.opcTodoDia">
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <label>Fecha de Registro</label>
+                                    <input name="FechaRegistro" type="text" class="form-control" readonly value="@Model.FechaRegistro" />
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <label>Nombre de la Actividad - Agrupacion</label>
+                                    <input name="NombreActividad" id="NombreActividad" value="@Model.NombreActividad" autocomplete="off" placeholder="INGRESE NOMBRE" class="form-control" style="text-transform:uppercase;" required>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label>Institución/Persona Encargada</label>
+                                    <input name="InstitucionEncargada" id="InstitucionEncargada" autocomplete="off" value="@Model.InstitucionEncargada" placeholder="INGRESE NOMBRE" class="form-control" style="text-transform:uppercase;" required>
+                                </div>
+
+                                <div class="form-group col-lg-12" id="idrequerimiento">
+                                    <div class="col-lg-12">
+                                        <label>Requerimientos</label>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <p>Disponibles</p>
+                                        <ul class="sortable-list connectList agile-list" id="todo">
+
+                                            @{
+                                                var x = 0;
+                                                var band = false;
+                                                foreach (var item in @ViewBag.Activos)
+                                                {
+                                                    foreach (var itemdet in Model.DetalleRequerimientos)
+                                                    {
+                                                        if (item.Id == itemdet.IdActivo)
+                                                        {
+                                                            band = true;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (!band)
+                                                    {
+                                                        <li class="success-element" id="@item.Id">
+                                                            @item.Nombre
+                                                            <input name="DetalleRequerimientos[@x].Cantidad" value="@item.Cantidad" class="pull-right numval" max="@item.Cantidad" type="number" min="1" style="width:50px; text-align:center;" />
+                                                            <input name="DetalleRequerimientos[@x].IdActivo" hidden value="@item.Id" />
+                                                            <input name="DetalleRequerimientos[@x].Id" hidden value="0" />
+                                                        </li>
+                                                        x++;
+                                                    }
+
+                                                    band = false;
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <p>Agregados</p>
+                                        <ul class="sortable-list connectList agile-list" id="enprogreso">
+                                            @{
+
+                                                foreach (var item in Model.DetalleRequerimientos)
+                                                {
+                                                    <li class="success-element" id="@item.IdActivo">
+                                                        @item.Activo.Nombre
+                                                        <input name="DetalleRequerimientos[@x].Cantidad" value="@item.Cantidad" class="pull-right numval" max="@item.Activo.Cantidad" type="number" min="1" style="width:50px; text-align:center;" />
+                                                        <input name="DetalleRequerimientos[@x].IdActivo" hidden value="@item.Activo.Id" />
+                                                        <input name="DetalleRequerimientos[@x].Id" hidden value="@item.Id" />
+                                                    </li>
+                                                    x++;
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <label>Información adicional</label>
+                                    <textarea name="InformacionAdicional" class="form-control" rows="5" style="text-transform:uppercase;">@Model.InformacionAdicional</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-3" id="paso2">
+                                <div class="form-group col-lg-12">
+                                    <label>Fecha Inicio</label>
+                                    <div class="input-group">
+                                        <input name="FechaInicio" type="text" readonly class="form-control" value="@Model.FechaInicioMostrar"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label>Fecha Fin</label>
+                                    <div class="input-group">
+                                        <input name="FechaFin" type="text" readonly class="form-control" value="@Model.FechaFinMostrar"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label>Hora Incio</label>
+                                    <div class="input-group clockpicker" data-autoclose="true">
+                                        <input type="text" class="form-control" name="HoraIni" readonly value="@Model.HoraInicioMostrar">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-clock-o"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label>Hora Fin</label>
+                                    <div class="input-group clockpicker" data-autoclose="true">
+                                        <input type="text" class="form-control" name="HoraFin" readonly value="@Model.HoraFinMostrar">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-clock-o"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input id="Eventotipo" name="Eventotipo" hidden value="@ViewBag.Evento" />
+
+
+                            <div class="form-group col-lg-12">
+                                <input hidden type="text" name="arryreq" id="arryreq" value="" />
+                                <div class="text-right">
+                                    <button class="btn btn-sm btn-success m-t-n-xs" type="submit"><strong>Guardar</strong></button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+            <div class="col-lg-12">
+                <h4>
+                    Serialised Output
+                </h4>
+                <p>
+                    Serializes the sortable's item id's into an array of string.
+                </p>
+                <div class="output p-m m white-bg"></div>
+
+            </div>
+        </div>*@
+</div>
+
+
+@section Styles {
+
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/typehead")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/plugins/touchPunch")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#todo, #enprogreso").sortable({
+                connectWith: ".connectList",
+                update: function (event, ui) {
+
+                    var todo = $("#todo").sortable("toArray");
+                    var inprogress = $("#enprogreso").sortable("toArray");
+                    //$('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress));
+                    $('#arryreq').val(inprogress);
+                }
+            }).disableSelection();
+
+            @*if ('@ViewBag.Evento' == 'True') {
+                $('#Eventotipo').val('true');
+                document.getElementById("idrequerimiento").hidden = false;
+            } else {
+                $('#Eventotipo').val('false');
+                document.getElementById("idrequerimiento").hidden = true;
+            }*@
+
+        });
+        //Comillas
+        //$('#NombreActividad').keypress(function (tecla) {
+        //    if (tecla.charCode == 34) return false;
+        //});
+        //$('#InstitucionEncargada').keypress(function (tecla) {
+        //    if (tecla.charCode == 34) return false;
+        //});
+        $('.numval').keypress(function (key) {
+            return false;
+        });
+
+    </script>
+}

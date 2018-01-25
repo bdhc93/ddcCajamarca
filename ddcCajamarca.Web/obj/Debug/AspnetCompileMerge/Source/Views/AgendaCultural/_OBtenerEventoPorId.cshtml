@@ -1,0 +1,109 @@
+﻿@{ 
+    @model ddcCajamarca.Models.DetalleHorasEvento
+}
+
+<div class="form-group col-lg-12">
+    <label>Información Detalle / Información Evento</label>
+    <div class="input-group">
+        <input id="InfoDetalle" type="checkbox" class="js-switch2" />
+    </div>
+</div>
+
+
+<div class="form-group col-lg-6" id="FIEve">
+    <label>Fecha de Inicio</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.FechaInicioMostrar">
+</div>
+<div class="form-group col-lg-6" id="FFEve">
+    <label>Fecha Fin</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.FechaFinMostrar">
+</div>
+<div class="form-group col-lg-6" id="HIEve">
+    <label>Hora de Inicio</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.HoraInicioMostrar">
+</div>
+<div class="form-group col-lg-6" id="HFEve">
+    <label>Hora Fin</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.HoraFinMostrar">
+</div>
+
+<div class="form-group col-lg-6" id="FIDet">
+    <label>Fecha de Inicio</label>
+    <input readonly class="form-control" value="@Model.FechaInicioMostrar">
+</div>
+<div class="form-group col-lg-6" id="FFDet">
+    <label>Fecha Fin</label>
+    <input readonly class="form-control" value="@Model.FechaFinMostrar">
+</div>
+<div class="form-group col-lg-6" id="HIDet">
+    <label>Hora de Inicio</label>
+    <input readonly class="form-control" value="@Model.HoraInicioMostrar">
+</div>
+<div class="form-group col-lg-6" id="HFDet">
+    <label>Hora Fin</label>
+    <input readonly class="form-control" value="@Model.HoraFinMostrar">
+</div>
+
+
+<div class="form-group col-lg-6">
+    <label>Ambiente</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.Ambiente.Nombre">
+</div>
+<div class="form-group col-lg-6">
+    <label>Tipo</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.EventoMostrar">
+</div>
+<div class="form-group col-lg-12">
+    <label>Actividad</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.NombreActividad">
+</div>
+<div class="form-group col-lg-12">
+    <label>Institución Encargada</label>
+    <input readonly class="form-control" value="@Model.EventoEnsayo.InstitucionEncargada">
+</div>
+<div class="form-group col-lg-12">
+    <label>Información Adicional</label>
+    <textarea disabled name="InformacionAdicional" class="form-control"  style="text-transform:uppercase;">@Model.EventoEnsayo.InformacionAdicional</textarea>
+</div>
+
+*Para ver la información completa o modificar, haga clic en Modificar.
+<input id="txtIdMod" hidden value="@Model.EventoEnsayo.Id" />
+<input id="txtIdModDetalle" hidden value="@Model.Id" />
+<input id="InfoTodo" hidden value="false" />
+
+<script type="text/javascript">
+    
+    var elem = document.querySelector('.js-switch2');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+
+    $('#FIEve').hide();
+    $('#FFEve').hide();
+    $('#HIEve').hide();
+    $('#HFEve').hide();
+
+    $('#InfoDetalle').change(function () {
+        if ($(this).is(":checked")) {
+            $('#FIEve').show();
+            $('#FFEve').show();
+            $('#HIEve').show();
+            $('#HFEve').show();
+            $('#FIDet').hide();
+            $('#FFDet').hide();
+            $('#HIDet').hide();
+            $('#HFDet').hide();
+            $('#InfoTodo').val("True");
+        } else {
+            $('#FIEve').hide();
+            $('#FFEve').hide();
+            $('#HIEve').hide();
+            $('#HFEve').hide();
+            $('#FIDet').show();
+            $('#FFDet').show();
+            $('#HIDet').show();
+            $('#HFDet').show();
+            $('#InfoTodo').val("false");
+        }
+    });
+
+</script>
+

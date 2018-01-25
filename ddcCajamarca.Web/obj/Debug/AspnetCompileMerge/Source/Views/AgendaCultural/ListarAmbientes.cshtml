@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "Agenda Cultural";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Agenda Cultural</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Agenda Cultural
+            </li>
+            <li class="active">
+                <strong>Salones y Patios</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-8 b-r">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Filtros de busqueda</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-12">
+                            <label class="control-label">Nombre</label>
+                            <input type="text" id="txtBuscarExtra" name="txtBuscarExtra" value="" placeholder="Ingresar nombre a buscar" style="text-transform:uppercase;" onkeyup="buscarCriterio()" class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Nuevo Ingreso</h3></div>
+                </div>
+                <div class="row">
+                    
+                    <div class="form-group col-lg-12">
+                        <a href="#" class="btn btn-primary" onclick="abrilmodalNuevo()">Nuevo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" id="list">
+                    <div class="col-sm-12 text-right">
+                        <p>@ViewBag.Coincidencias resultados encontrados.</p>
+                    </div>
+                    <table class="table table-stripped" data-show-toggle="false" data-filtering="true" data-page-size="10">
+                        <thead>
+
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Aforo</th>
+                                <th>Color</th>
+                                <th>FechaRegistro</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                foreach (var item in @ViewBag.Ambiente)
+                                {
+                                    <tr>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Aforo</td>
+                                        <td style="color:@item.ColorNombre">@item.Color</td>
+                                        <td>@item.FechaRegistroMostrar</td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <a href="#" class="btn btn-warning btn-xs" onclick="abrirmodalmod(@item.Id)">Modificar</a>
+                                                <a href="#" class="btn btn-danger btn-xs" onclick="abrirmodalelim(@item.Id)">Eliminar</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title"><label>Nuevo Ambiente</label> </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-lg-12">
+                    <label>Fecha de Registro</label>
+                    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Nombre*</label>
+                    <input name="txtNombre" id="txtNombre" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Aforo</label>
+                    <input name="Aforo" id="txtAforo" placeholder="INGRESE AFORO" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Color</label>
+                    <select class="form-control" id="idopcioncolor" name="idopcioncolor">
+                        <option style="color:white ;background-color:#2591F6">Azul</option>
+                        <option style="color:white ;background-color:#EAE54E">Amarillo</option>
+                        <option style="color:white ;background-color:#5D0560">Berenjena</option>
+                        <option style="color:white ;background-color:#66C4E5">Celeste</option>
+                        <option style="color:white ;background-color:#F5D4F4">Chicle</option>
+                        <option style="color:white ;background-color:#27F8F5">Cielo</option>
+                        <option style="color:white ;background-color:#A023A4">Ciruela</option>
+                        <option style="color:white ;background-color:#F31ADE">Fresa</option>
+                        <option style="color:white ;background-color:#F4DA18">Limon</option>
+                        <option style="color:white ;background-color:#8D7CCA">Orquidea</option>
+                        <option style="color:white ;background-color:#337352">Musgo</option>
+                        <option style="color:white ;background-color:#C352D4">Magenta</option>
+                        <option style="color:white ;background-color:#F00C82">Morado</option>
+                        <option style="color:white ;background-color:#E79742">Naranja</option>
+                        <option style="color:white ;background-color:#EE79E3">Rosa</option>
+                        <option style="color:white ;background-color:#FF0000">Rojo</option>
+                        <option style="color:white ;background-color:#8A0808">Rojo Oscuro</option>
+                        <option style="color:white ;background-color:#397402">Trebol</option>
+                        <option style="color:white ;background-color:#50B258">Verde</option>
+                    </select>
+                </div>
+                <br />
+                <p><div class="form-group">*El campo nombre es obligatorio</div> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="guardarambiente()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_modificar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modificar</h4>
+            </div>
+            <div class="modal-body" id="Detalle_Modificar">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="modificarambiente()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="Detalle">
+
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/toastrStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/toastr")
+
+
+    <script type="text/javascript">
+
+        var msgini = '@ViewBag.msgini';
+
+        function abrilmodalNuevo() {
+            $('#modal_nuevo').modal('show');
+        }
+
+
+        function abrirmodalmod(idmod) {
+            $.get("OBtenerAmbientePorId", { 'Id': idmod })
+                .done(function (response) {
+                    $('#Detalle_Modificar').html(response);
+                    $('#modal_modificar').modal('show');
+                });
+        }
+
+        function buscarCriterio() {
+            var criterio = $('#txtBuscarExtra').val();
+            $.get("BuscarAmbiente", { 'criterio': criterio })
+                .done(function (response) {
+                    $('#list').html(response);
+                    $('.table').footable();
+                });
+        }
+
+        function modificarambiente() {
+            var Idmod = $('#txtIdMod').val();
+            var criterio = $('#txtNombreMod').val();
+            var aforo = $('#txtAforoMod').val();
+            var color = $('#idopcioncolorMod').val();
+            if (criterio != "") {
+                $.get("ModificarAmbiente", { 'Idmod': Idmod, 'nombre': criterio, 'aforo': aforo, 'color': color })
+                    .done(function (response) {
+                        $('#Detalle').html(response);
+
+                        if (msg == 'M1') {
+                            window.location.href = "ListarAmbientes" + "?Tp=" + msg;
+                        } else {
+                            window.location.href = "ListarAmbientes";
+                        }
+                    });
+            }
+        }
+
+        function guardarambiente() {
+            var criterio = $('#txtNombre').val();
+            if (criterio != "") {
+                $.get("GuardarAmbiente", { 'nombre': criterio, 'aforo': $("#txtAforo").val(), 'color': $('#idopcioncolor').val() })
+                    .done(function (response) {
+                        $('#Detalle').html(response);
+
+                        if (msg == 'G1') {
+                            window.location.href = "ListarAmbientes" + "?Tp=" + msg;
+                        } else {
+                            window.location.href = "ListarAmbientes";
+                        }
+                    });
+            }
+        }
+
+        $(document).ready(function () {
+
+            jQuery(function ($) {
+                $('.table').footable();
+            });
+
+            if ('@ViewBag.ToasMS' === 'G1') {
+                toastr.success('Ambiente añadido.', 'Correcto.');
+            } else if ('@ViewBag.ToasMS' === 'M1') {
+                toastr.success('Ambiente modificado.', 'Modificado.');
+            }
+        });
+
+        function abrirmodalelim(idper) {
+            swal({
+                title: "Estas seguro?",
+                text: "No se podrá recuperar la información",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, Eliminarlo!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function () {
+
+                    $.get("EliminarAmbiente", { idelim: idper }).done(function (data) {
+                        $("#Detalle").html(data);
+
+                        if (msg == 'E1') {
+                            sweetAlert
+                                ({
+                                    title: "Eliminado!",
+                                    text: "Se ha eliminado correctamente!",
+                                    type: "success"
+                                },
+                                function () {
+                                    window.location.href = "ListarAmbientes";
+                                });
+                        } else {
+                            sweetAlert
+                                ({
+                                    title: "Error!",
+                                    text: "El elemento no puede ser eliminado!",
+                                    type: "error"
+                                });
+                        }
+
+                    })
+
+                });
+        }
+    </script>
+}
+
+
+
+

@@ -1,17 +1,17 @@
 ﻿<div class="form-group col-lg-12">
     <label>Fecha de Edición</label>
-    <input name="FechaRegistro" type='date' class="form-control" readonly value="@ViewBag.FechaHoy" />
+    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
 </div>
 <div class="form-group col-lg-12">
     <label>Nombre*</label>
-    <input name="txtNombreMod" value="@Model.Nombre" id="txtNombreMod" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+    <input name="txtNombreMod" value="@Model.Nombre" id="txtNombreMod" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required autocomplete="off">
 </div>
 @{
     if (ViewBag.ModTipo == "M3")
     {
         <div class="form-group col-lg-12">
             <label>Direccion*</label>
-            <input name="txtDireccionOrganizacionMod" id="txtDireccionOrganizacionMod" value="@Model.Direccion" placeholder="INGRESE DIRECCION" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+            <input name="txtDireccionOrganizacionMod" id="txtDireccionOrganizacionMod" value="@Model.Direccion" placeholder="INGRESE DIRECCION" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required autocomplete="off">
         </div>
     }
 }

@@ -28,7 +28,14 @@
                     }
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    
+                    <li>
+                        <div class="text-center link-block">
+                            <a href="#">
+                                <strong>Cumpleaños cercanos</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
                     @foreach (var item in ViewBag.result)
                     {
                         <li>
@@ -41,6 +48,34 @@
                         </li>
                         <li class="divider"></li>
                     }
+                    <li>
+                        <div class="text-center link-block">
+                            <a href="#">
+                                <strong>Eventos cercanos</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
+                    @foreach (var item in ViewBag.resulteventos)
+                    {
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-calendar fa-fw"></i> @item.NombreActividad
+                                    <span class="pull-right text-muted small">@item.FechaInicio</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                    }
+                    @*<li>
+                        <div class="text-center link-block">
+                            <a href="#">
+                                <strong>Ver todas las alertas</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>*@
                     @*<li>
                         <a href="#">
                             <div>

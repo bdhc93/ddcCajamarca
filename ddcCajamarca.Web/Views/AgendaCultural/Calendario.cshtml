@@ -107,7 +107,7 @@
                         <div class="form-group col-lg-1">
                             <div class="input-group col-lg-12">
                                 <div class="checkbox checkbox-primary">
-                                    <input id="chbLunes" type="checkbox" checked="">
+                                    <input id="chbLunes" type="checkbox">
                                     <label for="chbLunes">
                                         Lunes
                                     </label>
@@ -117,7 +117,7 @@
                         <div class="form-group col-lg-1">
                             <div class="input-group col-lg-12">
                                 <div class="checkbox checkbox-primary">
-                                    <input id="chbMartes" type="checkbox" checked="">
+                                    <input id="chbMartes" type="checkbox">
                                     <label for="chbMartes">
                                         Martes
                                     </label>
@@ -127,7 +127,7 @@
                         <div class="form-group col-lg-1">
                             <div class="input-group col-lg-12">
                                 <div class="checkbox checkbox-primary">
-                                    <input id="chbMiercoles" type="checkbox" checked="">
+                                    <input id="chbMiercoles" type="checkbox">
                                     <label for="chbMiercoles">
                                         Miércoles
                                     </label>
@@ -137,7 +137,7 @@
                         <div class="form-group col-lg-1">
                             <div class="input-group col-lg-12">
                                 <div class="checkbox checkbox-primary">
-                                    <input id="chbJueves" type="checkbox" checked="">
+                                    <input id="chbJueves" type="checkbox">
                                     <label for="chbJueves">
                                         Jueves
                                     </label>
@@ -147,7 +147,7 @@
                         <div class="form-group col-lg-1">
                             <div class="input-group col-lg-12">
                                 <div class="checkbox checkbox-primary">
-                                    <input id="chbViernes" type="checkbox" checked="">
+                                    <input id="chbViernes" type="checkbox">
                                     <label for="chbViernes">
                                         Viernes
                                     </label>
@@ -188,11 +188,11 @@
                     <label>*Todos los campos son obligatorios para la creación del evento.</label>
                     <div class="text-right">
                         <input hidden type="text" name="opcTodoDia" id="opcTodoDia" value="false" />
-                        <input hidden type="text" name="cbLunes" id="cbLunes" value="True" />
-                        <input hidden type="text" name="cbMartes" id="cbMartes" value="True" />
-                        <input hidden type="text" name="cbMiercoles" id="cbMiercoles" value="True" />
-                        <input hidden type="text" name="cbJueves" id="cbJueves" value="True" />
-                        <input hidden type="text" name="cbViernes" id="cbViernes" value="True" />
+                        <input hidden type="text" name="cbLunes" id="cbLunes" value="false" />
+                        <input hidden type="text" name="cbMartes" id="cbMartes" value="false" />
+                        <input hidden type="text" name="cbMiercoles" id="cbMiercoles" value="false" />
+                        <input hidden type="text" name="cbJueves" id="cbJueves" value="false" />
+                        <input hidden type="text" name="cbViernes" id="cbViernes" value="false" />
                         <input hidden type="text" name="cbSabado" id="cbSabado" value="False" />
                         <input hidden type="text" name="cbDomingo" id="cbDomingo" value="False" />
                         <button class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" disabled onclick="nuevoregistro()"><strong>Nuevo</strong></button>
@@ -291,6 +291,10 @@
                     $('#Detalle').html(response);
                     if (msg == 'ND') {
                         toastr.error('No se puede ingresar.', 'Incorrecto.');
+                    } else if (msg == 'SD') {
+                        toastr.error('Seleccione los dias del evento.', 'Incorrecto.');
+                    } else if (msg == 'HI') {
+                        toastr.error('Seleccione una hora correcta.', 'Incorrecto.');
                     } else {
                         //toastr.success('Activo añadido.', 'Correcto.');
                         window.location.href = "NuevoRegistro?idAmbientes=" + $('#idAmbientes').val()

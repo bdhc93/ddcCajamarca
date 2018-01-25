@@ -1,0 +1,40 @@
+﻿<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Sala/Patio</th>
+            @{
+                for (int i = 0; i < ViewBag.contdias; i++)
+                {
+                    <th>@ViewBag.nombredias[i]</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            for (int i = 0; i < @ViewBag.salas; i++)
+            {
+                <tr class="gradeX">
+                    <td>@ViewBag.detalle[i, 0]</td>
+                    @for (int j = 0; j < @ViewBag.contdias; j++)
+                    {
+                        <td>@Html.Raw(HttpUtility.HtmlDecode(@ViewBag.detalle[i, j + 1]))</td>
+                    }
+                </tr>
+            }
+        }
+
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Sala/Patio</th>
+            @{
+                for (int i = 0; i < ViewBag.contdias; i++)
+                {
+                    <th>@ViewBag.nombredias[i]</th>
+                }
+            }
+        </tr>
+    </tfoot>
+</table>
