@@ -24,6 +24,14 @@ namespace ddcCajamarca.Models
         public DateTime FechaFin { get; set; }
         public DateTime FechaRegistro { get; set; }
 
+        public Boolean Lunes { get; set; }
+        public Boolean Martes { get; set; }
+        public Boolean Miercoles { get; set; }
+        public Boolean Jueves { get; set; }
+        public Boolean Viernes { get; set; }
+        public Boolean Sabado { get; set; }
+        public Boolean Domingo { get; set; }
+
         public Int32 IdAmbiente { get; set; }
         public Ambiente Ambiente { get; set; }
 

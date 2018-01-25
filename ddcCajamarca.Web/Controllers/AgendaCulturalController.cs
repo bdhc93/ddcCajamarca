@@ -25,7 +25,8 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ValidadFechaNuevo(Int32 idAmbientes, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin)
+        public ActionResult ValidadFechaNuevo(Int32 idAmbientes, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin,
+            Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
             var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"));
 

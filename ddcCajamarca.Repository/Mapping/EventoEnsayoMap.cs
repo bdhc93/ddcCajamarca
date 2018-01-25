@@ -20,6 +20,14 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(p => p.InstitucionEncargada).IsOptional();
             this.Property(p => p.InformacionAdicional).IsOptional();
             this.Property(p => p.TodoDia).IsOptional();
+            this.Property(p => p.Lunes).IsOptional();
+            this.Property(p => p.Martes).IsOptional();
+            this.Property(p => p.Miercoles).IsOptional();
+            this.Property(p => p.Jueves).IsOptional();
+            this.Property(p => p.Viernes).IsOptional();
+            this.Property(p => p.Sabado).IsOptional();
+            this.Property(p => p.Domingo).IsOptional();
+
             this.Property(p => p.Evento).IsOptional();
             this.Property(p => p.FechaInicio).IsRequired().HasColumnType("datetime2");
             this.Property(p => p.FechaFin).IsRequired().HasColumnType("datetime2");
@@ -35,6 +43,13 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.FechaRegistro).HasColumnName("FechaRegistro");
             this.Property(c => c.FechaInicio).HasColumnName("FechaInicio");
             this.Property(c => c.Evento).HasColumnName("Evento");
+            this.Property(c => c.Lunes).HasColumnName("Lunes");
+            this.Property(c => c.Martes).HasColumnName("Martes");
+            this.Property(c => c.Miercoles).HasColumnName("Miercoles");
+            this.Property(c => c.Jueves).HasColumnName("Jueves");
+            this.Property(c => c.Viernes).HasColumnName("Viernes");
+            this.Property(c => c.Sabado).HasColumnName("Sabado");
+            this.Property(c => c.Domingo).HasColumnName("Domingo");
 
             this.HasRequired(h => h.Ambiente)
                 .WithMany(h => h.EventoEnsayos)
