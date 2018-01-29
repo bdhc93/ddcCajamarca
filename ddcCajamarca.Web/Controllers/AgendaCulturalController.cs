@@ -273,8 +273,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_Mensaje");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult NuevoRegistro(Int32 idAmbientes, String OpcionEvento, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin,
             Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
@@ -321,8 +322,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View();
         }
-
+        
         [HttpPost]
+        [Authorize]
         public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo,
             Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
@@ -514,8 +516,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return Redirect(Url.Action("Calendario"));
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ModificarRegistro(Int32 idMod, Int32 IdModDet, Boolean todo)
         {
             var result = eventoEnsayoService.ObtenerEventoEnsayoPorId(idMod);
@@ -528,8 +531,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View(result);
         }
-
+        
         [HttpPost]
+        [Authorize]
         public ActionResult ModificarRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, String HoraIni, String HoraFin, Boolean Eventotipo, Boolean opcTodoDia)
         {
             EventoEnsayo eventoguardar;
@@ -605,8 +609,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return Redirect(Url.Action("Calendario"));
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult Calendario()
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -818,8 +823,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult MostrarCalendario(String idAmbiente)
         {
             var id = 0;
@@ -1127,8 +1133,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_MostrarCalendario");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ListarAmbientes(String Tp)
         {
             if (Tp == "G1")
@@ -1166,8 +1173,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ListarActivos(String Tp)
         {
             var act = activoService.ObtenerActivoPorCriterio("");
@@ -1182,8 +1190,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarAmbiente(String Nombre, String aforo, String color)
         {
             try
@@ -1207,8 +1216,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_GuardarAmbiente");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarActivo(String nombre, String cantidad)
         {
             try
@@ -1232,8 +1242,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_GuardarActivo");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult EliminarAmbiente(Int32 idelim)
         {
             try
@@ -1249,8 +1260,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_EliminarAmbiente");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult EliminarActivo(Int32 idelim)
         {
             try
@@ -1266,8 +1278,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_EliminarActivo");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult EliminarEventoEnsayo(Int32 idelim, Int32 idelimdet, Boolean todo)
         {
             try
@@ -1299,8 +1312,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_EliminarActivo");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult BuscarAmbiente(String criterio)
         {
             try
@@ -1318,8 +1332,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_BuscarAmbiente");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult BuscarActivo(String criterio)
         {
             try
@@ -1337,8 +1352,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_BuscarActivo");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult OBtenerAmbientePorId(Int32 Id)
         {
             try
@@ -1353,8 +1369,9 @@ namespace ddcCajamarca.Web.Controllers
                 return Redirect(Url.Action("ListarAmbientes"));
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult OBtenerActivoPorId(Int32 Id)
         {
             try
@@ -1369,8 +1386,9 @@ namespace ddcCajamarca.Web.Controllers
                 return Redirect(Url.Action("ListarAmbientes"));
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult OBtenerEventoPorId(String Id)
         {
             var id = Int32.Parse(Id);
@@ -1384,8 +1402,9 @@ namespace ddcCajamarca.Web.Controllers
                 return PartialView("_OBtenerEventoPorId");
             }
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ModificarAmbiente(Int32 Idmod, String nombre, String aforo, String color)
         {
             try
@@ -1410,8 +1429,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_ModificarAmbiente");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ModificarActivo(Int32 Idmod, String nombre, String cantidad)
         {
             try
@@ -1436,8 +1456,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_ModificarActivo");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ReporteActividadesCulturales()
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -1509,8 +1530,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View(result);
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult BuscarEventoReporte(String fechabuscar, String fechafinbuscar, String salas)
         {
             String[] sala = salas.Split(',');
@@ -1610,8 +1632,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_BuscarEventoReporte");
         }
-
+        
         [HttpPost]
+        [Authorize]
         public ActionResult GenerateDocument(String FechaIni, String FechaFin, String[] salas, String Formato)
         {
             if (Formato == "Excel")

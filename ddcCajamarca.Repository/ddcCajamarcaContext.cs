@@ -26,6 +26,11 @@ namespace ddcCajamarca.Repository
         public DbSet<DetalleHorasEvento> DetalleHorasEventos { get; set; }
         public DbSet<EventoEnsayo> EventoEnsayos { get; set; }
 
+        //Autentication
+        public DbSet<PerfilUsuario> PerfilUsuarios { get; set; }
+        public DbSet<webpages_Rol> webpages_Roles { get; set; }
+        public DbSet<webpages_UsersInRol> webpages_UsersInRoles { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Directorio
@@ -40,6 +45,11 @@ namespace ddcCajamarca.Repository
             modelBuilder.Configurations.Add(new DetalleRequerimientoMap());
             modelBuilder.Configurations.Add(new DetalleHorasEventoMap());
             modelBuilder.Configurations.Add(new EventoEnsayoMap());
+
+            //Autentication
+            modelBuilder.Configurations.Add(new PerfilUsuarioMap());
+            modelBuilder.Configurations.Add(new webpages_RolMap());
+            modelBuilder.Configurations.Add(new webpages_UsersInRolMap());
         }
     }
 }

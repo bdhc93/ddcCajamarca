@@ -96,10 +96,17 @@
     <Compile Include="Mapping\EventoEnsayoMap.cs" />
     <Compile Include="Mapping\OcupacionCulturalMap.cs" />
     <Compile Include="Mapping\OrganizacionMap.cs" />
+    <Compile Include="Mapping\PerfilUsuarioMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
     <Compile Include="Mapping\ProfesionMap.cs" />
+    <Compile Include="Mapping\webpages_RolMap.cs" />
+    <Compile Include="Mapping\webpages_UsersInRolMap.cs" />
     <Compile Include="MasterRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad\Datos\PerfilUsuarioRepository.cs" />
+    <Compile Include="Seguridad\Datos\webpages_RolRepository.cs" />
+    <Compile Include="Seguridad\Interfaces\IPerfilUsuarioRepository.cs" />
+    <Compile Include="Seguridad\Interfaces\Iwebpages_RolRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -119,6 +126,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\DBEsquema.sql" />
+    <Content Include="Data\DBUsuarios.sql" />
     <Content Include="Data\Directorio.sql" />
     <Content Include="Data\Eventos.sql" />
     <Content Include="Data\Procedimientos.sql" />

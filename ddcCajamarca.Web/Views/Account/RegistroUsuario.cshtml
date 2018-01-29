@@ -1,0 +1,173 @@
+﻿@using ddcCajamarca.Web.Models
+@model IOUsuario
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Registro Nuevo Usuario</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Seguridad
+            </li>
+            <li class="active">
+                <strong>Registrar Usuario</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+
+    @{
+        IEnumerable<SelectListItem> Roles = new SelectList(@ViewBag.Roles, "RoleName", "RoleName");
+    }
+
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h2>
+                    Formulario - Nuevo Registro
+                </h2>
+            </div>
+            <div class="ibox-content">
+
+                @*<form role="form">
+                    <div class="row" id="pwd-container1">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="password1">Password</label>
+                                <input type="password" class="form-control example1" id="password1" placeholder="Password" value="Passwo">
+                            </div>
+                            <div class="form-group">
+                                <div class="pwstrength_viewport_progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>*@
+
+                <form action="@Url.Action("RegistroUsuario", "Account")" method="post">
+                    <div class="row">
+
+                        <div class="col-lg-8">
+                            @Html.AntiForgeryToken()
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Usuario*</label>
+                                    @*@Html.TextBoxFor(m => m.Usuario, new { @class = "form-control", required = "required", placeholder = "Usuario" })*@
+                                    <input type="text" name="Usuario" class="form-control" placeholder="Usuario" required autocomplete="off"/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" id="pwd-container1">
+                                <div class="form-group">
+                                    <label id="lb1">Contraseña*</label>
+                                    @*@Html.PasswordFor(m => m.Contrasenia, new { id = "contra1", @class = "form-control", required = "required", placeholder = "Contraseña" })*@
+                                    <input type="password" name="Contrasenia" id="contra1" class="form-control  example1" placeholder="Contraseña" required />
+                                </div>
+                                <div class="form-group">
+                                    <div class="pwstrength_viewport_progress"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label id="lb2">Repetir la Contraseña*</label><label style="color:red" id="errorlb2" hidden> Las contraseñas no coinciden!</label>
+                                    <input type="password" name="Contrasenia2" id="contra2" class="form-control" placeholder="Repetir la Contraseña" required />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Rol en el Sistema* </label>
+                                    @Html.DropDownList("role", Roles, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="top:15px">
+                                <div class="form-group col-md-12">
+                                    <button class="btn btn-primary btn-lg pull-right" disabled id="btnGuardar" type="submit">Crear</button>
+                                    @*<a class="btn btn-default btn-lg pull-right" href="@Url.Action("Index", "Home")">Cancelar</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label style="color:red"> @Html.ValidationSummary()</label>
+                            <div class="text-center">
+                                <div style="margin-top: 20px">
+                                    <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/passwordMeter")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // Example 1
+            var options1 = {};
+            options1.ui = {
+                container: "#pwd-container1",
+                showVerdictsInsideProgressBar: true,
+                viewports: {
+                    progress: ".pwstrength_viewport_progress"
+                }
+            };
+            options1.common = {
+                debug: false,
+            };
+            $('.example1').pwstrength(options1);
+        });
+
+        $("#contra2").focusout(function (e) {
+            if ($("#contra1").val() != $("#contra2").val()) {
+                //$("#lb2").attr("style", "color:red")
+                //$("#lb1").attr("style", "color:red")
+                $("#errorlb2").show();
+                document.getElementById('btnGuardar').disabled = true;
+            } else {
+                $("#errorlb2").hide();
+                document.getElementById('btnGuardar').disabled = false;
+            }
+        });
+        $("#contra1").keypress(function (e) {
+            //$("#lb2").attr("style", "color:black")
+            //$("#lb1").attr("style", "color:black")
+        });
+        $("#contra2").keypress(function (e) {
+            //$("#lb2").attr("style", "color:black")
+            //$("#lb1").attr("style", "color:black")
+            
+        });
+        $("#btnGuardar").click(function (e) {
+            var ids2 = $("#role").val();
+            if ($("#contra1").val() != $("#contra2").val()) {
+                e.preventDefault();
+                //$("#lb2").attr("style", "color:red")
+                //$("#lb1").attr("style", "color:red")
+                //alert("Las contraseñas no coinciden.")
+                $("#errorlb2").show();
+                document.getElementById('btnGuardar').disabled = true;
+            }
+            //else if (role < 1) {
+            //    e.preventDefault();
+            //    alert('Seleccionar un Rol');
+            //}
+        });
+    </script>
+}

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebMatrix.WebData;
 
 namespace ddcCajamarca.Web
 {
@@ -16,6 +17,7 @@ namespace ddcCajamarca.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            WebSecurity.InitializeDatabaseConnection("ddcCajamarcaContext", "PerfilUsuario", "Id", "Usuario", true);
         }
     }
 }

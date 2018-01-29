@@ -26,8 +26,9 @@ namespace ddcCajamarca.Web.Controllers
             this.profesionService = profesionService;
             this.ocupacionCulturalService = ocupacionCulturalService;
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ListarPersonas(String NA, String Fun)
         {
             var result = personaService.ObtenerPersonaPorCriterio("");
@@ -54,8 +55,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View(result);
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ListarPersonas2(String NA, String Fun)
         {
             var result = personaService.ObtenerPersonaPorCriterio("");
@@ -81,8 +83,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View(result);
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ListarExtras(String Tp)
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -163,8 +166,9 @@ namespace ddcCajamarca.Web.Controllers
             
             return View();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult NuevaPersona()
         {
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", false);
@@ -194,8 +198,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return personasarray;
         }
-
+        
         [HttpPost]
+        [Authorize]
         public ActionResult NuevaPersona(Persona model, HttpPostedFileBase file, String cropweight, String cropwidth, String cropx, String cropy)
         {
             if (file != null && file.ContentType.Remove(5) == "image")
@@ -281,8 +286,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return Redirect(Url.Action("ListarPersonas", new { NA = model.NombreApellidos, Fun = "PS" }));
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult Eliminar(Int32 idper)
         {
             try
@@ -305,8 +311,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult Editar(Int32 idper)
         {
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", true);
@@ -337,8 +344,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return View(result);
         }
-
+        
         [HttpPost]
+        [Authorize]
         public ActionResult Editar(Persona model, HttpPostedFileBase file, String cropweight, String cropwidth, String cropx, String cropy)
         {
             if (file != null && file.ContentType.Remove(5) == "image")
@@ -423,8 +431,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return Redirect(Url.Action("ListarPersonas", new { NA = model.NombreApellidos, Fun = "PE" }));
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult Buscar(String criterio, Int32 IdOrBS, Int32 IdOcBS, Int32 IdPrBS)
         {
             var result = personaService.ObtenerPersonaPorFiltro(criterio, IdOrBS, IdOcBS, IdPrBS);
@@ -440,6 +449,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public ActionResult GenerateDocument(String criterio, Int32 IdOrBS, Int32 IdOcBS, Int32 IdPrBS, String Formato)
         {
             if (Formato == "Excel")
@@ -588,8 +598,7 @@ namespace ddcCajamarca.Web.Controllers
             return View();
         }
 
-
-        [HttpGet]
+        [Authorize]
         public ActionResult BuscarExtra(String criterio, String idopcion)
         {
             if (idopcion == "Ocupación Cultural")
@@ -621,8 +630,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_ListarExtras");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult EliminarExtra(Int32 idelim, String idopcion)
         {
             try
@@ -653,8 +663,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView();
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarExtra(String Nombre, String idnuevoopc, String direccion)
         {
             try
@@ -687,8 +698,9 @@ namespace ddcCajamarca.Web.Controllers
 
             return PartialView("_GuardarExtra");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarOcupacionPersona(String Nombre, String idnuevoopc)
         {
             try
@@ -708,8 +720,9 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Ocupacion = ocupacionCulturalService.ObtenerOcupacionCulturalPorCriterio("", false);
             return PartialView("_GuardarOcupacionPersona");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarProfesionPersona(String Nombre, String idnuevoopc)
         {
             try
@@ -729,8 +742,9 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Profesion = profesionService.ObtenerProfesionPorCriterio("", true);
             return PartialView("_GuardarProfesionPersona");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult GuardarOrganizacionPersona(String Nombre, String idnuevoopc, String direccion)
         {
             try
@@ -750,8 +764,9 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Organizacion = organizacionService.ObtenerOrganizacionPorCriterio("", true);
             return PartialView("_GuardarOrganizacionPersona");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult OBtenerExtraPorId(Int32 Id, String tipo)
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -776,8 +791,9 @@ namespace ddcCajamarca.Web.Controllers
             }
             return PartialView("_OBtenerExtraPorId");
         }
-
+        
         [HttpGet]
+        [Authorize]
         public ActionResult ModificarExtra(Int32 Idm, String Nombre, String idnuevoopc, String direccion)
         {
             try

@@ -1,0 +1,287 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Seguridad</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home")">Inicio</a>
+            </li>
+            <li>
+                Seguridad
+            </li>
+            <li class="active">
+                <strong>Usuarios</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-8 b-r">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Filtros de busqueda</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-12">
+                            <label class="control-label">Nombre</label>
+                            <input type="text" id="txtBuscarActivo" name="txtBuscarActivo" value="" placeholder="Ingresar nombre a buscar" style="text-transform:uppercase;" onkeyup="buscarCriterio()" class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="form-group col-lg-12"><h3>Nuevo Usuario</h3></div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-lg-12">
+                        <a href="@Url.Action("RegistroUsuario", "Account")" class="btn btn-primary">Nuevo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" id="list">
+                    <div class="col-sm-12 text-right">
+                        <p>@ViewBag.Coincidencias resultados encontrados.</p>
+                    </div>
+                    <table class="table table-stripped" data-show-toggle="false" data-filtering="true" data-page-size="10">
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Usuario</th>
+                                <th>NombreApellidos</th>
+                                <th>Email</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="client-avatar"><img alt="image" src="@item.Imagen.ToString()"> </td>
+                                        <td>@item.Usuario</td>
+                                        <td>@item.NombreApellidos</td>
+                                        <td>@item.Email</td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <a href="#" class="btn btn-warning btn-xs" onclick="abrirmodalmod(@item.Id)">Modificar</a>
+                                                <a href="#" class="btn btn-danger btn-xs" onclick="abrirmodalelim(@item.Id)">Eliminar</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title"><label>Nuevo Activo</label> </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-lg-12">
+                    <label>Fecha de Registro</label>
+                    <input name="FechaRegistro" type='text' class="form-control" readonly value="@ViewBag.FechaHoy" />
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Nombre*</label>
+                    <input name="txtNombre" id="txtNombre" placeholder="INGRESE NOMBRE" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <div class="form-group col-lg-12">
+                    <label>Cantidad</label>
+                    <input name="Cantidad" id="txtCantidad" placeholder="INGRESE AFORO" class="form-control" data-provide="typeahead" style="text-transform:uppercase;" required>
+                </div>
+                <br />
+                <p><div class="form-group">*El campo nombre es obligatorio</div> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="guardaractivo()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_modificar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Modificar</h4>
+            </div>
+            <div class="modal-body" id="Detalle_Modificar">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-primary" onclick="modificaractivo()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="Detalle">
+
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/toastrStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/toastr")
+
+
+    <script type="text/javascript">
+
+        var msgini = '@ViewBag.msgini';
+
+        function abrilmodalNuevo() {
+            $('#modal_nuevo').modal('show');
+        }
+
+        function abrirmodalmod(idmod) {
+            $.get("OBtenerActivoPorId", { 'Id': idmod })
+                .done(function (response) {
+                    $('#Detalle_Modificar').html(response);
+                    $('#modal_modificar').modal('show');
+                });
+        }
+
+        function buscarCriterio() {
+            var criterio = $('#txtBuscarActivo').val();
+            $.get("BuscarActivo", { 'criterio': criterio })
+                .done(function (response) {
+                    $('#list').html(response);
+                    $('.table').footable();
+                });
+        }
+
+        function modificaractivo() {
+            var Idmod = $('#txtIdMod').val();
+            var criterio = $('#txtNombreMod').val();
+            var cantidad = $('#txtCantidadMod').val();
+            if (criterio != "") {
+
+                $.get("ModificarActivo", { 'Idmod': Idmod, 'nombre': criterio, 'cantidad': cantidad })
+                    .done(function (response) {
+                        $('#Detalle').html(response);
+
+                        if (msg == 'M1') {
+                            window.location.href = "ListarActivos" + "?Tp=" + msg;
+                        } else {
+                            window.location.href = "ListarActivos";
+                        }
+                    });
+            }
+        }
+
+        function guardaractivo() {
+            var criterio = $('#txtNombre').val();
+            if (criterio != "") {
+                $.get("GuardarActivo", { 'nombre': criterio, 'cantidad': $("#txtCantidad").val() })
+                    .done(function (response) {
+                        $('#Detalle').html(response);
+
+                        if (msg == 'G1') {
+                            window.location.href = "ListarActivos" + "?Tp=" + msg;
+                        } else {
+                            window.location.href = "ListarActivos";
+                        }
+                    });
+            }
+        }
+
+        $(document).ready(function () {
+
+            jQuery(function ($) {
+                $('.table').footable();
+            });
+
+            if ('@ViewBag.ToasMS' === 'G1') {
+                toastr.success('Activo añadido.', 'Correcto.');
+            } else if ('@ViewBag.ToasMS' === 'M1') {
+                toastr.success('Activo modificado.', 'Modificado.');
+            }
+        });
+
+        function abrirmodalelim(idper) {
+            swal({
+                title: "Estas seguro?",
+                text: "No se podrá recuperar la información",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Si, Eliminarlo!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function () {
+
+                    $.get("EliminarActivo", { idelim: idper }).done(function (data) {
+                        $("#Detalle").html(data);
+
+                        if (msg == 'E1') {
+                            sweetAlert
+                                ({
+                                    title: "Eliminado!",
+                                    text: "Se ha eliminado correctamente!",
+                                    type: "success"
+                                },
+                                function () {
+                                    window.location.href = "ListarActivos";
+                                });
+                        } else {
+                            sweetAlert
+                                ({
+                                    title: "Error!",
+                                    text: "El elemento no puede ser eliminado!",
+                                    type: "error"
+                                });
+                        }
+
+                    })
+
+                });
+        }
+    </script>
+}
+
+
+
+
