@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,8 @@ namespace ddcCajamarca.Models
 
         public List<DetalleRequerimiento> DetalleRequerimientos { get; set; }
         public List<DetalleHorasEvento> DetalleHorasEventos { get; set; }
+        //[NotMapped]
+        //public Int32 Estado { get; set; }
 
         public String EventoMostrar { get {
                 if (Evento)

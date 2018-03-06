@@ -16,5 +16,8 @@ namespace ddcCajamarca.Models
 
         public Activo Activo { get; set; }
         public EventoEnsayo EventoEnsayo { get; set; }
+
+        //public Int32 Estado { get; set; }
+
     }
 }

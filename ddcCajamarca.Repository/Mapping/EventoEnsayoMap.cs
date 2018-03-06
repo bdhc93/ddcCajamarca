@@ -27,6 +27,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(p => p.Viernes).IsOptional();
             this.Property(p => p.Sabado).IsOptional();
             this.Property(p => p.Domingo).IsOptional();
+            //this.Property(p => p.Estado).IsOptional();
 
             this.Property(p => p.Evento).IsOptional();
             this.Property(p => p.FechaInicio).IsRequired().HasColumnType("datetime2");
@@ -50,6 +51,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.Viernes).HasColumnName("Viernes");
             this.Property(c => c.Sabado).HasColumnName("Sabado");
             this.Property(c => c.Domingo).HasColumnName("Domingo");
+            //this.Property(c => c.Estado).HasColumnName("Estado");
 
             this.HasRequired(h => h.Ambiente)
                 .WithMany(h => h.EventoEnsayos)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace ddcCajamarca.Models
 
 
         public String FechaRegistroMostrar { get { return FechaRegistro.Day + "/" + FechaRegistro.Month + "/" + FechaRegistro.Year; } }
+        //[NotMapped]
+        //public Int32 Estado { get; set; }
 
         public String NombreMostrar
         {

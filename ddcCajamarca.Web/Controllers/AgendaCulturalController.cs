@@ -332,6 +332,7 @@ namespace ddcCajamarca.Web.Controllers
 
             evento.NombreActividad = evento.NombreActividad.Replace(char.ConvertFromUtf32(34), "'");
             evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
+            evento.InformacionAdicional = evento.InformacionAdicional.Replace(char.ConvertFromUtf32(34), "'");
 
             if (opcTodoDia)
             {

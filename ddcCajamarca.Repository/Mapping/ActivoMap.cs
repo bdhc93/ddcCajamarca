@@ -15,6 +15,7 @@ namespace ddcCajamarca.Repository.Mapping
 
             this.Property(p => p.Nombre).IsRequired();
             this.Property(p => p.Cantidad).IsRequired();
+            //this.Property(p => p.Estado).IsOptional();
             this.Property(p => p.FechaRegistro).IsRequired().HasColumnType("datetime2");
 
             this.ToTable("Activo");
@@ -22,6 +23,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.Nombre).HasColumnName("Nombre");
             this.Property(c => c.Cantidad).HasColumnName("Cantidad");
             this.Property(c => c.FechaRegistro).HasColumnName("FechaRegistro");
+            //this.Property(c => c.Estado).HasColumnName("Estado");
         }
     }
 }

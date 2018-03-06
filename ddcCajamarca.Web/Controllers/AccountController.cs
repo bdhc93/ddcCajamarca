@@ -271,6 +271,15 @@ namespace ddcCajamarca.Web.Controllers
                     perfil.Imagen = perfil.ImagenTemp;
                 }
 
+                if (String.IsNullOrEmpty(perfil.NombreApellidos))
+                {
+                    perfil.NombreApellidos = "";
+                }
+                if (String.IsNullOrEmpty(perfil.Email))
+                {
+                    perfil.Email = "";
+                }
+
                 perfil.NombreApellidos = perfil.NombreApellidos.ToUpper();
                 perfil.Email = perfil.Email.ToUpper();
 

@@ -14,6 +14,8 @@ namespace ddcCajamarca.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
 
+        //public Int32 Estado { get; set; }
+
         public String FechaInicioMostrar
         {
             get

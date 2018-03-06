@@ -28,6 +28,8 @@ namespace ddcCajamarca.Models
 
         public Int32 IdProfesion { get; set; }
         public Profesion Profesion { get; set; }
+        //[NotMapped]
+        //public Int32 Estado { get; set; }
 
         public String NombreMostrar { get {
                 if (!String.IsNullOrEmpty(NombreArtistico))

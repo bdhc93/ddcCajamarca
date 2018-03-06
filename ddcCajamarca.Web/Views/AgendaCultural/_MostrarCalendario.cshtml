@@ -72,6 +72,186 @@
                     $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
                 }
 
+                now = new Date(date.format('YYYY') + "/" + date.format('MM') + "/" + date.format('DD'));
+
+                switch (now.getDay()) {
+                    case 5:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = true;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("True");
+                        $('#cbViernes').val("True");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    case 6:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = true;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("True");
+                        $('#cbSabado').val("True");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    case 0:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = true;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("True");
+                        $('#cbDomingo').val("True");
+
+                        break;
+                    case 1:
+                        document.getElementById("chbLunes").checked = true;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("True");
+                        $('#cbLunes').val("True");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    case 2:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = true;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("True");
+                        $('#cbMartes').val("True");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    case 3:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = true;
+                        document.getElementById("chbJueves").checked = false;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("True");
+                        $('#cbMiercoles').val("True");
+                        $('#cbJueves').val("False");
+                        $('#cbJueves').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    case 4:
+                        document.getElementById("chbLunes").checked = false;
+                        document.getElementById("chbMartes").checked = false;
+                        document.getElementById("chbMiercoles").checked = false;
+                        document.getElementById("chbJueves").checked = true;
+                        document.getElementById("chbViernes").checked = false;
+                        document.getElementById("chbSabado").checked = false;
+                        document.getElementById("chbDomingo").checked = false;
+
+                        $('#cbLunes').val("False");
+                        $('#cbLunes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMartes').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbMiercoles').val("False");
+                        $('#cbJueves').val("True");
+                        $('#cbJueves').val("True");
+                        $('#cbViernes').val("False");
+                        $('#cbViernes').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbSabado').val("False");
+                        $('#cbDomingo').val("False");
+                        $('#cbDomingo').val("False");
+
+                        break;
+                    default:
+                }
             },
             navLinks: true,
             navLinkDayClick: function (date, jsEvent) {
