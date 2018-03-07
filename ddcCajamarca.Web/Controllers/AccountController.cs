@@ -54,7 +54,7 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult RegistroUsuario()
         {
             ViewBag.Roles = webpages_RolService.ObtenerRolPorCriterio("");
@@ -63,7 +63,7 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult ListarUsuarios()
         {
             var result = perfilUsuarioService.ObtenerPerfilUsuarioPorCriterio("");
@@ -87,7 +87,7 @@ namespace ddcCajamarca.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult RegistroUsuario(IOUsuario registrardata, string role)
         {
             if (ModelState.IsValid)

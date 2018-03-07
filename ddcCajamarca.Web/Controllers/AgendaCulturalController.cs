@@ -280,7 +280,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
         public ActionResult NuevoRegistro(Int32 idAmbientes, String OpcionEvento, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin,
             Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
@@ -329,7 +329,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
         public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo,
             Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo, String info)
         {
@@ -527,7 +527,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
         public ActionResult ModificarRegistro(Int32 idMod, Int32 IdModDet, Boolean todo)
         {
             var result = eventoEnsayoService.ObtenerEventoEnsayoPorId(idMod);
@@ -542,7 +542,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
         public ActionResult ModificarRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, String HoraIni, String HoraFin, Boolean Eventotipo, Boolean opcTodoDia)
         {
             EventoEnsayo eventoguardar;
@@ -1144,7 +1144,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult ListarAmbientes(String Tp)
         {
             if (Tp == "G1")
@@ -1184,7 +1184,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult ListarActivos(String Tp)
         {
             var act = activoService.ObtenerActivoPorCriterio("");
@@ -1201,7 +1201,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult GuardarAmbiente(String Nombre, String aforo, String color)
         {
             try
@@ -1227,7 +1227,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult GuardarActivo(String nombre, String cantidad)
         {
             try
@@ -1253,7 +1253,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult EliminarAmbiente(Int32 idelim)
         {
             try
@@ -1271,7 +1271,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult EliminarActivo(Int32 idelim)
         {
             try
@@ -1289,7 +1289,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult EliminarEventoEnsayo(Int32 idelim, Int32 idelimdet, Boolean todo)
         {
             try
@@ -1413,7 +1413,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult ModificarAmbiente(Int32 Idmod, String nombre, String aforo, String color)
         {
             try
@@ -1440,7 +1440,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
         public ActionResult ModificarActivo(Int32 Idmod, String nombre, String cantidad)
         {
             try
@@ -1467,7 +1467,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
         public ActionResult ReporteActividadesCulturales()
         {
             ViewBag.FechaHoy = FechaHoy();
@@ -1541,7 +1541,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
         public ActionResult BuscarEventoReporte(String fechabuscar, String fechafinbuscar, String salas)
         {
             String[] sala = salas.Split(',');
@@ -1643,7 +1643,7 @@ namespace ddcCajamarca.Web.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
         public ActionResult GenerateDocument(String FechaIni, String FechaFin, String[] salas, String Formato)
         {
             if (Formato == "Excel")
@@ -1696,30 +1696,68 @@ namespace ddcCajamarca.Web.Controllers
                             {
                                 if (item.FechaInicio.Day == DateTime.Parse(FechaIni).AddDays(j).Day)
                                 {
-                                    if (item.EventoEnsayo.Evento)
+                                    if (item.EventoEnsayo.TodoDia)
                                     {
-                                        if (contreq > 0)
+                                        var cant = (item.FechaFin - item.FechaInicio).Days + 1;
+                                        var tllenar = dias - j;
+                                        for (int k = 0; k < cant; k++)
                                         {
-                                            matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
-                                        }
-                                        else
-                                        {
-                                            matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                            if (k == dias)
+                                            {
+                                                j = j + k;
+                                                break;
+                                            }
+                                            if (item.EventoEnsayo.Evento)
+                                            {
+                                                if (contreq > 0)
+                                                {
+                                                    matriz[i, j + 1 + k] = matriz[i, j + 1 + k] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + "TODO EL DÍA" + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                                }
+                                                else
+                                                {
+                                                    matriz[i, j + 1 + k] = matriz[i, j + 1 + k] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + "TODO EL DÍA" + "\n\n";
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (contreq > 0)
+                                                {
+                                                    matriz[i, j + 1 + k] = matriz[i, j + 1 + k] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + "TODO EL DÍA" + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                                }
+                                                else
+                                                {
+                                                    matriz[i, j + 1 + k] = matriz[i, j + 1 + k] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + "TODO EL DÍA" + "\n\n";
+                                                }
+
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        if (contreq > 0)
+                                        if (item.EventoEnsayo.Evento)
                                         {
-                                            matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                            if (contreq > 0)
+                                            {
+                                                matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                            }
+                                            else
+                                            {
+                                                matriz[i, j + 1] = matriz[i, j + 1] + "ACTIVIDAD: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                            }
                                         }
                                         else
                                         {
-                                            matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                            if (contreq > 0)
+                                            {
+                                                matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\nREQUERIMIENTOS:" + requerimientos + "\n\n";
+                                            }
+                                            else
+                                            {
+                                                matriz[i, j + 1] = matriz[i, j + 1] + "ENSAYO: " + item.EventoEnsayo.NombreActividad + "\nENCARGADO: " + item.EventoEnsayo.InstitucionEncargada + " \n" + item.HoraInicioMostrar + " - " + item.HoraFinMostrar + "\n\n";
+                                            }
+
                                         }
-                                        
                                     }
-                                    
                                 }
                             }
                         }
@@ -1792,7 +1830,7 @@ namespace ddcCajamarca.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
         public ActionResult GenerarDocumento(String C1, String C2, Boolean C3)
         {
             var id = Int32.Parse(C2);
@@ -1816,7 +1854,7 @@ namespace ddcCajamarca.Web.Controllers
 
                 PdfPageTemplateElement header = new PdfPageTemplateElement(bounds);
 
-                PdfImage image = new PdfBitmap(@"E:\GitHub\ddcCajamarca\ddcCajamarca.Web\Imagenes\Logo DDC-C.jpg");
+                PdfImage image = new PdfBitmap(@"C:\inetpub\wwwroot\DDCCajamarca2017\Imagenes\Logo DDC-C.jpg"); 
 
                 //Draw the image in the header.
 
@@ -1946,9 +1984,10 @@ namespace ddcCajamarca.Web.Controllers
                     graphics.DrawString("Ambiente: ", font, PdfBrushes.Black, new RectangleF(0, 360, page.GetClientSize().Width, page.GetClientSize().Height));
                     graphics.DrawString(eventodetalle.EventoEnsayo.Ambiente.NombreMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 380, page.GetClientSize().Width, page.GetClientSize().Height));
 
-                    var cont = 0;
+                    var cont = -50;
                     if (eventodetalle.EventoEnsayo.Evento)
                     {
+                        cont = 0;
                         var req = "";
 
                         foreach (var item in eventodetalle.EventoEnsayo.DetalleRequerimientos)
