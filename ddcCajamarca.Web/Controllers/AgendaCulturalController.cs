@@ -8,6 +8,11 @@ using System.Web.Mvc;
 using ddcCajamarca.Services.ActividadesCulturales.Interfaces;
 using ddcCajamarca.Models;
 using System.Globalization;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Parsing;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Grid;
+using System.Drawing;
 
 namespace ddcCajamarca.Web.Controllers
 {
@@ -326,13 +331,16 @@ namespace ddcCajamarca.Web.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult NuevoRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin, Boolean Eventotipo,
-            Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
+            Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo, String info)
         {
             EventoEnsayo eventoguardar;
 
             evento.NombreActividad = evento.NombreActividad.Replace(char.ConvertFromUtf32(34), "'");
             evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
-            evento.InformacionAdicional = evento.InformacionAdicional.Replace(char.ConvertFromUtf32(34), "'");
+            if (!String.IsNullOrEmpty(info))
+            {
+                evento.InformacionAdicional = evento.InformacionAdicional.Replace(char.ConvertFromUtf32(34), "'");
+            }
 
             if (opcTodoDia)
             {
@@ -344,7 +352,7 @@ namespace ddcCajamarca.Web.Controllers
                     IdAmbiente = evento.IdAmbiente,
                     NombreActividad = evento.NombreActividad.ToUpper(),
                     InstitucionEncargada = evento.InstitucionEncargada.ToUpper(),
-                    InformacionAdicional = evento.InformacionAdicional.ToUpper(),
+                    InformacionAdicional = info.ToUpper(),
                     TodoDia = true,
                     FechaInicio = DateTime.Parse(FechaInicio),
                     FechaFin = DateTime.Parse(FechaFin),
@@ -366,7 +374,7 @@ namespace ddcCajamarca.Web.Controllers
                     IdAmbiente = evento.IdAmbiente,
                     NombreActividad = evento.NombreActividad.ToUpper(),
                     InstitucionEncargada = evento.InstitucionEncargada.ToUpper(),
-                    InformacionAdicional = evento.InformacionAdicional.ToUpper(),
+                    InformacionAdicional = info.ToUpper(),
                     TodoDia = false,
                     FechaInicio = DateTime.Parse(FechaInicio + " " + HoraIni),
                     FechaFin = DateTime.Parse(FechaFin + " " + HoraFin),
@@ -1783,6 +1791,194 @@ namespace ddcCajamarca.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult GenerarDocumento(String C1, String C2, Boolean C3)
+        {
+            var id = Int32.Parse(C2);
+            try
+            {
+                var eventodetalle = eventoEnsayoService.ObtenerDetalleHorasEventoPorIdEvento(id);
+                
+                //Create a new PDF document.
+                PdfDocument document = new PdfDocument();
+                //Add a page to the document.
+                PdfPage page = document.Pages.Add();
+                //Create PDF graphics for the page.
+                PdfGraphics graphics = page.Graphics;
+                //Set the standard font.
+                PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 14, PdfFontStyle.Bold);
+                PdfFont fontText = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
+
+                //Create a header and draw the image.
+
+                RectangleF bounds = new RectangleF(0, 0, document.Pages[0].GetClientSize().Width, 50);
+
+                PdfPageTemplateElement header = new PdfPageTemplateElement(bounds);
+
+                PdfImage image = new PdfBitmap(@"E:\GitHub\ddcCajamarca\ddcCajamarca.Web\Imagenes\Logo DDC-C.jpg");
+
+                //Draw the image in the header.
+
+                header.Graphics.DrawImage(image, new PointF(0, 0), new SizeF(520, 50));
+
+                //Add the header at the top.
+
+                document.Template.Top = header;
+
+                //Create a Page template that can be used as footer.
+
+                PdfPageTemplateElement footer = new PdfPageTemplateElement(bounds);
+
+                PdfFont fontfooter = new PdfStandardFont(PdfFontFamily.Helvetica, 7);
+
+                PdfBrush brush = new PdfSolidBrush(Color.Black);
+
+                //Create page number field.
+
+                PdfPageNumberField pageNumber = new PdfPageNumberField(fontfooter, brush);
+
+                //Create page count field.
+
+                PdfPageCountField count = new PdfPageCountField(fontfooter, brush);
+
+                //Add the fields in composite fields.
+
+                PdfCompositeField compositeField = new PdfCompositeField(fontfooter, brush, "Pagina {0} of {1}", pageNumber, count);
+
+                compositeField.Bounds = footer.Bounds;
+
+                //Draw the composite field in footer.
+
+                compositeField.Draw(footer.Graphics, new PointF(470, 40));
+
+                //Add the footer template at the bottom.
+
+                document.Template.Bottom = footer;
+
+
+                //Set the format for string.
+
+                PdfStringFormat formatcenter = new PdfStringFormat();
+                PdfStringFormat formatright = new PdfStringFormat();
+
+                //Set the format as RTL type.
+
+                formatcenter.RightToLeft = true;
+                formatright.RightToLeft = true;
+
+                //Set the alignment.
+
+                formatcenter.Alignment = PdfTextAlignment.Center;
+                formatright.Alignment = PdfTextAlignment.Right;
+
+                //Draw the text.
+                if (C3)
+                {
+                    graphics.DrawString(eventodetalle.EventoEnsayo.NombreActividad, font, PdfBrushes.Black, new RectangleF(0, 80, page.GetClientSize().Width, page.GetClientSize().Height), formatcenter);
+
+                    //////graphics.DrawString("Fecha Inicio: " + eventodetalle.EventoEnsayo.FechaInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(-1, 120, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Fecha Fin: " + eventodetalle.EventoEnsayo.FechaFinMostrar, fontText, PdfBrushes.Black, new RectangleF(-11, 140, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Hora Inicio: " + eventodetalle.EventoEnsayo.HoraInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(-15, 160, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Hora Fin: " + eventodetalle.EventoEnsayo.HoraFinMostrar, fontText, PdfBrushes.Black, new RectangleF(-26, 180, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Fecha Inicio: ", font, PdfBrushes.Black, new RectangleF(-25, 120, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    graphics.DrawString(eventodetalle.EventoEnsayo.FechaInicioMostrar + " " + eventodetalle.EventoEnsayo.HoraInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 140, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Fecha Fin: ", font, PdfBrushes.Black, new RectangleF(-40, 170, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    graphics.DrawString(eventodetalle.EventoEnsayo.FechaFinMostrar + " " + eventodetalle.EventoEnsayo.HoraFinMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 190, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Actividad: ", font, PdfBrushes.Black, new RectangleF(0, 210, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.NombreActividad, fontText, PdfBrushes.Black, new RectangleF(0, 230, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Tipo: ", font, PdfBrushes.Black, new RectangleF(0, 260, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.EventoMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 280, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Institución Encargada: ", font, PdfBrushes.Black, new RectangleF(0, 310, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.InstitucionEncargada, fontText, PdfBrushes.Black, new RectangleF(0, 330, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Ambiente: ", font, PdfBrushes.Black, new RectangleF(0, 360, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.Ambiente.NombreMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 380, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    var cont = 0;
+                    if (eventodetalle.EventoEnsayo.Evento)
+                    {
+                        var req = "";
+
+                        foreach (var item in eventodetalle.EventoEnsayo.DetalleRequerimientos)
+                        {
+                            req = req + "- " + item.Activo.Nombre + " " + item.Cantidad + "\n";
+                        }
+
+                        cont = eventodetalle.EventoEnsayo.DetalleRequerimientos.Count()*11;
+
+                        graphics.DrawString("Requerimientos: ", font, PdfBrushes.Black, new RectangleF(0, 410, page.GetClientSize().Width, page.GetClientSize().Height));
+                        graphics.DrawString(req, fontText, PdfBrushes.Black, new RectangleF(0, 430, page.GetClientSize().Width, page.GetClientSize().Height));
+                    }
+
+                    graphics.DrawString("Información Adicional: ", font, PdfBrushes.Black, new RectangleF(0, 460+cont, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.InformacionAdicional, fontText, PdfBrushes.Black, new RectangleF(0, 480+cont, page.GetClientSize().Width, page.GetClientSize().Height));
+                }
+                else
+                {
+                    graphics.DrawString(eventodetalle.EventoEnsayo.NombreActividad, font, PdfBrushes.Black, new RectangleF(0, 80, page.GetClientSize().Width, page.GetClientSize().Height), formatcenter);
+
+                    //////graphics.DrawString("Fecha Inicio: " + eventodetalle.EventoEnsayo.FechaInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(-1, 120, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Fecha Fin: " + eventodetalle.EventoEnsayo.FechaFinMostrar, fontText, PdfBrushes.Black, new RectangleF(-11, 140, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Hora Inicio: " + eventodetalle.EventoEnsayo.HoraInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(-15, 160, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    //////graphics.DrawString("Hora Fin: " + eventodetalle.EventoEnsayo.HoraFinMostrar, fontText, PdfBrushes.Black, new RectangleF(-26, 180, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Fecha Inicio: ", font, PdfBrushes.Black, new RectangleF(-25, 120, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    graphics.DrawString(eventodetalle.FechaInicioMostrar + " " + eventodetalle.HoraInicioMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 140, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Fecha Fin: ", font, PdfBrushes.Black, new RectangleF(-40, 170, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+                    graphics.DrawString(eventodetalle.FechaFinMostrar + " " + eventodetalle.HoraFinMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 190, page.GetClientSize().Width, page.GetClientSize().Height), formatright);
+
+                    graphics.DrawString("Actividad: ", font, PdfBrushes.Black, new RectangleF(0, 210, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.NombreActividad, fontText, PdfBrushes.Black, new RectangleF(0, 230, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Tipo: ", font, PdfBrushes.Black, new RectangleF(0, 260, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.EventoMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 280, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Institución Encargada: ", font, PdfBrushes.Black, new RectangleF(0, 310, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.InstitucionEncargada, fontText, PdfBrushes.Black, new RectangleF(0, 330, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    graphics.DrawString("Ambiente: ", font, PdfBrushes.Black, new RectangleF(0, 360, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.Ambiente.NombreMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 380, page.GetClientSize().Width, page.GetClientSize().Height));
+
+                    var cont = 0;
+                    if (eventodetalle.EventoEnsayo.Evento)
+                    {
+                        var req = "";
+
+                        foreach (var item in eventodetalle.EventoEnsayo.DetalleRequerimientos)
+                        {
+                            req = req + "- " + item.Activo.Nombre + " " + item.Cantidad + "\n";
+                        }
+
+                        cont = eventodetalle.EventoEnsayo.DetalleRequerimientos.Count() * 11;
+
+                        graphics.DrawString("Requerimientos: ", font, PdfBrushes.Black, new RectangleF(0, 410, page.GetClientSize().Width, page.GetClientSize().Height));
+                        graphics.DrawString(req, fontText, PdfBrushes.Black, new RectangleF(0, 430, page.GetClientSize().Width, page.GetClientSize().Height));
+                    }
+
+                    graphics.DrawString("Información Adicional: ", font, PdfBrushes.Black, new RectangleF(0, 460 + cont, page.GetClientSize().Width, page.GetClientSize().Height));
+                    graphics.DrawString(eventodetalle.EventoEnsayo.InformacionAdicional, fontText, PdfBrushes.Black, new RectangleF(0, 480 + cont, page.GetClientSize().Width, page.GetClientSize().Height));
+                }
+
+                //Save the document.
+                document.Save("Output.pdf", HttpContext.ApplicationInstance.Response, HttpReadType.Open);
+                //Close the document.
+                document.Close(true);
+
+
+                return View();
+            }
+            catch (Exception)
+            {
+                return PartialView("_Mensaje");
+            }
+        }
         public class EventoCalendar
         {
             public string title { get; set; }

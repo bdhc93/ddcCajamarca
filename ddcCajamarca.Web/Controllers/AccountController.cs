@@ -101,7 +101,7 @@ namespace ddcCajamarca.Web.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                catch (MembershipCreateUserException e)
+                catch (MembershipCreateUserException)
                 {
                     ModelState.AddModelError("", "Error Usuario Registrado");
                     ViewBag.Roles = webpages_RolService.ObtenerRolPorCriterio("");

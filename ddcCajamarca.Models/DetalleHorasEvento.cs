@@ -20,7 +20,28 @@ namespace ddcCajamarca.Models
         {
             get
             {
-                return FechaInicio.Day + "/" + FechaInicio.Month + "/" + FechaInicio.Year;
+                if (FechaInicio.Day < 11)
+                {
+                    if (FechaInicio.Month < 11)
+                    {
+                        return "0" + FechaInicio.Day + "/0" + FechaInicio.Month + "/" + FechaInicio.Year;
+                    }
+                    else
+                    {
+                        return "0" + FechaInicio.Day + "/" + FechaInicio.Month + "/" + FechaInicio.Year;
+                    }
+                }
+                else
+                {
+                    if (FechaInicio.Month < 11)
+                    {
+                        return FechaInicio.Day + "/0" + FechaInicio.Month + "/" + FechaInicio.Year;
+                    }
+                    else
+                    {
+                        return FechaInicio.Day + "/" + FechaInicio.Month + "/" + FechaInicio.Year;
+                    }
+                }
             }
         }
         public String HoraInicioMostrar
@@ -87,7 +108,28 @@ namespace ddcCajamarca.Models
         {
             get
             {
-                return FechaFin.Day + "/" + FechaFin.Month + "/" + FechaFin.Year;
+                if (FechaFin.Day < 11)
+                {
+                    if (FechaFin.Month < 11)
+                    {
+                        return "0" + FechaFin.Day + "/0" + FechaFin.Month + "/" + FechaFin.Year;
+                    }
+                    else
+                    {
+                        return "0" + FechaFin.Day + "/" + FechaFin.Month + "/" + FechaFin.Year;
+                    }
+                }
+                else
+                {
+                    if (FechaFin.Month < 11)
+                    {
+                        return FechaFin.Day + "/0" + FechaFin.Month + "/" + FechaFin.Year;
+                    }
+                    else
+                    {
+                        return FechaFin.Day + "/" + FechaFin.Month + "/" + FechaFin.Year;
+                    }
+                }
             }
         }
         public String HoraFinMostrar

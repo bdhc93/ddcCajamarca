@@ -128,8 +128,7 @@
   <ItemGroup>
     <Content Include="Data\DBEsquema.sql" />
     <Content Include="Data\DBUsuarios.sql" />
-    <Content Include="Data\Directorio.sql" />
-    <Content Include="Data\Eventos.sql" />
+    <Content Include="Data\DBDatos.sql" />
     <Content Include="Data\Procedimientos.sql" />
   </ItemGroup>
   <ItemGroup />
