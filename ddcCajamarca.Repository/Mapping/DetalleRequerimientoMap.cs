@@ -21,7 +21,7 @@ namespace ddcCajamarca.Repository.Mapping
 
             this.Property(p => p.Cantidad).IsRequired();
             this.Property(p => p.FechaRegistro).IsRequired().HasColumnType("datetime2");
-            //this.Property(p => p.Estado).IsOptional();
+            this.Property(p => p.Estado).IsOptional();
 
             this.ToTable("DetalleRequerimiento");
             this.Property(c => c.Id).HasColumnName("Id");
@@ -29,7 +29,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.IdActivo).HasColumnName("IdActivo");
             this.Property(c => c.Cantidad).HasColumnName("Cantidad");
             this.Property(c => c.FechaRegistro).HasColumnName("FechaRegistro");
-            //this.Property(c => c.Estado).HasColumnName("Estado");
+            this.Property(c => c.Estado).HasColumnName("Estado");
 
             this.HasRequired(h => h.EventoEnsayo)
                 .WithMany(h => h.DetalleRequerimientos)

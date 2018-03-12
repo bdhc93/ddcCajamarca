@@ -18,8 +18,8 @@ namespace ddcCajamarca.Models
         public DateTime FechaFin { get; set; }
         public String Lugar { get; set; }
         public String Encagardo { get; set; }
-        //[NotMapped]
-        //public Int32 Estado { get; set; }
+
+        public Int32 Estado { get; set; }
 
     }
 }

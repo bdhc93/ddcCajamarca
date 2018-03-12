@@ -18,14 +18,16 @@ namespace ddcCajamarca.Repository.Mapping
 
             this.Property(p => p.FechaInicio).IsRequired().HasColumnType("datetime2");
             this.Property(p => p.FechaFin).IsRequired().HasColumnType("datetime2");
-            //this.Property(p => p.Estado).IsOptional();
+            this.Property(p => p.Estado).IsOptional();
+            this.Property(p => p.TodoDia).IsOptional();
 
             this.ToTable("DetalleHorasEvento");
             this.Property(c => c.Id).HasColumnName("Id");
             this.Property(c => c.IdEventoEnsayo).HasColumnName("IdEventoEnsayo");
             this.Property(c => c.FechaInicio).HasColumnName("FechaInicio");
             this.Property(c => c.FechaFin).HasColumnName("FechaFin");
-            //this.Property(c => c.Estado).HasColumnName("Estado");
+            this.Property(c => c.Estado).HasColumnName("Estado");
+            this.Property(c => c.TodoDia).HasColumnName("TodoDia");
 
             this.HasRequired(h => h.EventoEnsayo)
                 .WithMany(h => h.DetalleHorasEventos)

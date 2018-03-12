@@ -24,9 +24,23 @@ namespace ddcCajamarca.Repository.Seguridad.Datos
         {
             if (!String.IsNullOrEmpty(criterio))
             {
-                return Context.PerfilUsuarios.Where(p => p.Usuario.ToUpper().Contains(criterio.ToUpper()) || p.NombreApellidos.ToUpper().Contains(criterio.ToUpper())).OrderBy(p => p.NombreApellidos).ToList();
+                return Context.PerfilUsuarios.Include("webpages_UsersInRoles").Include("webpages_UsersInRoles.webpages_Roles")
+                    .Where(p => p.Usuario.ToUpper().Contains(criterio.ToUpper()) || p.NombreApellidos.ToUpper().Contains(criterio.ToUpper())).OrderBy(p => p.NombreApellidos).ToList();
             }
-            return Context.PerfilUsuarios.OrderBy(p => p.NombreApellidos).ToList();
+            return Context.PerfilUsuarios
+                .Include("webpages_UsersInRoles").Include("webpages_UsersInRoles.webpages_Roles")
+                .OrderBy(p => p.NombreApellidos).ToList();
+        }
+
+        public PerfilUsuario ObtenerPerfilUsuarioPorId(int id)
+        {
+            //return Context.PerfilUsuarios.Find(id);
+
+            var query = from p in Context.PerfilUsuarios.Include("webpages_UsersInRoles").Include("webpages_UsersInRoles.webpages_Roles")
+                        where p.Id.Equals(id)
+                        select p;
+
+            return query.SingleOrDefault();
         }
 
         public PerfilUsuario ObtenerPerfilUsuarioPorNombre(string usuario)

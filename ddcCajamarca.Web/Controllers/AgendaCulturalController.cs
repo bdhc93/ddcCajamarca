@@ -6,6 +6,7 @@ using System.Web;
 using Syncfusion.XlsIO;
 using System.Web.Mvc;
 using ddcCajamarca.Services.ActividadesCulturales.Interfaces;
+using ddcCajamarca.Services.Seguridad.Interfaces;
 using ddcCajamarca.Models;
 using System.Globalization;
 using Syncfusion.Pdf;
@@ -13,6 +14,7 @@ using Syncfusion.Pdf.Parsing;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Grid;
 using System.Drawing;
+using System.Web.Security;
 
 namespace ddcCajamarca.Web.Controllers
 {
@@ -21,12 +23,17 @@ namespace ddcCajamarca.Web.Controllers
         public IAmbienteService ambienteService { get; set; }
         public IActivoService activoService { get; set; }
         public IEventoEnsayoService eventoEnsayoService { get; set; }
+        public IPerfilUsuarioService perfilUsuarioService { get; set; }
+        public IRegUsuarioService regUsuarioService { get; set; }
 
-        public AgendaCulturalController(IAmbienteService ambienteService, IActivoService activoService, IEventoEnsayoService eventoEnsayoService)
+        public AgendaCulturalController(IAmbienteService ambienteService, IActivoService activoService, IEventoEnsayoService eventoEnsayoService,
+            IPerfilUsuarioService perfilUsuarioService, IRegUsuarioService regUsuarioService)
         {
             this.ambienteService = ambienteService;
             this.activoService = activoService;
             this.eventoEnsayoService = eventoEnsayoService;
+            this.perfilUsuarioService = perfilUsuarioService;
+            this.regUsuarioService = regUsuarioService;
         }
 
         [HttpGet]
@@ -428,6 +435,17 @@ namespace ddcCajamarca.Web.Controllers
                 eventoguardar.DetalleHorasEventos.Add(detallehora);
 
                 eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
+
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Evento/Ensayo",
+                    Cambio = "Nuevo",
+                    IdModulo = eventoguardar.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             else
             {
@@ -458,6 +476,17 @@ namespace ddcCajamarca.Web.Controllers
                     if (eventoguardar.DetalleHorasEventos.Count() > 0)
                     {
                         eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
+
+                        RegUsuario movimiento = new RegUsuario
+                        {
+                            Usuario = User.Identity.Name,
+                            Modulo = "Evento/Ensayo",
+                            Cambio = "Nuevo",
+                            IdModulo = eventoguardar.Id.ToString(),
+                            Fecha = DateTime.Now
+                        };
+
+                        regUsuarioService.GuardarRegUsuario(movimiento);
                     }
                 }
                 else
@@ -519,6 +548,17 @@ namespace ddcCajamarca.Web.Controllers
                     if (eventoguardar.DetalleHorasEventos.Count() > 0)
                     {
                         eventoEnsayoService.GuardarEventoEnsayo(eventoguardar);
+
+                        RegUsuario movimiento = new RegUsuario
+                        {
+                            Usuario = User.Identity.Name,
+                            Modulo = "Evento/Ensayo",
+                            Cambio = "Nuevo",
+                            IdModulo = eventoguardar.Id.ToString(),
+                            Fecha = DateTime.Now
+                        };
+
+                        regUsuarioService.GuardarRegUsuario(movimiento);
                     }
                 }
             }
@@ -615,6 +655,17 @@ namespace ddcCajamarca.Web.Controllers
 
             eventoEnsayoService.ModificarEventoEnsayo(eventoguardar);
 
+            RegUsuario movimiento = new RegUsuario
+            {
+                Usuario = User.Identity.Name,
+                Modulo = "Evento/Ensayo",
+                Cambio = "Modificar",
+                IdModulo = eventoguardar.Id.ToString(),
+                Fecha = DateTime.Now
+            };
+
+            regUsuarioService.GuardarRegUsuario(movimiento);
+
 
             return Redirect(Url.Action("Calendario"));
         }
@@ -623,6 +674,16 @@ namespace ddcCajamarca.Web.Controllers
         [Authorize]
         public ActionResult Calendario()
         {
+
+            var u = Membership.GetUser(User.Identity.Name);
+
+            var usuario = perfilUsuarioService.ObtenerPerfilUsuarioPorNombre(User.Identity.Name);
+
+            foreach (var item in usuario.webpages_UsersInRoles)
+            {
+                ViewBag.Rol = item.webpages_Roles.RoleName;
+            }
+
             ViewBag.FechaHoy = FechaHoy();
 
             ViewBag.Ambientes = ambienteService.ObtenerAmbientePorCriterio("");
@@ -1216,6 +1277,17 @@ namespace ddcCajamarca.Web.Controllers
                 Ambiente amb = new Ambiente { Nombre = Nombre.ToUpper(), Aforo = Int32.Parse(aforo), Color = color, FechaRegistro = DateTime.Today };
 
                 ambienteService.GuardarAmbiente(amb);
+
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Ambiente",
+                    Cambio = "Nuevo",
+                    IdModulo = amb.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -1243,6 +1315,17 @@ namespace ddcCajamarca.Web.Controllers
 
                 activoService.GuardarActivo(amb);
 
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Activo",
+                    Cambio = "Nuevo",
+                    IdModulo = amb.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
+
                 return PartialView("_GuardarActivo");
             }
             catch (Exception)
@@ -1261,6 +1344,17 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.MSG = "E1";
 
                 ambienteService.EliminarAmbiente(idelim);
+
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Ambiente",
+                    Cambio = "Eliminar",
+                    IdModulo = idelim.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -1279,6 +1373,17 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.MSG = "E1";
 
                 activoService.EliminarActivo(idelim);
+
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Activo",
+                    Cambio = "Eliminar",
+                    IdModulo = idelim.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -1299,6 +1404,17 @@ namespace ddcCajamarca.Web.Controllers
                 if (todo)
                 {
                     eventoEnsayoService.EliminarEventoEnsayo(idelim);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Evento/Ensayo",
+                        Cambio = "Eliminar",
+                        IdModulo = idelim.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else
                 {
@@ -1307,10 +1423,32 @@ namespace ddcCajamarca.Web.Controllers
                     if (evento.DetalleHorasEventos.Count > 1)
                     {
                         eventoEnsayoService.EliminarDetalleEventoEnsayo(idelimdet);
+
+                        RegUsuario movimiento = new RegUsuario
+                        {
+                            Usuario = User.Identity.Name,
+                            Modulo = "Detalle Evento/Ensayo",
+                            Cambio = "Eliminar",
+                            IdModulo = idelimdet.ToString(),
+                            Fecha = DateTime.Now
+                        };
+
+                        regUsuarioService.GuardarRegUsuario(movimiento);
                     }
                     else
                     {
                         eventoEnsayoService.EliminarEventoEnsayo(idelim);
+
+                        RegUsuario movimiento = new RegUsuario
+                        {
+                            Usuario = User.Identity.Name,
+                            Modulo = "Evento/Ensayo",
+                            Cambio = "Eliminar",
+                            IdModulo = idelim.ToString(),
+                            Fecha = DateTime.Now
+                        };
+
+                        regUsuarioService.GuardarRegUsuario(movimiento);
                     }
                 }
             }
@@ -1429,6 +1567,16 @@ namespace ddcCajamarca.Web.Controllers
 
                 ambienteService.ModificarAmbiente(amb);
 
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Ambiente",
+                    Cambio = "Modificar",
+                    IdModulo = amb.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -1456,6 +1604,16 @@ namespace ddcCajamarca.Web.Controllers
 
                 activoService.ModificarActivo(amb);
 
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Activo",
+                    Cambio = "Modificar",
+                    IdModulo = amb.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -1854,7 +2012,10 @@ namespace ddcCajamarca.Web.Controllers
 
                 PdfPageTemplateElement header = new PdfPageTemplateElement(bounds);
 
-                PdfImage image = new PdfBitmap(@"C:\inetpub\wwwroot\DDCCajamarca2017\Imagenes\Logo DDC-C.jpg"); 
+                //PdfImage image = new PdfBitmap(@"C:\inetpub\wwwroot\DDCCajamarca2017\Imagenes\Logo DDC-C.jpg"); 
+
+                string ruta = Server.MapPath("~/Imagenes/Logo DDC-C.jpg");
+                PdfImage image = new PdfBitmap(ruta);
 
                 //Draw the image in the header.
 
@@ -2013,9 +2174,9 @@ namespace ddcCajamarca.Web.Controllers
 
                 return View();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return PartialView("_Mensaje");
+                return Redirect(Url.Action("Calendario"));
             }
         }
         public class EventoCalendar

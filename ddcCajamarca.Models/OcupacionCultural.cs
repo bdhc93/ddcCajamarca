@@ -17,8 +17,8 @@ namespace ddcCajamarca.Models
         public Int32 Id { get; set; }
         public String Nombre { get; set; }
         public DateTime FechaRegistro { get; set; }
-        //[NotMapped]
-        //public Int32 Estado { get; set; }
+
+        public Int32 Estado { get; set; }
 
         public String FechaRegistroMostrar
         {

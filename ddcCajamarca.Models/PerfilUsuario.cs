@@ -22,8 +22,7 @@ namespace ddcCajamarca.Models
         public String NombreMostrar { get; set; }
 
         public List<webpages_UsersInRol> webpages_UsersInRoles { get; set; }
-
-
+        
         [NotMapped]
         public String ImagenTemp { get; set; }
     }

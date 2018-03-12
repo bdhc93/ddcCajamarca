@@ -1,0 +1,29 @@
+﻿
+@{
+    IEnumerable<SelectListItem> Roles = new SelectList(@ViewBag.Roles, "RoleName", "RoleName");
+}
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label>Usuario*</label>
+        @*@Html.TextBoxFor(m => m.Usuario, new { @class = "form-control", required = "required", placeholder = "Usuario" })*@
+        <input type="text" name="Usuario" id="UsuarioMod" class="form-control" placeholder="Usuario" value="@Model.Usuario" disabled required autocomplete="off" />
+    </div>
+</div>
+
+<div class="col-md-12" id="pwd-container1">
+    <div class="form-group">
+        <label id="lb1">Contraseña*</label>
+        @*@Html.PasswordFor(m => m.Contrasenia, new { id = "contra1", @class = "form-control", required = "required", placeholder = "Contraseña" })*@
+        <input type="password" name="Contrasenia" id="ContraseniaMod" class="form-control  example1" placeholder="Contraseña" required />
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label>Rol en el Sistema* </label>
+        @Html.DropDownList("roleMod", Roles, new { @class = "form-control" })
+    </div>
+</div>
+<input id="txtIdMod" hidden value="@Model.Id" />

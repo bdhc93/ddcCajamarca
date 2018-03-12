@@ -39,8 +39,14 @@
             <li class="@Html.IsSelected(controller: "Directorio")">
                 <a href="#"><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.directorio">Directorio</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Directorio", cssClass: "in")">
-                    <li class="@Html.IsSelected(action: "ListarExtras")"><a href="@Url.Action("ListarExtras", "Directorio")">Complementos Dir.</a></li>
-                    <li class="@Html.IsSelected(action: "NuevaPersona")"><a href="@Url.Action("NuevaPersona", "Directorio")">Nuevo</a></li>
+                    @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador")
+                    {
+                        <li class="@Html.IsSelected(action: "ListarExtras")"><a href="@Url.Action("ListarExtras", "Directorio")">Complementos Dir.</a></li>
+                    }
+                    @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador" || @ViewBag.Rol == "Promotor")
+                    {
+                        <li class="@Html.IsSelected(action: "NuevaPersona")"><a href="@Url.Action("NuevaPersona", "Directorio")">Nuevo</a></li>
+                    }
                     <li class="@Html.IsSelected(action: "ListarPersonas")"><a href="@Url.Action("ListarPersonas", "Directorio")">Lista Directorio</a></li>
                     @*<li class="@Html.IsSelected(action: "ListarPersonas2")"><a href="@Url.Action("ListarPersonas2", "Directorio")">Vista Contactos</a></li>*@
                     @*<li class="@Html.IsSelected(action: "Contacts2")"><a href="@Url.Action("Contacts2", "Directorio")">Personas v.2</a></li>
@@ -55,22 +61,28 @@
             <li class="@Html.IsSelected(controller: "AgendaCultural")">
                 <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label" data-i18n="nav.agendaCultural">Agenda Cultural</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "AgendaCultural", cssClass: "in")">
-                    <li class="@Html.IsSelected(action: "ListarActivos")"><a href="@Url.Action("ListarActivos", "AgendaCultural")">Activos</a></li>
-                    <li class="@Html.IsSelected(action: "ListarAmbientes")"><a href="@Url.Action("ListarAmbientes", "AgendaCultural")">Ambientes</a></li>
+                    @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador")
+                    {
+                        <li class="@Html.IsSelected(action: "ListarActivos")"><a href="@Url.Action("ListarActivos", "AgendaCultural")">Activos</a></li>
+                        <li class="@Html.IsSelected(action: "ListarAmbientes")"><a href="@Url.Action("ListarAmbientes", "AgendaCultural")">Ambientes</a></li>
+                    }
                     <li class="@Html.IsSelected(action: "Calendario")"><a href="@Url.Action("Calendario", "AgendaCultural")">Calendario</a></li>
                     <li class="@Html.IsSelected(action: "ReporteActividadesCulturales")"><a href="@Url.Action("ReporteActividadesCulturales", "AgendaCultural")">Reportes</a></li>
 
 
                 </ul>
             </li>
+            @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador")
+            {
+                <li class="@Html.IsSelected(controller: "Account")">
+                    <a href="#"><i class="fa fa-exclamation-triangle"></i> <span class="nav-label" data-i18n="nav.account">Seguridad</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Account", cssClass: "in")">
+                        <li class="@Html.IsSelected(action: "ListarUsuarios")"><a href="@Url.Action("ListarUsuarios", "Account")">Usuarios Registrados</a></li>
+                        <li class="@Html.IsSelected(action: "RegistroUsuario")"><a href="@Url.Action("RegistroUsuario", "Account")">Registrar Usuario</a></li>
+                    </ul>
+                </li>
+            }
 
-            <li class="@Html.IsSelected(controller: "Account")">
-                <a href="#"><i class="fa fa-exclamation-triangle"></i> <span class="nav-label" data-i18n="nav.account">Seguridad</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Account", cssClass: "in")">
-                    <li class="@Html.IsSelected(action: "ListarUsuarios")"><a href="@Url.Action("ListarUsuarios", "Account")">Usuarios Registrados</a></li>
-                    <li class="@Html.IsSelected(action: "RegistroUsuario")"><a href="@Url.Action("RegistroUsuario", "Account")">Registrar Usuario</a></li>
-                </ul>
-            </li>
 
                 @*<li class="@Html.IsSelected(controller: "Mapa")">
                 <a href="@Url.Action("GoogleMaps", "Mapa")"><i class="fa fa-map-marker"></i> <span class="nav-label" data-i18n="nav.metrics">GoogleMaps</span> </a>

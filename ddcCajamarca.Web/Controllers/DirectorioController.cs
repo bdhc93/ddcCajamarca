@@ -5,9 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ddcCajamarca.Services.Directorio.Interfaces;
+using ddcCajamarca.Services.Seguridad.Interfaces;
 using ddcCajamarca.Models;
 using System.Drawing;
 using Syncfusion.XlsIO;
+using System.Web.Security;
 
 namespace ddcCajamarca.Web.Controllers
 {
@@ -17,20 +19,34 @@ namespace ddcCajamarca.Web.Controllers
         public IOrganizacionService organizacionService { get; set; }
         public IProfesionService profesionService { get; set; }
         public IOcupacionCulturalService ocupacionCulturalService { get; set; }
+        public IPerfilUsuarioService perfilUsuarioService { get; set; }
+        public IRegUsuarioService regUsuarioService { get; set; }
 
         public DirectorioController(IPersonaService personaService, IOrganizacionService organizacionService,
-            IProfesionService profesionService, IOcupacionCulturalService ocupacionCulturalService)
+            IProfesionService profesionService, IOcupacionCulturalService ocupacionCulturalService,
+            IPerfilUsuarioService perfilUsuarioService, IRegUsuarioService regUsuarioService)
         {
             this.personaService = personaService;
             this.organizacionService = organizacionService;
             this.profesionService = profesionService;
             this.ocupacionCulturalService = ocupacionCulturalService;
+            this.perfilUsuarioService = perfilUsuarioService;
+            this.regUsuarioService = regUsuarioService;
         }
         
         [HttpGet]
         [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
         public ActionResult ListarPersonas(String NA, String Fun)
         {
+            var u = Membership.GetUser(User.Identity.Name);
+
+            var usuario = perfilUsuarioService.ObtenerPerfilUsuarioPorNombre(User.Identity.Name);
+
+            foreach (var item in usuario.webpages_UsersInRoles)
+            {
+                ViewBag.Rol = item.webpages_Roles.RoleName;
+            }
+
             var result = personaService.ObtenerPersonaPorCriterio("");
 
             foreach (var item in result)
@@ -203,88 +219,106 @@ namespace ddcCajamarca.Web.Controllers
         [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
         public ActionResult NuevaPersona(Persona model, HttpPostedFileBase file, String cropweight, String cropwidth, String cropx, String cropy)
         {
-            if (file != null && file.ContentType.Remove(5) == "image")
+            try
             {
-                string ruta = Server.MapPath("~/PerfilImg");
-
-                if (!Directory.Exists(ruta))
-                    Directory.CreateDirectory(ruta);
-
-                string archivo = String.Format("{0}\\{1}", ruta, model.Telefono + "-" + model.NombreApellidos + "." + file.ContentType.Remove(0, 6));
-                //string archivo = "C:/inetpub/wwwroot/DDCCajamarca/PerfilImg/" + model.Telefono + " -" + model.NombreApellidos;
-
-                cropweight = cropweight.Replace(".", ",");
-                cropwidth = cropwidth.Replace(".", ",");
-                cropx = cropx.Replace(".", ",");
-                cropy = cropy.Replace(".", ",");
-
-                Decimal Convcropweight = Decimal.Parse(cropweight);
-                Decimal Convcropcropwidth = Decimal.Parse(cropwidth);
-                Decimal Convcropx = Decimal.Parse(cropx);
-                Decimal Convcropy = Decimal.Parse(cropy);
-
-                Rectangle cropRect = new Rectangle(Decimal.ToInt32(Convcropx), Decimal.ToInt32(Convcropy), Decimal.ToInt32(Convcropcropwidth), Decimal.ToInt32(Convcropweight));
-
-                Bitmap src = Image.FromStream(file.InputStream) as Bitmap;
-
-                Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
-                
-                using (Graphics g = Graphics.FromImage(target))
+                if (file != null && file.ContentType.Remove(5) == "image")
                 {
-                    g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),
-                        cropRect,
-                        GraphicsUnit.Pixel);
+                    string ruta = Server.MapPath("~/PerfilImg");
+
+                    if (!Directory.Exists(ruta))
+                        Directory.CreateDirectory(ruta);
+
+                    string archivo = String.Format("{0}\\{1}", ruta, model.Telefono + "-" + model.NombreApellidos + "." + file.ContentType.Remove(0, 6));
+                    //string archivo = "C:/inetpub/wwwroot/DDCCajamarca/PerfilImg/" + model.Telefono + " -" + model.NombreApellidos;
+
+                    cropweight = cropweight.Replace(".", ",");
+                    cropwidth = cropwidth.Replace(".", ",");
+                    cropx = cropx.Replace(".", ",");
+                    cropy = cropy.Replace(".", ",");
+
+                    Decimal Convcropweight = Decimal.Parse(cropweight);
+                    Decimal Convcropcropwidth = Decimal.Parse(cropwidth);
+                    Decimal Convcropx = Decimal.Parse(cropx);
+                    Decimal Convcropy = Decimal.Parse(cropy);
+
+                    Rectangle cropRect = new Rectangle(Decimal.ToInt32(Convcropx), Decimal.ToInt32(Convcropy), Decimal.ToInt32(Convcropcropwidth), Decimal.ToInt32(Convcropweight));
+
+                    Bitmap src = Image.FromStream(file.InputStream) as Bitmap;
+
+                    Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+                    using (Graphics g = Graphics.FromImage(target))
+                    {
+                        g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height),
+                            cropRect,
+                            GraphicsUnit.Pixel);
+                    }
+
+                    target = new Bitmap(target, new Size(125, 125));
+
+                    target.Save(archivo);
+
+                    model.Imagen = "/PerfilImg/" + model.Telefono + "-" + model.NombreApellidos + "." + file.ContentType.Remove(0, 6);
+                    //model.Imagen = "/PerfilImg/" + model.Telefono + "-" + model.NombreApellidos + "." + file.FileName;
+                }
+                else
+                {
+                    model.Imagen = "/PerfilImg/SinImagen.jpg";
                 }
 
-                target = new Bitmap(target,new Size(125,125));
+                if (model.IdOcupacionCultural == 0)
+                {
+                    model.IdOcupacionCultural = 1;
+                }
 
-                target.Save(archivo);
+                if (model.IdProfesion == 0)
+                {
+                    model.IdProfesion = 1;
+                }
 
-                model.Imagen = "/PerfilImg/" + model.Telefono + "-" + model.NombreApellidos + "." + file.ContentType.Remove(0, 6);
-                //model.Imagen = "/PerfilImg/" + model.Telefono + "-" + model.NombreApellidos + "." + file.FileName;
-            }
-            else
-            {
-                model.Imagen = "/PerfilImg/SinImagen.jpg";
-            }
+                if (model.IdOrganizacion == 0)
+                {
+                    model.IdOrganizacion = 1;
+                }
 
-            if (model.IdOcupacionCultural == 0)
-            {
-                model.IdOcupacionCultural = 1;
-            }
+                if (!String.IsNullOrEmpty(model.NombreArtistico))
+                {
+                    model.NombreArtistico = model.NombreArtistico.ToUpper();
+                }
+                if (!String.IsNullOrEmpty(model.Direccion))
+                {
+                    model.Direccion = model.Direccion.ToUpper();
+                }
+                if (!String.IsNullOrEmpty(model.Email))
+                {
+                    model.Email = model.Email.ToUpper();
+                }
+                if (!String.IsNullOrEmpty(model.RedesSociales))
+                {
+                    model.RedesSociales = model.RedesSociales.ToUpper();
+                }
 
-            if (model.IdProfesion == 0)
-            {
-                model.IdProfesion = 1;
-            }
+                model.NombreApellidos = model.NombreApellidos.ToUpper();
 
-            if (model.IdOrganizacion == 0)
-            {
-                model.IdOrganizacion = 1;
-            }
+                personaService.GuardarPersona(model);
 
-            if (!String.IsNullOrEmpty(model.NombreArtistico))
-            {
-                model.NombreArtistico = model.NombreArtistico.ToUpper();
-            }
-            if (!String.IsNullOrEmpty(model.Direccion))
-            {
-                model.Direccion = model.Direccion.ToUpper();
-            }
-            if (!String.IsNullOrEmpty(model.Email))
-            {
-                model.Email = model.Email.ToUpper();
-            }
-            if (!String.IsNullOrEmpty(model.RedesSociales))
-            {
-                model.RedesSociales = model.RedesSociales.ToUpper();
-            }
-            
-            model.NombreApellidos = model.NombreApellidos.ToUpper();
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Directorio",
+                    Cambio = "Nuevo",
+                    IdModulo = model.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
 
-            personaService.GuardarPersona(model);
+                regUsuarioService.GuardarRegUsuario(movimiento);
 
-            return Redirect(Url.Action("ListarPersonas", new { NA = model.NombreApellidos, Fun = "PS" }));
+                return Redirect(Url.Action("ListarPersonas", new { NA = model.NombreApellidos, Fun = "PS" }));
+            }
+            catch (Exception)
+            {
+                return Redirect(Url.Action("ListarPersonas", new { TP = "1" }));
+            }
         }
         
         [HttpGet]
@@ -298,6 +332,17 @@ namespace ddcCajamarca.Web.Controllers
                 personaService.EliminarPersona(idper);
 
                 ViewBag.MSG = "1";
+
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Directorio",
+                    Cambio = "Eliminar",
+                    IdModulo = idper.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
 
                 //if (per.Imagen != "/PerfilImg/SinImagen.jpg")
                 //{
@@ -428,6 +473,17 @@ namespace ddcCajamarca.Web.Controllers
             model.NombreApellidos = model.NombreApellidos.ToUpper();
 
             personaService.ModificarPersona(model);
+
+            RegUsuario movimiento = new RegUsuario
+            {
+                Usuario = User.Identity.Name,
+                Modulo = "Directorio",
+                Cambio = "Modificar",
+                IdModulo = model.Id.ToString(),
+                Fecha = DateTime.Now
+            };
+
+            regUsuarioService.GuardarRegUsuario(movimiento);
 
             return Redirect(Url.Action("ListarPersonas", new { NA = model.NombreApellidos, Fun = "PE" }));
         }
@@ -642,18 +698,51 @@ namespace ddcCajamarca.Web.Controllers
                     ViewBag.MSG = "E1";
 
                     ocupacionCulturalService.EliminarOcupacionCultural(idelim);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Ocupación Cultural",
+                        Cambio = "Eliminar",
+                        IdModulo = idelim.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idopcion == "G2" || idopcion == "M2")
                 {
                     ViewBag.MSG = "E1";
 
                     profesionService.EliminarProfesion(idelim);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Profesión",
+                        Cambio = "Eliminar",
+                        IdModulo = idelim.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idopcion == "G3" || idopcion == "M3")
                 {
                     ViewBag.MSG = "E1";
 
                     organizacionService.EliminarOrganizacion(idelim);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Organización",
+                        Cambio = "Eliminar",
+                        IdModulo = idelim.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
             }
             catch (Exception)
@@ -675,18 +764,51 @@ namespace ddcCajamarca.Web.Controllers
                     ViewBag.msg = "G1";
                     OcupacionCultural ocu = new OcupacionCultural { Nombre = Nombre.ToUpper(), FechaRegistro=DateTime.Today };
                     ocupacionCulturalService.GuardarOcupacionCultural(ocu);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Ocupación Cultural",
+                        Cambio = "Nuevo",
+                        IdModulo = ocu.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idnuevoopc == "Profesión")
                 {
                     ViewBag.msg = "G2";
                     Profesion pro = new Profesion { Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today };
                     profesionService.GuardarProfesion(pro);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Profesión",
+                        Cambio = "Nuevo",
+                        IdModulo = pro.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idnuevoopc == "Organización")
                 {
                     ViewBag.msg = "G3";
                     Organizacion org = new Organizacion { Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today, Direccion = direccion };
                     organizacionService.GuardarOrganizacion(org);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Organización",
+                        Cambio = "Nuevo",
+                        IdModulo = org.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 
             }
@@ -709,6 +831,16 @@ namespace ddcCajamarca.Web.Controllers
                 OcupacionCultural ocu = new OcupacionCultural { Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today };
                 ocupacionCulturalService.GuardarOcupacionCultural(ocu);
 
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Ocupación Cultural",
+                    Cambio = "Nuevo",
+                    IdModulo = ocu.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -730,7 +862,17 @@ namespace ddcCajamarca.Web.Controllers
                 ViewBag.msg = "G2";
                 Profesion pro = new Profesion { Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today };
                 profesionService.GuardarProfesion(pro);
+                
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Profesión",
+                    Cambio = "Nuevo",
+                    IdModulo = pro.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
 
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -753,6 +895,16 @@ namespace ddcCajamarca.Web.Controllers
                 Organizacion org = new Organizacion { Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today, Direccion = direccion };
                 organizacionService.GuardarOrganizacion(org);
 
+                RegUsuario movimiento = new RegUsuario
+                {
+                    Usuario = User.Identity.Name,
+                    Modulo = "Organización",
+                    Cambio = "Nuevo",
+                    IdModulo = org.Id.ToString(),
+                    Fecha = DateTime.Now
+                };
+
+                regUsuarioService.GuardarRegUsuario(movimiento);
             }
             catch (Exception)
             {
@@ -803,18 +955,51 @@ namespace ddcCajamarca.Web.Controllers
                     ViewBag.msg = "M1";
                     OcupacionCultural ocu = new OcupacionCultural { Id = Idm, Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today };
                     ocupacionCulturalService.ModificarOcupacionCultural(ocu);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Ocupación Cultural",
+                        Cambio = "Modificar",
+                        IdModulo = ocu.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idnuevoopc == "G2")
                 {
                     ViewBag.msg = "M2";
                     Profesion pro = new Profesion { Id = Idm, Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today };
                     profesionService.ModificarProfesion(pro);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Profesión",
+                        Cambio = "Modificar",
+                        IdModulo = pro.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
                 else if (idnuevoopc == "G3")
                 {
                     ViewBag.msg = "M3";
                     Organizacion org = new Organizacion { Id = Idm, Nombre = Nombre.ToUpper(), FechaRegistro = DateTime.Today, Direccion = direccion.ToUpper() };
                     organizacionService.ModificarOrganizacion(org);
+
+                    RegUsuario movimiento = new RegUsuario
+                    {
+                        Usuario = User.Identity.Name,
+                        Modulo = "Organización",
+                        Cambio = "Modificar",
+                        IdModulo = org.Id.ToString(),
+                        Fecha = DateTime.Now
+                    };
+
+                    regUsuarioService.GuardarRegUsuario(movimiento);
                 }
 
             }

@@ -35,5 +35,10 @@ namespace ddcCajamarca.Services.Seguridad.Datos
         {
             throw new NotImplementedException();
         }
+
+        public PerfilUsuario ObtenerPerfilUsuarioPorId(int id)
+        {
+            return perfilUsuarioRepository.ObtenerPerfilUsuarioPorId(id);
+        }
     }
 }

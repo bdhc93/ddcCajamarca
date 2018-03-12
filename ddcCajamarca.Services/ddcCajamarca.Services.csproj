@@ -68,8 +68,10 @@
     <Compile Include="Directorio\Interfaces\IProfesionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\Datos\PerfilUsuarioService.cs" />
+    <Compile Include="Seguridad\Datos\RegUsuarioService.cs" />
     <Compile Include="Seguridad\Datos\webpages_RolService.cs" />
     <Compile Include="Seguridad\Interfaces\IPerfilUsuarioService.cs" />
+    <Compile Include="Seguridad\Interfaces\IRegUsuarioService.cs" />
     <Compile Include="Seguridad\Interfaces\Iwebpages_RolService.cs" />
   </ItemGroup>
   <ItemGroup>

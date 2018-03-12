@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentacion", "Presentacion", "{60B0FFEB-10E1-4F60-A509-73FDDA8953F5}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ddcCajamarca.Models", "ddcCajamarca.Models\ddcCajamarca.Models.csproj", "{4DE9A964-B57F-44BB-8447-9BF1B2B194E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ddcCajamarca.Services", "ddcCajamarca.Services\ddcCajamarca.Services.csproj", "{4020A1CB-26C4-455D-9C24-90014C93D507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ddcCajamarca.CreateDB", "ddcCajamarca.CreateDB\ddcCajamarca.CreateDB.csproj", "{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,22 @@ Global
 		{4020A1CB-26C4-455D-9C24-90014C93D507}.Release|x64.Build.0 = Release|Any CPU
 		{4020A1CB-26C4-455D-9C24-90014C93D507}.Release|x86.ActiveCfg = Release|Any CPU
 		{4020A1CB-26C4-455D-9C24-90014C93D507}.Release|x86.Build.0 = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|x64.Build.0 = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|ARM.Build.0 = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|x64.Build.0 = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +120,7 @@ Global
 		{FEF604BD-BF88-4974-8B33-9D4F7325C5D7} = {80D5EB92-811F-448D-B273-CDEFC2E6DACD}
 		{4DE9A964-B57F-44BB-8447-9BF1B2B194E3} = {5E4D259B-6790-4AC1-A877-70E45B871A5C}
 		{4020A1CB-26C4-455D-9C24-90014C93D507} = {5E4D259B-6790-4AC1-A877-70E45B871A5C}
+		{F75DD6D8-2EF3-42B2-A249-E6CB5EB14EFE} = {80D5EB92-811F-448D-B273-CDEFC2E6DACD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBF8714A-27F7-41BD-843A-7D923FE7FDD4}

@@ -6,6 +6,7 @@ namespace ddcCajamarca.Repository.Seguridad.Interfaces
 {
     public interface IPerfilUsuarioRepository
     {
+        PerfilUsuario ObtenerPerfilUsuarioPorId(Int32 id);
         PerfilUsuario ObtenerPerfilUsuarioPorNombre(String usuario);
 
         IEnumerable<PerfilUsuario> ObtenerPerfilUsuarioPorCriterio(String criterio);

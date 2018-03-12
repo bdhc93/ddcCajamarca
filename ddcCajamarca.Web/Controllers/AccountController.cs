@@ -64,7 +64,7 @@ namespace ddcCajamarca.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin, Administrador")]
-        public ActionResult ListarUsuarios()
+        public ActionResult ListarUsuarios(String Tp)
         {
             var result = perfilUsuarioService.ObtenerPerfilUsuarioPorCriterio("");
             
@@ -79,6 +79,8 @@ namespace ddcCajamarca.Web.Controllers
                     item.Imagen = "../" + item.Imagen;
                 }
             }
+
+            ViewBag.ToasMS = Tp;
 
             ViewBag.Coincidencias = result.Count();
 
@@ -307,6 +309,87 @@ namespace ddcCajamarca.Web.Controllers
             
 
             return View();
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public ActionResult EliminarUsuario(Int32 id)
+        {
+            try
+            {
+                var usuario = perfilUsuarioService.ObtenerPerfilUsuarioPorId(id);
+                //((SimpleMembershipProvider)Membership.Provider).DeleteUser(usuario.Usuario, true);
+                Membership.Provider.DeleteUser(usuario.Usuario, true);
+
+                ViewBag.msg = "E1";
+
+                return PartialView("_Mensaje");
+            }
+            catch (Exception e)
+            {
+                ViewBag.msg = "E2";
+
+                return PartialView("_Mensaje");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ObtenerUsuarioPorId(Int32 Id)
+        {
+            try
+            {
+                ViewBag.Roles = webpages_RolService.ObtenerRolPorCriterio("");
+                var result = perfilUsuarioService.ObtenerPerfilUsuarioPorId(Id);
+                
+                return PartialView("_ObtenerUsuarioPorId", result);
+            }
+            catch (Exception)
+            {
+                return Redirect(Url.Action("ListarUsuarios"));
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
+        public ActionResult ModificarUsuario(Int32 Idmod, String usuario, String contrasenia, String role)
+        {
+            try
+            {
+                var roles = webpages_RolService.ObtenerRolPorCriterio("");
+                
+                //MembershipUser mu = Membership.GetUser(usuario);
+
+                var token = WebSecurity.GeneratePasswordResetToken(usuario,1440);
+
+                //mu.ChangePassword(mu.ResetPassword(), contrasenia);
+
+                WebSecurity.ResetPassword(token, contrasenia);
+
+                foreach (var item in roles)
+                {
+                    try
+                    {
+                        Roles.RemoveUserFromRole(usuario, item.RoleName);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    
+                }
+
+                //Roles.RemoveUserFromRoles(usuario, rol);
+
+                Roles.AddUserToRole(usuario, role);
+
+                ViewBag.msg = "M1";
+                return PartialView("_Mensaje");
+            }
+            catch (Exception e)
+            {
+                ViewBag.msg = "E1";
+                return PartialView("_Mensaje");
+            }
         }
 
         public ActionResult Logout()

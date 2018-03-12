@@ -26,12 +26,12 @@ namespace ddcCajamarca.Repository.Mapping
             this.HasRequired(h => h.webpages_Roles)
                 .WithMany(h => h.webpages_UsersInRoles)
                 .HasForeignKey(p => p.RoleId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             this.HasRequired(h => h.PerfilUsuario)
                 .WithMany(h => h.webpages_UsersInRoles)
                 .HasForeignKey(p => p.UserId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
         }
     }
 }

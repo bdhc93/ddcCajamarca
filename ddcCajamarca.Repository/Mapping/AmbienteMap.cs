@@ -16,7 +16,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(p => p.Nombre).IsRequired();
             this.Property(p => p.Aforo).IsOptional();
             this.Property(p => p.Color).IsRequired();
-            //this.Property(p => p.Estado).IsOptional();
+            this.Property(p => p.Estado).IsOptional();
             this.Property(p => p.FechaRegistro).IsRequired().HasColumnType("datetime2");
 
             this.ToTable("Ambiente");
@@ -25,7 +25,7 @@ namespace ddcCajamarca.Repository.Mapping
             this.Property(c => c.Color).HasColumnName("Color");
             this.Property(c => c.Aforo).HasColumnName("Aforo");
             this.Property(c => c.FechaRegistro).HasColumnName("FechaRegistro");
-            //this.Property(c => c.Estado).HasColumnName("Estado");
+            this.Property(c => c.Estado).HasColumnName("Estado");
         }
     }
 }

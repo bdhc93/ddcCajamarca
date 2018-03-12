@@ -1838,6 +1838,8 @@
     <Content Include="Views\Account\Perfil.cshtml" />
     <Content Include="Views\Account\CambiarUsuarioContrasenia.cshtml" />
     <Content Include="Views\Account\ListarUsuarios.cshtml" />
+    <Content Include="Views\Account\_Mensaje.cshtml" />
+    <Content Include="Views\Account\_ObtenerUsuarioPorId.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

@@ -1,0 +1,16 @@
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.CreateDB.exe.config
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.CreateDB.exe
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.CreateDB.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.Models.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.Repository.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\EntityFramework.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.Models.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.Repository.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\ddcCajamarca.Repository.dll.config
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\EntityFramework.xml
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\obj\Debug\ddcCajamarca.CreateDB.csprojResolveAssemblyReference.cache
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\obj\Debug\ddcCajamarca.CreateDB.csproj.CoreCompileInputs.cache
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\obj\Debug\ddcCajamarca.CreateDB.exe
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\obj\Debug\ddcCajamarca.CreateDB.pdb
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\EntityFramework.SqlServer.dll
+E:\GitHub\ddcCajamarca\ddcCajamarca.CreateDB\bin\Debug\EntityFramework.SqlServer.xml

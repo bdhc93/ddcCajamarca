@@ -42,166 +42,169 @@
             IEnumerable<SelectListItem> Ambientes = new SelectList(@ViewBag.Ambientes, "Id", "NombreMostrar");
         }
 
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Registro Evento </h5>
+        @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador" || @ViewBag.Rol == "Promotor")
+        {
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Registro Evento </h5>
 
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
                     </div>
+
+                    <div class="ibox-content">
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Seleccionar</label>
+                            @Html.DropDownList("idAmbientes", Ambientes, "--Seleccionar--", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label class="control-label">Seleccionar</label>
+                            <select class="form-control" id="idopcion" name="OpcionEvento">
+                                <option>Evento</option>
+                                <option>Ensayo</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6" id="calendario">
+                            <label>Fecha Inicio</label>
+                            <div class="input-group date">
+                                <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6" id="calendario2">
+                            <label>Fecha Fin</label>
+                            <div class="input-group date">
+                                <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group col-sm-1">
+                                <label>Todo el día</label>
+                                <div class="input-group">
+                                    <input id="TodoDia" type="checkbox" class="js-switch" />
+                                </div>
+                            </div>*@
+                        <div class="form-group col-sm-6">
+                            <label>Hora Incio</label>
+                            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" id="horaini" name="HoraIni" class="form-control" value="09:30">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Hora Fin</label>
+                            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" id="horafin" name="HoraFin" class="form-control" value="12:00">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-12">
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbLunes" type="checkbox">
+                                        <label for="chbLunes">
+                                            Lunes
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbMartes" type="checkbox">
+                                        <label for="chbMartes">
+                                            Martes
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbMiercoles" type="checkbox">
+                                        <label for="chbMiercoles">
+                                            Miércoles
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbJueves" type="checkbox">
+                                        <label for="chbJueves">
+                                            Jueves
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbViernes" type="checkbox">
+                                        <label for="chbViernes">
+                                            Viernes
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbSabado" type="checkbox">
+                                        <label for="chbSabado">
+                                            Sábado
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-primary">
+                                        <input id="chbDomingo" type="checkbox">
+                                        <label for="chbDomingo">
+                                            Domingo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <div class="input-group col-lg-12">
+                                    <div class="checkbox checkbox-success">
+                                        <input id="TodoDia" type="checkbox">
+                                        <label for="TodoDia">
+                                            Todo el día
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label>*Todos los campos son obligatorios para la creación del evento.</label>
+                        <div class="text-right">
+                            <input hidden type="text" name="opcTodoDia" id="opcTodoDia" value="false" />
+                            <input hidden type="text" name="cbLunes" id="cbLunes" value="false" />
+                            <input hidden type="text" name="cbMartes" id="cbMartes" value="false" />
+                            <input hidden type="text" name="cbMiercoles" id="cbMiercoles" value="false" />
+                            <input hidden type="text" name="cbJueves" id="cbJueves" value="false" />
+                            <input hidden type="text" name="cbViernes" id="cbViernes" value="false" />
+                            <input hidden type="text" name="cbSabado" id="cbSabado" value="False" />
+                            <input hidden type="text" name="cbDomingo" id="cbDomingo" value="False" />
+                            <button class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" disabled onclick="nuevoregistro()"><strong>Nuevo</strong></button>
+                            @*<a href="#" class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" onclick="nuevoregistro()">Nuevo</a>*@
+                        </div>
+                    </div>
+
                 </div>
-
-                <div class="ibox-content">
-                    <div class="form-group col-lg-6">
-                        <label class="control-label">Seleccionar</label>
-                        @Html.DropDownList("idAmbientes", Ambientes, "--Seleccionar--", new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <label class="control-label">Seleccionar</label>
-                        <select class="form-control" id="idopcion" name="OpcionEvento">
-                            <option>Evento</option>
-                            <option>Ensayo</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-6" id="calendario">
-                        <label>Fecha Inicio</label>
-                        <div class="input-group date">
-                            <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>
-                    <div class="form-group col-lg-6" id="calendario2">
-                        <label>Fecha Fin</label>
-                        <div class="input-group date">
-                            <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>                    
-
-                    @*<div class="form-group col-sm-1">
-                        <label>Todo el día</label>
-                        <div class="input-group">
-                            <input id="TodoDia" type="checkbox" class="js-switch" />
-                        </div>
-                    </div>*@
-                    <div class="form-group col-sm-6">
-                        <label>Hora Incio</label>
-                        <div class="input-group clockpicker" data-autoclose="true">
-                            <input type="text" id="horaini" name="HoraIni" class="form-control" value="09:30">
-                            <span class="input-group-addon">
-                                <span class="fa fa-clock-o"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label>Hora Fin</label>
-                        <div class="input-group clockpicker" data-autoclose="true">
-                            <input type="text" id="horafin" name="HoraFin" class="form-control" value="12:00">
-                            <span class="input-group-addon">
-                                <span class="fa fa-clock-o"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbLunes" type="checkbox">
-                                    <label for="chbLunes">
-                                        Lunes
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbMartes" type="checkbox">
-                                    <label for="chbMartes">
-                                        Martes
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbMiercoles" type="checkbox">
-                                    <label for="chbMiercoles">
-                                        Miércoles
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbJueves" type="checkbox">
-                                    <label for="chbJueves">
-                                        Jueves
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbViernes" type="checkbox">
-                                    <label for="chbViernes">
-                                        Viernes
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbSabado" type="checkbox">
-                                    <label for="chbSabado">
-                                        Sábado
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="chbDomingo" type="checkbox">
-                                    <label for="chbDomingo">
-                                        Domingo
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <div class="input-group col-lg-12">
-                                <div class="checkbox checkbox-success">
-                                    <input id="TodoDia" type="checkbox">
-                                    <label for="TodoDia">
-                                        Todo el día
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <label>*Todos los campos son obligatorios para la creación del evento.</label>
-                    <div class="text-right">
-                        <input hidden type="text" name="opcTodoDia" id="opcTodoDia" value="false" />
-                        <input hidden type="text" name="cbLunes" id="cbLunes" value="false" />
-                        <input hidden type="text" name="cbMartes" id="cbMartes" value="false" />
-                        <input hidden type="text" name="cbMiercoles" id="cbMiercoles" value="false" />
-                        <input hidden type="text" name="cbJueves" id="cbJueves" value="false" />
-                        <input hidden type="text" name="cbViernes" id="cbViernes" value="false" />
-                        <input hidden type="text" name="cbSabado" id="cbSabado" value="False" />
-                        <input hidden type="text" name="cbDomingo" id="cbDomingo" value="False" />
-                        <button class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" disabled onclick="nuevoregistro()"><strong>Nuevo</strong></button>
-                        @*<a href="#" class="btn btn-sm btn-success m-t-n-xs" id="btnnuevo" name="btnnuevo" onclick="nuevoregistro()">Nuevo</a>*@
-                    </div>
-                </div>
-
             </div>
-        </div>
+        }
 
         <div class="col-lg-12">
             <div class="ibox float-e-margins">

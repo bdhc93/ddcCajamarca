@@ -103,7 +103,14 @@
                                 <th data-hide="all">Profesión</th>
                                 <th data-hide="all">Organización</th>
                                 <th data-hide="all">Fecha Modificada</th>
-                                <th data-toggle="true" data-breakpoints="xs" class="text-center">Acciones</th>
+                                @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador" || @ViewBag.Rol == "Promotor")
+                                {
+                                    <th data-toggle="true" data-breakpoints="xs" class="text-center">Acciones</th>
+                                }
+                                else
+                                {
+                                    <th data-toggle="true" data-breakpoints="xs" class="text-center">Info</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -123,12 +130,22 @@
                                     <td>@item.Profesion.Nombre</td>
                                     <td>@item.Organizacion.Nombre</td>
                                     <td>@item.FechaRegistroMostrar</td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <a class="btn btn-warning btn-xs" href="@Url.Action("Editar", "Directorio",new {idper = @item.Id})">Modificar</a>
-                                            <a href="#" class="btn btn-danger btn-xs" onclick="abrirmodalelim(@item.Id)">Eliminar</a>
-                                        </div>
-                                    </td>
+                                    @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador" || @ViewBag.Rol == "Promotor")
+                                    {
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <a class="btn btn-warning btn-xs" href="@Url.Action("Editar", "Directorio",new {idper = @item.Id})">Modificar</a>
+                                                <a href="#" class="btn btn-danger btn-xs" onclick="abrirmodalelim(@item.Id)">Eliminar</a>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>

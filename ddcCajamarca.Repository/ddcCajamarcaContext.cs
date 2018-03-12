@@ -30,6 +30,7 @@ namespace ddcCajamarca.Repository
         public DbSet<PerfilUsuario> PerfilUsuarios { get; set; }
         public DbSet<webpages_Rol> webpages_Roles { get; set; }
         public DbSet<webpages_UsersInRol> webpages_UsersInRoles { get; set; }
+        public DbSet<RegUsuario> RegUsuarios { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -50,6 +51,7 @@ namespace ddcCajamarca.Repository
             modelBuilder.Configurations.Add(new PerfilUsuarioMap());
             modelBuilder.Configurations.Add(new webpages_RolMap());
             modelBuilder.Configurations.Add(new webpages_UsersInRolMap());
+            modelBuilder.Configurations.Add(new RegUsuarioMap());
         }
     }
 }
