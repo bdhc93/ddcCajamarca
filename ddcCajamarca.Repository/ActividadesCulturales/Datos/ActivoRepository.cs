@@ -13,18 +13,23 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             var elim = ObtenerActivoPorId(id);
 
-            Context.Activos.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.Activos.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarActivo(Activo activo)
         {
+            activo.Estado = true;
             Context.Activos.Add(activo);
             Context.SaveChanges();
         }
 
         public void ModificarActivo(Activo activo)
         {
+            activo.Estado = true;
             Context.Entry(activo).State = EntityState.Modified;
             Context.SaveChanges();
         }
@@ -33,9 +38,9 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             if (!String.IsNullOrEmpty(criterio))
             {
-                return Context.Activos.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper())).OrderBy(p => p.Nombre).ToList();
+                return Context.Activos.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper()) && p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
-            return Context.Activos.OrderBy(p => p.Nombre).ToList();
+            return Context.Activos.Where(p => p.Estado == true).OrderBy(p => p.Nombre).ToList();
         }
 
         public Activo ObtenerActivoPorId(int id)
@@ -52,7 +57,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
                                select p;
 
             querydetalle = from p in querydetalle
-                           where p.EventoEnsayo.FechaInicio <= fechaini && p.EventoEnsayo.FechaFin >= fechafin
+                           where p.EventoEnsayo.FechaInicio <= fechaini && p.EventoEnsayo.FechaFin >= fechafin && p.Estado == true
                            select p;
 
             return query.ToList();

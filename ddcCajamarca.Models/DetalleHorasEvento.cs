@@ -15,7 +15,7 @@ namespace ddcCajamarca.Models
         public DateTime FechaFin { get; set; }
         public Boolean TodoDia { get; set; }
 
-        public Int32 Estado { get; set; }
+        public Boolean Estado { get; set; }
 
         public String FechaInicioMostrar
         {

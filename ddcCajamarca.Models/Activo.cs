@@ -19,7 +19,7 @@ namespace ddcCajamarca.Models
         public Int32 Cantidad { get; set; }
         public DateTime FechaRegistro { get; set; }
 
-        public Int32 Estado { get; set; }
+        public Boolean Estado { get; set; }
 
         public List<DetalleRequerimiento> DetalleRequerimientos { get; set; }
 

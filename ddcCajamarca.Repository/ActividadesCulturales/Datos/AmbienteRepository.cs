@@ -13,18 +13,23 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             var elim = ObtenerAmbientePorId(id);
 
-            Context.Ambientes.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.Ambientes.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarAmbiente(Ambiente ambiente)
         {
+            ambiente.Estado = true;
             Context.Ambientes.Add(ambiente);
             Context.SaveChanges();
         }
 
         public void ModificarAmbiente(Ambiente ambiente)
         {
+            ambiente.Estado = true;
             Context.Entry(ambiente).State = EntityState.Modified;
             Context.SaveChanges();
         }
@@ -33,9 +38,9 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             if (!String.IsNullOrEmpty(criterio))
             {
-                return Context.Ambientes.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper())).OrderBy(p => p.Nombre).ToList();
+                return Context.Ambientes.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper()) && p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
-            return Context.Ambientes.OrderBy(p => p.Nombre).ToList();
+            return Context.Ambientes.Where(p => p.Estado == true).OrderBy(p => p.Nombre).ToList();
         }
 
         public Ambiente ObtenerAmbientePorId(int id)

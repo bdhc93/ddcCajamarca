@@ -13,12 +13,16 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             var elim = ObtenerEventoEnsayoPorId(id);
 
-            Context.EventoEnsayos.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.EventoEnsayos.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarEventoEnsayo(EventoEnsayo eventoEnsayo)
         {
+            eventoEnsayo.Estado = true;
             Context.EventoEnsayos.Add(eventoEnsayo);
             Context.SaveChanges();
         }
@@ -34,7 +38,8 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
                 {
                     Context.Database.ExecuteSqlCommand("exec dbo.AgregarDetalleRequerimientos @IdEventoEnsayo = '" + eventoEnsayo.Id
                         + "', @IdActivo = '" + detalle.IdActivo
-                        + "', @Cantidad = '" + detalle.Cantidad + "'");
+                        + "', @Cantidad = '" + detalle.Cantidad 
+                        + "', @Estado = '" + detalle.Estado + "'");
                 }
             }
 
@@ -49,6 +54,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterio(string criterio)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
+                        where p.Estado == true
                         select p;
 
             if (!String.IsNullOrEmpty(criterio))
@@ -64,6 +70,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorCriterioYFechas(string criterio, DateTime fechaIni, DateTime FechaFin)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente")
+                        where p.Estado == true
                         select p;
 
             if (!String.IsNullOrEmpty(criterio))
@@ -87,7 +94,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public IEnumerable<EventoEnsayo> ObtenerEventoEnsayoPorIdAmbiente(int idAmbiente)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
-                        where p.IdAmbiente.Equals(idAmbiente)
+                        where p.IdAmbiente.Equals(idAmbiente) && p.Estado == true
                         select p;
 
             return query.ToList();
@@ -96,7 +103,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public EventoEnsayo ObtenerEventoEnsayoPorId(int id)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleHorasEventos").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
-                        where p.Id.Equals(id)
+                        where p.Id.Equals(id) && p.Estado == true
                         select p;
 
             return query.Single();
@@ -105,6 +112,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorCriterio(int criterio, bool evento)
         {
             var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        where p.Estado == true
                         select p;
 
             if (evento)
@@ -132,6 +140,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public DetalleHorasEvento ObtenerDetalleHorasEventoPorIdEvento(int Id)
         {
             var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        where p.Estado == true
                         select p;
 
             if (Id != 0)
@@ -148,13 +157,17 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             var elim = Context.DetalleHorasEventos.Find(id);
 
-            Context.DetalleHorasEventos.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.DetalleHorasEventos.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin)
         {
             var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
+                        where p.Estado == true
                         select p;
 
             query = from p in query

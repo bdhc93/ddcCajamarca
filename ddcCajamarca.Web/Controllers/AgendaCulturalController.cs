@@ -346,7 +346,7 @@ namespace ddcCajamarca.Web.Controllers
             evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
             if (!String.IsNullOrEmpty(info))
             {
-                evento.InformacionAdicional = evento.InformacionAdicional.Replace(char.ConvertFromUtf32(34), "'");
+                evento.InformacionAdicional = info.Replace(char.ConvertFromUtf32(34), "'");
             }
 
             if (opcTodoDia)
@@ -359,7 +359,7 @@ namespace ddcCajamarca.Web.Controllers
                     IdAmbiente = evento.IdAmbiente,
                     NombreActividad = evento.NombreActividad.ToUpper(),
                     InstitucionEncargada = evento.InstitucionEncargada.ToUpper(),
-                    InformacionAdicional = info.ToUpper(),
+                    InformacionAdicional = evento.InformacionAdicional.ToUpper(),
                     TodoDia = true,
                     FechaInicio = DateTime.Parse(FechaInicio),
                     FechaFin = DateTime.Parse(FechaFin),
@@ -381,7 +381,7 @@ namespace ddcCajamarca.Web.Controllers
                     IdAmbiente = evento.IdAmbiente,
                     NombreActividad = evento.NombreActividad.ToUpper(),
                     InstitucionEncargada = evento.InstitucionEncargada.ToUpper(),
-                    InformacionAdicional = info.ToUpper(),
+                    InformacionAdicional = evento.InformacionAdicional.ToUpper(),
                     TodoDia = false,
                     FechaInicio = DateTime.Parse(FechaInicio + " " + HoraIni),
                     FechaFin = DateTime.Parse(FechaFin + " " + HoraFin),
@@ -429,7 +429,8 @@ namespace ddcCajamarca.Web.Controllers
                 DetalleHorasEvento detallehora = new DetalleHorasEvento
                 {
                     FechaInicio = DateTime.Parse(FechaInicio),
-                    FechaFin = DateTime.Parse(FechaFin)
+                    FechaFin = DateTime.Parse(FechaFin),
+                    Estado = false
                 };
 
                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -463,7 +464,8 @@ namespace ddcCajamarca.Web.Controllers
                             DetalleHorasEvento detallehora = new DetalleHorasEvento
                             {
                                 FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                                FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                                FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
+                                Estado = false
                             };
 
                             eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -503,7 +505,8 @@ namespace ddcCajamarca.Web.Controllers
                                 DetalleHorasEvento detallehora = new DetalleHorasEvento
                                 {
                                     FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
+                                    Estado = false
                                 };
 
                                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -528,7 +531,8 @@ namespace ddcCajamarca.Web.Controllers
                                 DetalleHorasEvento detallehora = new DetalleHorasEvento
                                 {
                                     FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
-                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond)
+                                    FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
+                                    Estado = false
                                 };
 
                                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -2099,7 +2103,7 @@ namespace ddcCajamarca.Web.Controllers
                     graphics.DrawString("Ambiente: ", font, PdfBrushes.Black, new RectangleF(0, 360, page.GetClientSize().Width, page.GetClientSize().Height));
                     graphics.DrawString(eventodetalle.EventoEnsayo.Ambiente.NombreMostrar, fontText, PdfBrushes.Black, new RectangleF(0, 380, page.GetClientSize().Width, page.GetClientSize().Height));
 
-                    var cont = 0;
+                    var cont = -50;
                     if (eventodetalle.EventoEnsayo.Evento)
                     {
                         var req = "";

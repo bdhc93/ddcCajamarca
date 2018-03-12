@@ -13,18 +13,23 @@ namespace ddcCajamarca.Repository.Directorio.Datos
         {
             var elim = ObtenerPersonaPorId(id);
 
-            Context.Personas.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.Personas.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarPersona(Persona persona)
         {
+            persona.Estado = true;
             Context.Personas.Add(persona);
             Context.SaveChanges();
         }
 
         public void ModificarPersona(Persona persona)
         {
+            persona.Estado = true;
             Context.Entry(persona).State = EntityState.Modified;
             Context.SaveChanges();
         }
@@ -32,6 +37,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
         public IEnumerable<Persona> ObtenerPersonaPorCriterio(string criterio)
         {
             var query = from p in Context.Personas.Include("Organizacion").Include("Profesion").Include("OcupacionCultural")
+                        where p.Estado == true
                         select p;
 
             if (!String.IsNullOrEmpty(criterio))
@@ -49,7 +55,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
             var query = from p in Context.Personas select p;
 
             query = from p in query
-                    where p.FechaNacimiento.Month == DateTime.Today.Month && (p.FechaNacimiento.Day>(DateTime.Today.Day-5) && p.FechaNacimiento.Day < (DateTime.Today.Day + 5)) && p.FechaNacimiento.Year != 0001
+                    where p.FechaNacimiento.Month == DateTime.Today.Month && (p.FechaNacimiento.Day>(DateTime.Today.Day-5) && p.FechaNacimiento.Day < (DateTime.Today.Day + 5)) && p.FechaNacimiento.Year != 0001 && p.Estado == true
                     select p;
 
             return query.ToList();
@@ -58,6 +64,7 @@ namespace ddcCajamarca.Repository.Directorio.Datos
         public IEnumerable<Persona> ObtenerPersonaPorFiltro(string criterio, int IdOrganizacion, int IdOcupacion, int IdProfesion)
         {
             var query = from p in Context.Personas.Include("Organizacion").Include("Profesion").Include("OcupacionCultural")
+                        where  p.Estado == true
                         select p;
 
             if (!String.IsNullOrEmpty(criterio))

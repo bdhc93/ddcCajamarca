@@ -25,7 +25,7 @@ namespace ddcCajamarca.Models
 
         public String FechaRegistroMostrar { get { return FechaRegistro.Day + "/" + FechaRegistro.Month + "/" + FechaRegistro.Year; } }
 
-        public Int32 Estado { get; set; }
+        public Boolean Estado { get; set; }
 
         public String NombreMostrar
         {

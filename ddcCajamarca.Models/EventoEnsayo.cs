@@ -39,7 +39,7 @@ namespace ddcCajamarca.Models
         public List<DetalleRequerimiento> DetalleRequerimientos { get; set; }
         public List<DetalleHorasEvento> DetalleHorasEventos { get; set; }
 
-        public Int32 Estado { get; set; }
+        public Boolean Estado { get; set; }
 
         public String EventoMostrar { get {
                 if (Evento)

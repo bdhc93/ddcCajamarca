@@ -13,18 +13,23 @@ namespace ddcCajamarca.Repository.Directorio.Datos
         {
             var elim = ObtenerComercialPorId(id);
 
-            Context.OcupacionCulturales.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.OcupacionCulturales.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarOcupacionCultural(OcupacionCultural ocupacionCultural)
         {
+            ocupacionCultural.Estado = true;
             Context.OcupacionCulturales.Add(ocupacionCultural);
             Context.SaveChanges();
         }
 
         public void ModificarOcupacionCultural(OcupacionCultural ocupacionCultural)
         {
+            ocupacionCultural.Estado = true;
             Context.Entry(ocupacionCultural).State = EntityState.Modified;
             Context.SaveChanges();
         }
@@ -41,20 +46,20 @@ namespace ddcCajamarca.Repository.Directorio.Datos
                 if (!String.IsNullOrEmpty(criterio))
                 {
                     return Context.OcupacionCulturales
-                        .Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper()))
+                        .Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper()) && p.Estado == true)
                         .OrderBy(p => p.Nombre)
                         .ToList();
                 }
-                return Context.OcupacionCulturales.OrderBy(p => p.Nombre).ToList();
+                return Context.OcupacionCulturales.Where(p => p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
             else
             {
                 if (!String.IsNullOrEmpty(criterio))
                 {
                     return Context.OcupacionCulturales.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper())
-                    && p.Nombre.ToUpper() != "DESCONOCIDA").OrderBy(p => p.Nombre).ToList();
+                    && p.Nombre.ToUpper() != "DESCONOCIDA" && p.Estado == true).OrderBy(p => p.Nombre).ToList();
                 }
-                return Context.OcupacionCulturales.Where(p => p.Nombre.ToUpper() != "DESCONOCIDA").OrderBy(p => p.Nombre).ToList();
+                return Context.OcupacionCulturales.Where(p => p.Nombre.ToUpper() != "DESCONOCIDA" && p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
         }
     }

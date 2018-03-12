@@ -19,7 +19,7 @@ namespace ddcCajamarca.Models
         public String Lugar { get; set; }
         public String Encagardo { get; set; }
 
-        public Int32 Estado { get; set; }
+        public Boolean Estado { get; set; }
 
     }
 }

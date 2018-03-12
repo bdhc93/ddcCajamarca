@@ -13,18 +13,23 @@ namespace ddcCajamarca.Repository.Directorio.Datos
         {
             var elim = ObtenerOrganizacionPorId(id);
 
-            Context.Organizaciones.Remove(elim);
+            elim.Estado = false;
+            Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
+            //Context.Organizaciones.Remove(elim);
+            //Context.SaveChanges();
         }
 
         public void GuardarOrganizacion(Organizacion organizacion)
         {
+            organizacion.Estado = true;
             Context.Organizaciones.Add(organizacion);
             Context.SaveChanges();
         }
 
         public void ModificarOrganizacion(Organizacion organizacion)
         {
+            organizacion.Estado = true;
             Context.Entry(organizacion).State = EntityState.Modified;
             Context.SaveChanges();
         }
@@ -35,18 +40,18 @@ namespace ddcCajamarca.Repository.Directorio.Datos
             {
                 if (!String.IsNullOrEmpty(criterio))
                 {
-                    return Context.Organizaciones.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper())).OrderBy(p => p.Nombre).ToList();
+                    return Context.Organizaciones.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper()) && p.Estado == true).OrderBy(p => p.Nombre).ToList();
                 }
-                return Context.Organizaciones.OrderBy(p => p.Nombre).ToList();
+                return Context.Organizaciones.Where(p => p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
             else
             {
                 if (!String.IsNullOrEmpty(criterio))
                 {
                     return Context.Organizaciones.Where(p => p.Nombre.ToUpper().Contains(criterio.ToUpper())
-                    && p.Nombre.ToUpper() != "DESCONOCIDA").OrderBy(p => p.Nombre).ToList();
+                    && p.Nombre.ToUpper() != "DESCONOCIDA" && p.Estado == true).OrderBy(p => p.Nombre).ToList();
                 }
-                return Context.Organizaciones.Where(p => p.Nombre.ToUpper() != "DESCONOCIDA").OrderBy(p => p.Nombre).ToList();
+                return Context.Organizaciones.Where(p => p.Nombre.ToUpper() != "DESCONOCIDA" && p.Estado == true).OrderBy(p => p.Nombre).ToList();
             }
         }
 
