@@ -1840,6 +1840,7 @@
     <Content Include="Views\Account\ListarUsuarios.cshtml" />
     <Content Include="Views\Account\_Mensaje.cshtml" />
     <Content Include="Views\Account\_ObtenerUsuarioPorId.cshtml" />
+    <Content Include="Views\Account\MovimientosUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ddcCajamarca.Models\ddcCajamarca.Models.csproj">

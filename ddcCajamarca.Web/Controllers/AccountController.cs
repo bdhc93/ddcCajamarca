@@ -16,11 +16,13 @@ namespace ddcCajamarca.Web.Controllers
     {
         public Iwebpages_RolService webpages_RolService { get; set; }
         public IPerfilUsuarioService perfilUsuarioService { get; set; }
+        public IRegUsuarioService regUsuarioService { get; set; }
 
-        public AccountController(Iwebpages_RolService webpages_RolService, IPerfilUsuarioService perfilUsuarioService)
+        public AccountController(Iwebpages_RolService webpages_RolService, IPerfilUsuarioService perfilUsuarioService, IRegUsuarioService regUsuarioService)
         {
             this.webpages_RolService = webpages_RolService;
             this.perfilUsuarioService = perfilUsuarioService;
+            this.regUsuarioService = regUsuarioService;
         }
 
         [HttpGet]
@@ -396,6 +398,16 @@ namespace ddcCajamarca.Web.Controllers
         {
             WebSecurity.Logout();
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin, Administrador")]
+        public ActionResult MovimientosUsuario()
+        {
+            var result = regUsuarioService.ObtenerRegUsuario("");
+            ViewBag.Coincidencias = result.Count();
+
+            return View(result);
         }
     }
 }
