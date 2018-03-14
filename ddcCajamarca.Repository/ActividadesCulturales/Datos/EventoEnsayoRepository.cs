@@ -13,6 +13,11 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         {
             var elim = ObtenerEventoEnsayoPorId(id);
 
+            foreach (var item in elim.DetalleHorasEventos)
+            {
+                item.Estado = false;
+            }
+
             elim.Estado = false;
             Context.Entry(elim).State = EntityState.Modified;
             Context.SaveChanges();
@@ -103,7 +108,7 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
         public EventoEnsayo ObtenerEventoEnsayoPorId(int id)
         {
             var query = from p in Context.EventoEnsayos.Include("Ambiente").Include("DetalleHorasEventos").Include("DetalleRequerimientos").Include("DetalleRequerimientos.Activo")
-                        where p.Id.Equals(id) && p.Estado == true
+                        where p.Id.Equals(id)
                         select p;
 
             return query.Single();

@@ -419,7 +419,7 @@ namespace ddcCajamarca.Web.Controllers
                         DetalleRequerimiento agregardet = new DetalleRequerimiento { IdActivo = item.IdActivo, Cantidad = item.Cantidad, FechaRegistro = DateTime.Today };
 
                         eventoguardar.DetalleRequerimientos.Add(agregardet);
-                        encontrado = false;
+                        encontrado = true;
                     }
                 }
             }
@@ -430,7 +430,7 @@ namespace ddcCajamarca.Web.Controllers
                 {
                     FechaInicio = DateTime.Parse(FechaInicio),
                     FechaFin = DateTime.Parse(FechaFin),
-                    Estado = false
+                    Estado = true
                 };
 
                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -465,7 +465,7 @@ namespace ddcCajamarca.Web.Controllers
                             {
                                 FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
                                 FechaFin = new DateTime(fechafinguard.Year, fechafinguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
-                                Estado = false
+                                Estado = true
                             };
 
                             eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -506,7 +506,7 @@ namespace ddcCajamarca.Web.Controllers
                                 {
                                     FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
                                     FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
-                                    Estado = false
+                                    Estado = true
                                 };
 
                                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -532,7 +532,7 @@ namespace ddcCajamarca.Web.Controllers
                                 {
                                     FechaInicio = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechainiguard.Hour, fechainiguard.Minute, fechainiguard.Millisecond),
                                     FechaFin = new DateTime(fechainiguard.Year, fechainiguard.Month, fechainiguard.Day, fechafinguard.Hour, fechafinguard.Minute, fechafinguard.Millisecond),
-                                    Estado = false
+                                    Estado = true
                                 };
 
                                 eventoguardar.DetalleHorasEventos.Add(detallehora);
@@ -1456,7 +1456,7 @@ namespace ddcCajamarca.Web.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ViewBag.MSG = "E2";
             }

@@ -1205,11 +1205,9 @@
     <Content Include="Images\p_big2.jpg" />
     <Content Include="Images\p_big3.jpg" />
     <Content Include="Images\zender_logo.png" />
-    <Content Include="PerfilImg\076365181-JIMMY SALDANA CALDERÓN.jpeg" />
-    <Content Include="PerfilImg\976386940-BILLY DAVIS.jpeg" />
-    <Content Include="PerfilImg\976683800-Edulfo Hoyos.jpeg" />
-    <Content Include="PerfilImg\979211403-billy davis.jpeg" />
-    <Content Include="PerfilImg\979211403-BILLY.jpeg" />
+    <Content Include="PerfilImg\CARAUJO-Promotor.jpeg" />
+    <Content Include="PerfilImg\EVARGAS-Administrador.jpeg" />
+    <Content Include="PerfilImg\mejia-Administrador.jpg" />
     <Content Include="PerfilImg\SinImagen.jpg" />
     <Content Include="Scripts\app\inspinia.js" />
     <Content Include="Scripts\app\skin.config.min.js" />
