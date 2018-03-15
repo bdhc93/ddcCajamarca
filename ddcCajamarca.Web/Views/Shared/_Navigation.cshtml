@@ -75,7 +75,7 @@
             @if (@ViewBag.Rol == "SuperAdmin" || @ViewBag.Rol == "Administrador")
             {
                 <li class="@Html.IsSelected(controller: "Account")">
-                    <a href="@Url.Action("ListarUsuarios", "Account")"><i class="fa fa-exclamation-triangle"></i> <span class="nav-label" data-i18n="nav.account">Seguridad</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-exclamation-triangle"></i> <span class="nav-label" data-i18n="nav.account">Seguridad</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Account", cssClass: "in")">
                         <li class="@Html.IsSelected(action: "ListarUsuarios")"><a href="@Url.Action("ListarUsuarios", "Account")">Usuarios Registrados</a></li>
                         <li class="@Html.IsSelected(action: "RegistroUsuario")"><a href="@Url.Action("RegistroUsuario", "Account")">Registrar Usuario</a></li>

@@ -49,6 +49,14 @@
                                     <input name="FechaFin" id="FechaFin" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label">Seleccionar</label>
+                                <select class="form-control" id="OpcionEvento" name="OpcionEvento">
+                                    <option>Eventos/Ensayos</option>
+                                    <option>Eventos</option>
+                                    <option>Ensayos</option>
+                                </select>
+                            </div>
                             <div class="form-group col-lg-12">
                                 <label class="control-label">Salas</label>
                                 <select name="salas" id="salas" class="multipleopcionlista form-control" multiple="multiple">
@@ -187,7 +195,7 @@
                 salasseleccionadas = salasseleccionadas + $(this).val();
                 //console.log($(this).val());
             });
-            $.get("BuscarEventoReporte", { 'fechabuscar': $('#FechaIni').val(), 'fechafinbuscar': $('#FechaFin').val(), 'salas': salasseleccionadas })
+            $.get("BuscarEventoReporte", { 'fechabuscar': $('#FechaIni').val(), 'fechafinbuscar': $('#FechaFin').val(), 'salas': salasseleccionadas, 'OpcionEvento': $('#OpcionEvento').val() })
                 .done(function (response) {
                     $('#detalleeventos').html(response);
                 });

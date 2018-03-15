@@ -52,7 +52,7 @@ namespace ddcCajamarca.Web.Controllers
 
             if (cbLunes || cbMartes || cbMiercoles || cbJueves || cbViernes || cbSabado || cbDomingo)
             {
-                var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"));
+                var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"), "");
 
                 DateTime FechaIniFind;
                 DateTime FechaFinFind;
@@ -1634,7 +1634,7 @@ namespace ddcCajamarca.Web.Controllers
         {
             ViewBag.FechaHoy = FechaHoy();
 
-            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Today, DateTime.Today.AddDays(5));
+            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Today, DateTime.Today.AddDays(5), "");
             
             var salas = ambienteService.ObtenerAmbientePorCriterio("");
             
@@ -1704,7 +1704,7 @@ namespace ddcCajamarca.Web.Controllers
         
         [HttpGet]
         [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
-        public ActionResult BuscarEventoReporte(String fechabuscar, String fechafinbuscar, String salas)
+        public ActionResult BuscarEventoReporte(String fechabuscar, String fechafinbuscar, String salas, String OpcionEvento)
         {
             String[] sala = salas.Split(',');
 
@@ -1713,7 +1713,7 @@ namespace ddcCajamarca.Web.Controllers
 
             var dias = Int32.Parse((Fechafinal - Fechainicial).TotalDays + "") + 1;
 
-            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59));
+            var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59), OpcionEvento);
 
             var ambientes = ambienteService.ObtenerAmbientePorCriterio("");
 
@@ -1806,7 +1806,7 @@ namespace ddcCajamarca.Web.Controllers
         
         [HttpPost]
         [Authorize(Roles = "SuperAdmin, Administrador, Promotor, Reportes")]
-        public ActionResult GenerateDocument(String FechaIni, String FechaFin, String[] salas, String Formato)
+        public ActionResult GenerateDocument(String FechaIni, String FechaFin, String[] salas, String Formato, String OpcionEvento)
         {
             if (Formato == "Excel")
             {
@@ -1815,7 +1815,7 @@ namespace ddcCajamarca.Web.Controllers
 
                 var dias = Int32.Parse((Fechafinal - Fechainicial).TotalDays + "") + 1;
 
-                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59));
+                var result = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechainicial, Fechafinal.AddHours(23.59), OpcionEvento);
 
                 var ambientes = ambienteService.ObtenerAmbientePorCriterio("");
 
@@ -2332,7 +2332,7 @@ namespace ddcCajamarca.Web.Controllers
 
         private string DataEventosAutocomplete(DateTime Fechaini, DateTime FechaFin)
         {
-            var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechaini, FechaFin);
+            var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(Fechaini, FechaFin, "");
 
             var eventosarray = "";
 

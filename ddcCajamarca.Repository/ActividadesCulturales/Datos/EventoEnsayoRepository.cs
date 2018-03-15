@@ -169,15 +169,30 @@ namespace ddcCajamarca.Repository.ActividadesCulturales.Datos
             //Context.SaveChanges();
         }
 
-        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin)
+        public IEnumerable<DetalleHorasEvento> ObtenerDetalleHorasEventoPorFecha(DateTime fechaini, DateTime fechafin, string criterio)
         {
             var query = from p in Context.DetalleHorasEventos.Include("EventoEnsayo").Include("EventoEnsayo.DetalleRequerimientos").Include("EventoEnsayo.DetalleRequerimientos.Activo").Include("EventoEnsayo.Ambiente")
                         where p.Estado == true
                         select p;
 
-            query = from p in query
-                    where p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin
-                    select p;
+            if (criterio == "Eventos")
+            {
+                query = from p in query
+                        where (p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin) && p.EventoEnsayo.Evento == true
+                        select p;
+            }
+            else if (criterio == "Ensayos")
+            {
+                query = from p in query
+                        where (p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin) && p.EventoEnsayo.Evento == false
+                        select p;
+            }
+            else
+            {
+                query = from p in query
+                        where p.FechaInicio <= fechaini && p.FechaFin >= fechaini || p.FechaInicio >= fechaini && p.FechaFin <= fechafin
+                        select p;
+            }
 
             return query.OrderBy(p => p.FechaInicio).ToList();
         }
