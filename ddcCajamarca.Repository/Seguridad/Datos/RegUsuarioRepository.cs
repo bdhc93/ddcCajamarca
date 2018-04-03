@@ -23,7 +23,7 @@ namespace ddcCajamarca.Repository.Seguridad.Datos
             }
             else
             {
-                return Context.RegUsuarios.OrderByDescending(p => p.Fecha).Take(5);
+                return Context.RegUsuarios.OrderByDescending(p => p.Fecha);
             }
         }
     }

@@ -348,6 +348,10 @@ namespace ddcCajamarca.Web.Controllers
             {
                 evento.InformacionAdicional = info.Replace(char.ConvertFromUtf32(34), "'");
             }
+            else
+            {
+                evento.InformacionAdicional = "";
+            }
 
             if (opcTodoDia)
             {
@@ -419,7 +423,7 @@ namespace ddcCajamarca.Web.Controllers
                         DetalleRequerimiento agregardet = new DetalleRequerimiento { IdActivo = item.IdActivo, Cantidad = item.Cantidad, FechaRegistro = DateTime.Today };
 
                         eventoguardar.DetalleRequerimientos.Add(agregardet);
-                        encontrado = true;
+                        encontrado = false;
                     }
                 }
             }
