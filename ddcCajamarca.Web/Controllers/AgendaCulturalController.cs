@@ -591,12 +591,22 @@ namespace ddcCajamarca.Web.Controllers
         
         [HttpPost]
         [Authorize(Roles = "SuperAdmin, Administrador, Promotor")]
-        public ActionResult ModificarRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, String HoraIni, String HoraFin, Boolean Eventotipo, Boolean opcTodoDia)
+        public ActionResult ModificarRegistro(EventoEnsayo evento, String arryreq, String FechaInicio, String FechaFin, String HoraIni, String HoraFin, 
+            Boolean Eventotipo, Boolean opcTodoDia, String info)
         {
             EventoEnsayo eventoguardar;
 
             evento.NombreActividad = evento.NombreActividad.Replace(char.ConvertFromUtf32(34), "'");
             evento.InstitucionEncargada = evento.InstitucionEncargada.Replace(char.ConvertFromUtf32(34), "'");
+
+            if (!String.IsNullOrEmpty(info))
+            {
+                evento.InformacionAdicional = info.Replace(char.ConvertFromUtf32(34), "'");
+            }
+            else
+            {
+                evento.InformacionAdicional = "";
+            }
 
             if (opcTodoDia)
             {

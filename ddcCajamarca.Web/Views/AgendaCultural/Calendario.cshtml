@@ -13,6 +13,7 @@
     //var idEventos = jss.Serialize(ViewBag.idEvento);
 
     var EventosJSON = jss.Serialize(ViewBag.Eventos);
+    
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -268,7 +269,6 @@
     @Scripts.Render("~/plugins/toastr")
 
     <script type="text/javascript">
-
         function modificarregistro() {
             window.location.href = "ModificarRegistro?idMod=" + $('#txtIdMod').val() + "&IdModDet=" + $('#txtIdModDetalle').val() + "&todo=" + $('#InfoTodo').val();
         };
