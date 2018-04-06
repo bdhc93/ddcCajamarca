@@ -40,7 +40,17 @@ namespace ddcCajamarca.Models
         public List<DetalleHorasEvento> DetalleHorasEventos { get; set; }
 
         public Boolean Estado { get; set; }
+        
+        [NotMapped]
+        public String FechaRegistroMDA
+        {
+            get
+            {
+                return FechaRegistro.Month + "/" + FechaRegistro.Day + "/" + FechaRegistro.Year;
+            }
+        }
 
+        [NotMapped]
         public String EventoMostrar { get {
                 if (Evento)
                 {
@@ -52,34 +62,37 @@ namespace ddcCajamarca.Models
                 }
             } }
 
+        [NotMapped]
         public String FechaInicioMostrar
         {
             get
             {
-                if (FechaInicio.Day < 11)
+                if (FechaInicio.Day < 10)
                 {
-                    if (FechaInicio.Month < 11)
+                    if (FechaInicio.Month < 10)
                     {
-                        return "0" + FechaInicio.Day + "/0" + FechaInicio.Month + "/" + FechaInicio.Year;
+                        return "0" + FechaInicio.Month + "/0" + FechaInicio.Day + "/" + FechaInicio.Year;
                     }
                     else
                     {
-                        return "0" + FechaInicio.Day + "/" + FechaInicio.Month + "/" + FechaInicio.Year;
+                        return FechaInicio.Month + "/0" + FechaInicio.Day + "/" + FechaInicio.Year;
                     }
                 }
                 else
                 {
-                    if (FechaInicio.Month < 11)
+                    if (FechaInicio.Month < 10)
                     {
-                        return FechaInicio.Day + "/0" + FechaInicio.Month + "/" + FechaInicio.Year;
+                        return "0" + FechaInicio.Month + "/" + FechaInicio.Day + "/" + FechaInicio.Year;
                     }
                     else
                     {
-                        return FechaInicio.Day + "/" + FechaInicio.Month + "/" + FechaInicio.Year;
+                        return FechaInicio.Month + "/" + FechaInicio.Day + "/" + FechaInicio.Year;
                     }
                 }
             }
         }
+
+        [NotMapped]
         public String HoraInicioMostrar
         {
             get
@@ -136,38 +149,40 @@ namespace ddcCajamarca.Models
 
                     return (hora + "").Substring(0, 5) + " PM";
                 }
-
-                //return (TimeSpan.Parse(FechaInicio.Hour + ":" + FechaInicio.Minute) + "").Substring(0, 5);
             }
         }
+
+        [NotMapped]
         public String FechaFinMostrar
         {
             get
             {
-                if (FechaFin.Day < 11)
+                if (FechaFin.Day < 10)
                 {
-                    if (FechaFin.Month < 11)
+                    if (FechaFin.Month < 10)
                     {
-                        return "0" + FechaFin.Day + "/0" + FechaFin.Month + "/" + FechaFin.Year;
+                        return "0" + FechaFin.Month + "/0" + FechaFin.Day + "/" + FechaFin.Year;
                     }
                     else
                     {
-                        return "0" + FechaFin.Day + "/" + FechaFin.Month + "/" + FechaFin.Year;
+                        return FechaFin.Month + "/0" + FechaFin.Day + "/" + FechaFin.Year;
                     }
                 }
                 else
                 {
-                    if (FechaFin.Month < 11)
+                    if (FechaFin.Month < 10)
                     {
-                        return FechaFin.Day + "/0" + FechaFin.Month + "/" + FechaFin.Year;
+                        return "0" + FechaFin.Month + "/" + FechaFin.Day + "/" + FechaFin.Year;
                     }
                     else
                     {
-                        return FechaFin.Day + "/" + FechaFin.Month + "/" + FechaFin.Year;
+                        return FechaFin.Month + "/" + FechaFin.Day + "/" + FechaFin.Year;
                     }
                 }
             }
         }
+
+        [NotMapped]
         public String HoraFinMostrar
         {
             get

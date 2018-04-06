@@ -1130,11 +1130,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Month + "-0" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "-0" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
 
             }
@@ -1142,11 +1142,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Month + "-0" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
             }
 

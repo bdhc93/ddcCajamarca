@@ -30,7 +30,7 @@ namespace ddcCajamarca.Web.Controllers
             IPerfilUsuarioService perfilUsuarioService, IRegUsuarioService regUsuarioService)
         {
             this.ambienteService = ambienteService;
-            this.activoService = activoService;
+            this.activoService = activoService;     
             this.eventoEnsayoService = eventoEnsayoService;
             this.perfilUsuarioService = perfilUsuarioService;
             this.regUsuarioService = regUsuarioService;
@@ -40,52 +40,176 @@ namespace ddcCajamarca.Web.Controllers
         public ActionResult ValidadFechaNuevo(Int32 idAmbientes, String FechaIni, String FechaFin, Boolean opcTodoDia, String HoraIni, String HoraFin,
             Boolean cbLunes, Boolean cbMartes, Boolean cbMiercoles, Boolean cbJueves, Boolean cbViernes, Boolean cbSabado, Boolean cbDomingo)
         {
-            var horin = TimeSpan.Parse(HoraIni);
-            var horfin = TimeSpan.Parse(HoraFin);
-
-            if (horfin < horin)
+            try
             {
-                ViewBag.MSG = "HI";
+                var horin = TimeSpan.Parse(HoraIni);
+                var horfin = TimeSpan.Parse(HoraFin);
 
-                return PartialView("_Mensaje");
-            }
-
-            if (cbLunes || cbMartes || cbMiercoles || cbJueves || cbViernes || cbSabado || cbDomingo)
-            {
-                var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"), "");
-
-                DateTime FechaIniFind;
-                DateTime FechaFinFind;
-
-                if (opcTodoDia)
+                if (horfin < horin)
                 {
-                    FechaIniFind = DateTime.Parse(FechaIni);
-                    FechaFinFind = DateTime.Parse(FechaIni);
-                }
-                else
-                {
-                    FechaIniFind = DateTime.Parse(FechaIni + " " + HoraIni);
-                    FechaFinFind = DateTime.Parse(FechaFin + " " + HoraFin);
+                    ViewBag.MSG = "HI";
+
+                    return PartialView("_Mensaje");
                 }
 
-                var encontrado = false;
-
-                foreach (var item in eventos)
+                if (cbLunes || cbMartes || cbMiercoles || cbJueves || cbViernes || cbSabado || cbDomingo)
                 {
-                    if (item.EventoEnsayo.IdAmbiente == idAmbientes)
+                    var eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorFecha(DateTime.Parse(FechaIni), DateTime.Parse(FechaFin + " 23:59"), "");
+
+                    DateTime FechaIniFind;
+                    DateTime FechaFinFind;
+
+                    if (opcTodoDia)
                     {
-                        if (item.EventoEnsayo.TodoDia)
+                        FechaIniFind = DateTime.Parse(FechaIni);
+                        FechaFinFind = DateTime.Parse(FechaIni);
+                    }
+                    else
+                    {
+                        FechaIniFind = DateTime.Parse(FechaIni + " " + HoraIni);
+                        FechaFinFind = DateTime.Parse(FechaFin + " " + HoraFin);
+                    }
+
+                    var encontrado = false;
+
+                    foreach (var item in eventos)
+                    {
+                        if (item.EventoEnsayo.IdAmbiente == idAmbientes)
                         {
-                            encontrado = true;
-                            break;
-                        }
-                        else
-                        {
-                            if (item.FechaInicio.Hour <= FechaFinFind.Hour && item.FechaFin.Hour >= FechaIniFind.Hour)
+                            if (item.EventoEnsayo.TodoDia)
                             {
-                                if (item.FechaInicio.Hour == FechaFinFind.Hour)
+                                encontrado = true;
+                                break;
+                            }
+                            else
+                            {
+                                if (item.FechaInicio.Hour <= FechaFinFind.Hour && item.FechaFin.Hour >= FechaIniFind.Hour)
                                 {
-                                    if (item.FechaInicio.Minute < FechaFinFind.Minute)
+                                    if (item.FechaInicio.Hour == FechaFinFind.Hour)
+                                    {
+                                        if (item.FechaInicio.Minute < FechaFinFind.Minute)
+                                        {
+                                            if (cbLunes)
+                                            {
+                                                if (item.EventoEnsayo.Lunes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbMartes)
+                                            {
+                                                if (item.EventoEnsayo.Martes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbMiercoles)
+                                            {
+                                                if (item.EventoEnsayo.Miercoles)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbJueves)
+                                            {
+                                                if (item.EventoEnsayo.Jueves)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbViernes)
+                                            {
+                                                if (item.EventoEnsayo.Viernes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbSabado)
+                                            {
+                                                if (item.EventoEnsayo.Sabado)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbDomingo)
+                                            {
+                                                if (item.EventoEnsayo.Domingo)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (item.FechaFin.Hour == FechaIniFind.Hour)
+                                    {
+                                        if (item.FechaFin.Minute > FechaIniFind.Minute + 1)
+                                        {
+                                            if (cbLunes)
+                                            {
+                                                if (item.EventoEnsayo.Lunes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbMartes)
+                                            {
+                                                if (item.EventoEnsayo.Martes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbMiercoles)
+                                            {
+                                                if (item.EventoEnsayo.Miercoles)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbJueves)
+                                            {
+                                                if (item.EventoEnsayo.Jueves)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbViernes)
+                                            {
+                                                if (item.EventoEnsayo.Viernes)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbSabado)
+                                            {
+                                                if (item.EventoEnsayo.Sabado)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (cbDomingo)
+                                            {
+                                                if (item.EventoEnsayo.Domingo)
+                                                {
+                                                    encontrado = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
                                     {
                                         if (cbLunes)
                                         {
@@ -142,148 +266,38 @@ namespace ddcCajamarca.Web.Controllers
                                                 encontrado = true;
                                                 break;
                                             }
-                                        }
-                                    }
-                                }
-                                else if (item.FechaFin.Hour == FechaIniFind.Hour)
-                                {
-                                    if (item.FechaFin.Minute > FechaIniFind.Minute + 1)
-                                    {
-                                        if (cbLunes)
-                                        {
-                                            if (item.EventoEnsayo.Lunes)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbMartes)
-                                        {
-                                            if (item.EventoEnsayo.Martes)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbMiercoles)
-                                        {
-                                            if (item.EventoEnsayo.Miercoles)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbJueves)
-                                        {
-                                            if (item.EventoEnsayo.Jueves)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbViernes)
-                                        {
-                                            if (item.EventoEnsayo.Viernes)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbSabado)
-                                        {
-                                            if (item.EventoEnsayo.Sabado)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                        if (cbDomingo)
-                                        {
-                                            if (item.EventoEnsayo.Domingo)
-                                            {
-                                                encontrado = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (cbLunes)
-                                    {
-                                        if (item.EventoEnsayo.Lunes)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbMartes)
-                                    {
-                                        if (item.EventoEnsayo.Martes)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbMiercoles)
-                                    {
-                                        if (item.EventoEnsayo.Miercoles)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbJueves)
-                                    {
-                                        if (item.EventoEnsayo.Jueves)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbViernes)
-                                    {
-                                        if (item.EventoEnsayo.Viernes)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbSabado)
-                                    {
-                                        if (item.EventoEnsayo.Sabado)
-                                        {
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                    if (cbDomingo)
-                                    {
-                                        if (item.EventoEnsayo.Domingo)
-                                        {
-                                            encontrado = true;
-                                            break;
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                if (encontrado)
+                    if (encontrado)
+                    {
+                        ViewBag.MSG = "ND";
+                    }
+                    else
+                    {
+                        ViewBag.MSG = "CI";
+                    }
+
+                    return PartialView("_Mensaje");
+                }
+                else
                 {
-                    ViewBag.MSG = "ND";
+                    ViewBag.MSG = "SD";
+
+                    return PartialView("_Mensaje");
                 }
-
-                return PartialView("_Mensaje");
             }
-            else
+            catch (Exception e)
             {
-                ViewBag.MSG = "SD";
+                ViewBag.MSG = e.Message;
 
                 return PartialView("_Mensaje");
             }
+            
         }
         
         [HttpGet]
@@ -707,65 +721,7 @@ namespace ddcCajamarca.Web.Controllers
             ViewBag.Ambientes = ambienteService.ObtenerAmbientePorCriterio("");
 
             var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(0, false);
-
-            //var tamb = Eventos.LongCount();
-
-            //var contador = 0;
-
-            //var titulo = new String[tamb];
-            //var idEvento = new Int32[tamb];
-            //var inicio = new DateTime[tamb];
-            //var fin = new DateTime[tamb];
-            //var tododia = new Boolean[tamb];
-            //var color = new String[tamb];
-            //var descripcion = new String[tamb];
-
-            //foreach (var item in Eventos)
-            //{
-            //    var detallerequerimientos = "";
-
-            //    foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
-            //    {
-            //        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
-            //    }
-
-            //    idEvento[contador] = item.Id;
-
-            //    if (item.EventoEnsayo.Evento)
-            //    {
-            //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-            //    }
-            //    else
-            //    {
-            //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-            //    }
-
-            //    if (item.FechaFin.Date != item.FechaInicio.Date)
-            //    {
-            //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-            //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-            //    }
-            //    else
-            //    {
-            //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-            //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-            //    }
-
-            //    tododia[contador] = item.EventoEnsayo.TodoDia;
-            //    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
-            //    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
-
-            //    contador++;
-            //}
-
-            //ViewBag.titulo = titulo;
-            //ViewBag.IdEvento = idEvento;
-            //ViewBag.inicio = inicio;
-            //ViewBag.fin = fin;
-            //ViewBag.tododia = tododia;
-            //ViewBag.color = color;
-            //ViewBag.descripcion = descripcion;
-
+            
             List<EventoCalendar> datos = new List<EventoCalendar>();
 
             foreach (var item in Eventos)
@@ -1071,65 +1027,11 @@ namespace ddcCajamarca.Web.Controllers
             }
             else
             {
+                ViewBag.FechaHoy = FechaHoy();
+
+                ViewBag.Ambientes = ambienteService.ObtenerAmbientePorCriterio("");
+
                 var Eventos = eventoEnsayoService.ObtenerDetalleHorasEventoPorCriterio(0, false);
-
-                //var tamb = Eventos.LongCount();
-
-                //var contador = 0;
-
-                //var titulo = new String[tamb];
-                //var idEvento = new Int32[tamb];
-                //var inicio = new DateTime[tamb];
-                //var fin = new DateTime[tamb];
-                //var tododia = new Boolean[tamb];
-                //var color = new String[tamb];
-                //var descripcion = new String[tamb];
-
-                //foreach (var item in Eventos)
-                //{
-                //    var detallerequerimientos = "";
-
-                //    foreach (var itemreq in item.EventoEnsayo.DetalleRequerimientos)
-                //    {
-                //        detallerequerimientos = detallerequerimientos + " " + itemreq.Activo.Nombre + " - " + itemreq.Cantidad + " <br />";
-                //    }
-
-                //    idEvento[contador] = item.Id;
-
-                //    if (item.EventoEnsayo.Evento)
-                //    {
-                //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                //    }
-                //    else
-                //    {
-                //        titulo[contador] = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
-                //    }
-
-                //    if (item.FechaFin.Date != item.FechaInicio.Date)
-                //    {
-                //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day + 1, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                //    }
-                //    else
-                //    {
-                //        inicio[contador] = new DateTime(item.FechaInicio.Year, item.FechaInicio.Month, item.FechaInicio.Day, item.FechaInicio.Hour, item.FechaInicio.Minute, item.FechaInicio.Millisecond);
-                //        fin[contador] = new DateTime(item.FechaFin.Year, item.FechaFin.Month, item.FechaFin.Day, item.FechaFin.Hour, item.FechaFin.Minute, item.FechaFin.Millisecond);
-                //    }
-
-                //    tododia[contador] = item.EventoEnsayo.TodoDia;
-                //    color[contador] = item.EventoEnsayo.Ambiente.ColorNombre;
-                //    descripcion[contador] = "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional;
-
-                //    contador++;
-                //}
-
-                //ViewBag.IdEvento = idEvento;
-                //ViewBag.titulo = titulo;
-                //ViewBag.inicio = inicio;
-                //ViewBag.fin = fin;
-                //ViewBag.tododia = tododia;
-                //ViewBag.color = color;
-                //ViewBag.descripcion = descripcion;
 
                 List<EventoCalendar> datos = new List<EventoCalendar>();
 
@@ -1150,49 +1052,105 @@ namespace ddcCajamarca.Web.Controllers
                         titulos = item.EventoEnsayo.Ambiente.Nombre + ": ENSAYO - " + item.EventoEnsayo.NombreActividad + " - " + item.EventoEnsayo.InstitucionEncargada;
                         titulopop = "ENSAYO: " + item.EventoEnsayo.NombreActividad;
                     }
+
                     if (item.FechaFin.Date != item.FechaInicio.Date)
                     {
                         if (item.FechaInicio.Day < 10)
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                            if (item.FechaFin.AddDays(1).Day > 9)
+                            if (item.FechaInicio.Month < 10)
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
                             else
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
 
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
+                            else
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
                         }
                         else
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-
-                            if (item.FechaFin.AddDays(1).Day > 9)
+                            if (item.FechaInicio.Month < 10)
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
                             else
                             {
-                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
                             }
 
+                            if (item.FechaFin.AddDays(1).Day > 9)
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
+                            else
+                            {
+                                if (item.FechaInicio.Month < 10)
+                                {
+                                    fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                                else
+                                {
+                                    fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + (item.FechaFin.AddDays(1).Day + 1) + "T" + item.FechaFin.TimeOfDay;
+                                }
+                            }
                         }
                     }
                     else
                     {
                         if (item.FechaInicio.Day < 10)
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-0" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-0" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
                         }
                         else
                         {
-                            inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
-                            fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
-
+                            if (item.FechaInicio.Month < 10)
+                            {
+                                inicios = item.FechaInicio.Year + "-0" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-0" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
+                            else
+                            {
+                                inicios = item.FechaInicio.Year + "-" + item.FechaInicio.Month + "-" + item.FechaInicio.Day + "T" + item.FechaInicio.TimeOfDay;
+                                fines = item.FechaFin.Year + "-" + item.FechaFin.Month + "-" + item.FechaFin.Day + "T" + item.FechaFin.TimeOfDay;
+                            }
                         }
                     }
 
@@ -1210,8 +1168,8 @@ namespace ddcCajamarca.Web.Controllers
                         end = fines,
                         allDay = item.EventoEnsayo.TodoDia,
                         color = item.EventoEnsayo.Ambiente.ColorNombre,
-                        description = "<b>"+ titulopop + "</b> <br />" + "<b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
-                        data = item.IdEventoEnsayo
+                        description = "<b>" + titulopop + "</b> <br /> <b>Requerimientos:</b> <br />" + detallerequerimientos + "<b>Información Adicional:</b> <br />" + item.EventoEnsayo.InformacionAdicional,
+                        data = item.Id
                     };
                     datos.Add(x);
                 }
@@ -2551,11 +2509,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "/0" + DateTime.Now.Month + "/" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Month + "-0" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "/0" + DateTime.Now.Month + "/" + DateTime.Now.Year;
+                    fecha = "0" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
 
             }
@@ -2563,11 +2521,11 @@ namespace ddcCajamarca.Web.Controllers
             {
                 if (DateTime.Now.Day < 10)
                 {
-                    fecha = "0" + DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Month + "-0" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
                 else
                 {
-                    fecha = DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year;
+                    fecha = DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year;
                 }
             }
 

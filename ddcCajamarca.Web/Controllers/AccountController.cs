@@ -201,7 +201,6 @@ namespace ddcCajamarca.Web.Controllers
                         ViewBag.usuario = usuarios;
 
                         return View();
-                        //return PartialView();
                     }
                 }
                 catch (Exception e)
@@ -238,7 +237,6 @@ namespace ddcCajamarca.Web.Controllers
                         Directory.CreateDirectory(ruta);
 
                     string archivo = String.Format("{0}\\{1}", ruta, perfil.Usuario + "-" + RolSistema + "." + file.ContentType.Remove(0, 6));
-                    //string archivo = "C:/inetpub/wwwroot/DDCCajamarca/PerfilImg/" + model.Telefono + " -" + model.NombreApellidos;
 
                     cropweight = cropweight.Replace(".", ",");
                     cropwidth = cropwidth.Replace(".", ",");
@@ -279,27 +277,21 @@ namespace ddcCajamarca.Web.Controllers
                 {
                     perfil.NombreApellidos = "";
                 }
+                else
+                {
+                    perfil.NombreApellidos = perfil.NombreApellidos.ToUpper();
+                }
                 if (String.IsNullOrEmpty(perfil.Email))
                 {
                     perfil.Email = "";
                 }
-
-                perfil.NombreApellidos = perfil.NombreApellidos.ToUpper();
-                perfil.Email = perfil.Email.ToUpper();
-
+                else
+                {
+                    perfil.Email = perfil.Email.ToUpper();
+                }
+                
                 perfilUsuarioService.ModificarPerfilUsuario(perfil);
-
-                //if (String.IsNullOrEmpty(perfil.Imagen))
-                //{
-                //    perfil.ImagenTemp = perfil.Imagen;
-                //    perfil.Imagen = "../PerfilImg/SinImagen.jpg";
-                //}
-                //else
-                //{
-                //    perfil.ImagenTemp = perfil.Imagen;
-                //    perfil.Imagen = "../" + perfil.Imagen;
-                //}
-
+                
                 ViewBag.usuario = perfil;
                 ViewBag.Rol = RolSistema;
             }
@@ -320,7 +312,6 @@ namespace ddcCajamarca.Web.Controllers
             try
             {
                 var usuario = perfilUsuarioService.ObtenerPerfilUsuarioPorId(id);
-                //((SimpleMembershipProvider)Membership.Provider).DeleteUser(usuario.Usuario, true);
                 Membership.Provider.DeleteUser(usuario.Usuario, true);
 
                 ViewBag.msg = "E1";
@@ -360,12 +351,8 @@ namespace ddcCajamarca.Web.Controllers
             {
                 var roles = webpages_RolService.ObtenerRolPorCriterio("");
                 
-                //MembershipUser mu = Membership.GetUser(usuario);
-
                 var token = WebSecurity.GeneratePasswordResetToken(usuario,1440);
-
-                //mu.ChangePassword(mu.ResetPassword(), contrasenia);
-
+                
                 WebSecurity.ResetPassword(token, contrasenia);
 
                 foreach (var item in roles)
@@ -379,9 +366,7 @@ namespace ddcCajamarca.Web.Controllers
                     }
                     
                 }
-
-                //Roles.RemoveUserFromRoles(usuario, rol);
-
+                
                 Roles.AddUserToRole(usuario, role);
 
                 ViewBag.msg = "M1";

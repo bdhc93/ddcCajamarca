@@ -45,9 +45,6 @@
             },
             eventClick: function (calEvent, jsEvent, view) {
                 var ideve = calEvent.data;
-                //console.log(calEvent.data);
-                //$(this).css('border-color', 'red');
-                //
 
                 $.get("OBtenerEventoPorId", { 'Id': ideve })
                     .done(function (response) {
@@ -59,16 +56,16 @@
                 if (count == 0) {
                     x = $(this);
                     $(this).css('background-color', 'lightSkyBlue');
-                    $('#FechaIni').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
-                    $('#FechaFin').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
+                    $('#FechaIni').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
+                    $('#FechaFin').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
                     count++;
                     $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
                 } else {
                     x.css('background-color', 'white');
                     x = $(this);
                     $(this).css('background-color', 'lightSkyBlue');
-                    $('#FechaIni').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
-                    $('#FechaFin').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
+                    $('#FechaIni').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
+                    $('#FechaFin').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
                     $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
                 }
 
@@ -258,35 +255,7 @@
                 $('#calendar2').fullCalendar('changeView', 'agendaDay', date.format());
             }
         });
-
-        @*var tituloeventos = JSON.parse('@Html.Raw(tituloeventos)');
-        var inicioeventos = JSON.parse('@Html.Raw(inicioeventos)');
-        var fineventos = JSON.parse('@Html.Raw(fineventos)');
-        var tododiaeventos = JSON.parse('@Html.Raw(tododiaeventos)');
-        var coloreventos = JSON.parse('@Html.Raw(coloreventos)');
-        var descripcioneventos = JSON.parse('@Html.Raw(descripcioneventos)');
-        var idEventos = JSON.parse('@Html.Raw(idEventos)');
-
-        tituloeventos.forEach(function (entry, index) {
-
-            var fechainieve = new Date(parseInt(inicioeventos[index].substr(6)));
-            var fechafineve = new Date(parseInt(fineventos[index].substr(6)));
-
-            var myevento = {
-                title: tituloeventos[index],
-                start: new Date(fechainieve.getFullYear(), fechainieve.getMonth(), fechainieve.getDate(), fechainieve.getHours(), fechainieve.getMinutes()),
-                end: new Date(fechafineve.getFullYear(), fechafineve.getMonth(), fechafineve.getDate(), fechafineve.getHours(), fechafineve.getMinutes()),
-                allDay: tododiaeventos[index],
-                color: coloreventos[index],
-                description: descripcioneventos[index],
-                data: function () {
-                    return {
-                        eventoId: idEventos[index],
-                    };
-                }
-            };
-            $('#calendar2').fullCalendar('renderEvent', myevento, true);
-        });*@
+        
     });
 
 </script>

@@ -31,6 +31,36 @@ namespace ddcCajamarca.Models
 
         public Boolean Estado { get; set; }
 
+        [NotMapped]
+        public String FechaNacimientoMDA
+        {
+            get
+            {
+                if (FechaNacimiento.Day < 10)
+                {
+                    if (FechaNacimiento.Month < 10)
+                    {
+                        return "0" + FechaNacimiento.Month + "/0" + FechaNacimiento.Day + "/" + FechaNacimiento.Year;
+                    }
+                    else
+                    {
+                        return FechaNacimiento.Month + "/0" + FechaNacimiento.Day + "/" + FechaNacimiento.Year;
+                    }
+                }
+                else
+                {
+                    if (FechaNacimiento.Month < 10)
+                    {
+                        return "0" + FechaNacimiento.Month + "/" + FechaNacimiento.Day + "/" + FechaNacimiento.Year;
+                    }
+                    else
+                    {
+                        return FechaNacimiento.Month + "/" + FechaNacimiento.Day + "/" + FechaNacimiento.Year;
+                    }
+                }
+            }
+        }
+
         public String NombreMostrar { get {
                 if (!String.IsNullOrEmpty(NombreArtistico))
                 {

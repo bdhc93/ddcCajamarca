@@ -348,6 +348,7 @@
     <Content Include="Imagenes\Image1.png" />
     <Content Include="Imagenes\Image2.png" />
     <Content Include="Imagenes\Image3.png" />
+    <Content Include="Imagenes\ImagePreview.jpg" />
     <Content Include="Imagenes\Logo DDC-C.jpg" />
     <Content Include="Imagenes\Slide\1920x600.png" />
     <Content Include="Imagenes\Slide\Slide01.png" />

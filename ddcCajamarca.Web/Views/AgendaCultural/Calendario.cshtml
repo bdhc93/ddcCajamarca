@@ -72,7 +72,7 @@
                         <div class="form-group col-lg-6" id="calendario">
                             <label>Fecha Inicio</label>
                             <div class="input-group date">
-                                <input name="FechaIni" id="FechaIni" type="text" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input name="FechaIni" id="FechaIni" type="datetime" class="form-control" value="@ViewBag.FechaHoy" placeholder="SELECCIONE FECHA"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                         <div class="form-group col-lg-6" id="calendario2">
@@ -298,7 +298,7 @@
                         toastr.error('Seleccione los dias del evento.', 'Incorrecto.');
                     } else if (msg == 'HI') {
                         toastr.error('Seleccione una hora correcta.', 'Incorrecto.');
-                    } else {
+                    } else if (msg == 'CI') {
                         //toastr.success('Activo añadido.', 'Correcto.');
                         window.location.href = "NuevoRegistro?idAmbientes=" + $('#idAmbientes').val()
                             + "&OpcionEvento=" + $('#idopcion').val()
@@ -314,6 +314,8 @@
                             + "&cbViernes=" + $('#cbViernes').val()
                             + "&cbSabado=" + $('#cbSabado').val()
                             + "&cbDomingo=" + $('#cbDomingo').val();
+                    } else {
+                        toastr.error(msg, 'Error.');
                     }
                 });
 
@@ -377,10 +379,8 @@
 
             if ($('#idAmbientes').val() == "") {
                 document.getElementById("btnnuevo").disabled = true;
-                console.log(true);
             } else {
                 document.getElementById("btnnuevo").disabled = false;
-                console.log(false);
             }
 
             $.get("MostrarCalendario", { 'idAmbiente': idAmbiente })
@@ -394,14 +394,9 @@
         });
 
         $("#horafin").change(function (e) {
-            //$("#horafin").val($("#horaini").val());
-            //var hourini = Date.parse($("#horaini").val());
-            //var hourfin = Date.parse($("#horafin").val());
-            //console.log(hourini + " - " + hourini);
         });
 
         var elem = document.querySelector('.js-switch');
-        //var switchery = new Switchery(elem, { color: '#1AB394' });
 
         var x;
         $('#calendario .input-group.date').datepicker({
@@ -411,7 +406,7 @@
             keyboardNavigation: false,
             forceParse: false,
             autoclose: true,
-            format: 'dd/mm/yyyy'
+            format: 'mm/dd/yyyy'
         }).on('changeDate', function (selected) {
             var minDate = new Date(selected.date.valueOf());
             $('#calendario2 .input-group.date').datepicker('setStartDate', minDate);
@@ -607,7 +602,7 @@
             keyboardNavigation: false,
             forceParse: false,
             autoclose: true,
-            format: 'dd/mm/yyyy'
+            format: 'mm/dd/yyyy'
         }).on('changeDate', function (selected) {
             //var minDate = new Date(selected.date.valueOf());
             //$('#calendario .input-group.date').datepicker('setEndDate', minDate);
@@ -727,16 +722,16 @@
                     if (count == 0) {
                         x = $(this);
                         $(this).css('background-color', 'lightSkyBlue');
-                        $('#FechaIni').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
-                        $('#FechaFin').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
+                        $('#FechaIni').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
+                        $('#FechaFin').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
                         count++;
                         $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
                     } else {
                         x.css('background-color', 'white');
                         x = $(this);
                         $(this).css('background-color', 'lightSkyBlue');
-                        $('#FechaIni').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
-                        $('#FechaFin').val(date.format('DD') + '/' + date.format('MM') + '/' + date.format('YYYY'));
+                        $('#FechaIni').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
+                        $('#FechaFin').val(date.format('MM') + '/' + date.format('DD') + '/' + date.format('YYYY'));
                         $('#calendario2 .input-group.date').datepicker('setStartDate', $('#FechaIni').val());
                     }
 
